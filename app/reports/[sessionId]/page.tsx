@@ -29,13 +29,14 @@ import {
 } from '@/lib/scoringUtils';
 import { Client } from '@/lib/types';
 import ExportButtons from '@/components/ExportButtons';
+import DonutChart, { generateChartData } from '@/components/DonutChart';
 
 export default function ReportPage() {
   const { sessionId } = useParams();
   const [report, setReport] = useState<AssessmentReport | null>(null);
   const [client, setClient] = useState<Client | null>(null);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<'overview' | 'findings' | 'homework' | 'recommendations'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'findings' | 'homework' | 'recommendations' | 'reports'>('overview');
 
   const {
     currentSession,
@@ -89,6 +90,7 @@ export default function ReportPage() {
   }, [sessionId, currentSession, currentFramework, currentDomains, allQuestions, loadSession, setCurrentFramework]);
 
   const [bulkExporting, setBulkExporting] = useState(false);
+  const [exportingReports, setExportingReports] = useState<{ [key: string]: boolean }>({});
 
   const handleExportJSON = () => {
     if (!report) return;
@@ -117,7 +119,7 @@ export default function ReportPage() {
           sessionId: sessionId as string,
           sessionData: currentSession,
           clientData: client,
-          reportTypes: ['executive', 'technical', 'homework', 'progress', 'certification']
+          reportTypes: ['followup', 'gap_analysis', 'executive']
         }),
       });
 
@@ -147,6 +149,52 @@ export default function ReportPage() {
       alert('Bulk export failed. Please try again.');
     } finally {
       setBulkExporting(false);
+    }
+  };
+
+  const handleIndividualExport = async (reportType: string, format: 'pdf' | 'docx') => {
+    const exportKey = `${reportType}_${format}`;
+    setExportingReports(prev => ({ ...prev, [exportKey]: true }));
+    
+    try {
+      const response = await fetch('/api/export', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          reportType,
+          format,
+          sessionId: sessionId as string,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Export failed');
+      }
+
+      // Get the filename from the response header
+      const contentDisposition = response.headers.get('Content-Disposition');
+      const filename = contentDisposition 
+        ? contentDisposition.split('filename="')[1]?.split('"')[0]
+        : `${client?.companyName || 'Report'}_${reportType}.${format}`;
+
+      // Download the file
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+
+    } catch (error) {
+      console.error('Individual export failed:', error);
+      alert('Export failed. Please try again.');
+    } finally {
+      setExportingReports(prev => ({ ...prev, [exportKey]: false }));
     }
   };
 
@@ -296,6 +344,7 @@ export default function ReportPage() {
               { key: 'findings', label: 'Findings', icon: AlertTriangle },
               { key: 'recommendations', label: 'Recommendations', icon: Target },
               { key: 'homework', label: 'Follow-up', icon: Clock },
+              { key: 'reports', label: 'Reports', icon: FileText },
             ].map(tab => {
               const Icon = tab.icon;
               return (
@@ -331,32 +380,50 @@ export default function ReportPage() {
                 className="ml-4"
               />
             </div>
-            {/* Score Overview */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              <div className="card p-6 text-center">
-                <div className="text-3xl font-bold text-gray-800">{Math.round(report.overview.percentage)}%</div>
-                <div className="text-sm text-gray-600">Overall Score</div>
-                <div className="text-xs text-gray-500 mt-1">
-                  {report.overview.rawScore} / {report.overview.maxPossibleScore}
+            {/* Score Overview with Donut Chart */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {/* Donut Chart */}
+              <div className="card p-6">
+                <h3 className="text-lg font-semibold text-gray-800 mb-4 text-center">Control Implementation Status</h3>
+                <DonutChart 
+                  data={generateChartData(report.overview)}
+                  size={280}
+                  centerLabel="Total Controls"
+                  centerValue={report.overview.totalQuestions?.toString()}
+                  className="mx-auto"
+                />
+              </div>
+
+              {/* Key Metrics */}
+              <div className="card p-6">
+                <h3 className="text-lg font-semibold text-gray-800 mb-4">Assessment Metrics</h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-gray-50 p-4 rounded-lg text-center">
+                    <div className="text-2xl font-bold text-gray-800">{Math.round(report.overview.percentage)}%</div>
+                    <div className="text-sm text-gray-600">Compliance Score</div>
+                    <div className="text-xs text-gray-500 mt-1">
+                      {report.overview.rawScore} / {report.overview.maxPossibleScore}
+                    </div>
+                  </div>
+                  
+                  <div className="bg-gray-50 p-4 rounded-lg text-center">
+                    <div className="text-2xl font-bold text-blue-600">{readiness.level}</div>
+                    <div className="text-sm text-gray-600">Readiness</div>
+                    <div className="text-xs text-gray-500 mt-1">Current level</div>
+                  </div>
+                  
+                  <div className="bg-green-50 p-4 rounded-lg text-center">
+                    <div className="text-2xl font-bold text-green-600">{report.overview.yesCount}</div>
+                    <div className="text-sm text-green-700">Implemented</div>
+                    <div className="text-xs text-green-600 mt-1">Ready controls</div>
+                  </div>
+                  
+                  <div className="bg-red-50 p-4 rounded-lg text-center">
+                    <div className="text-2xl font-bold text-red-600">{report.overview.noCount + report.overview.partialCount}</div>
+                    <div className="text-sm text-red-700">Need Work</div>
+                    <div className="text-xs text-red-600 mt-1">Gaps + Partial</div>
+                  </div>
                 </div>
-              </div>
-              
-              <div className="card p-6 text-center">
-                <div className="text-3xl font-bold text-green-600">{report.overview.yesCount}</div>
-                <div className="text-sm text-gray-600">Implemented</div>
-                <div className="text-xs text-gray-500 mt-1">Ready controls</div>
-              </div>
-              
-              <div className="card p-6 text-center">
-                <div className="text-3xl font-bold text-yellow-600">{report.overview.partialCount}</div>
-                <div className="text-sm text-gray-600">Partial</div>
-                <div className="text-xs text-gray-500 mt-1">Needs improvement</div>
-              </div>
-              
-              <div className="card p-6 text-center">
-                <div className="text-3xl font-bold text-red-600">{report.overview.noCount}</div>
-                <div className="text-sm text-gray-600">Gaps</div>
-                <div className="text-xs text-gray-500 mt-1">Need implementation</div>
               </div>
             </div>
 
@@ -418,12 +485,42 @@ export default function ReportPage() {
           <div className="space-y-8">
             {/* Tab Export Buttons */}
             <div className="flex justify-between items-center">
-              <h2 className="text-lg font-semibold text-gray-800">Technical Findings</h2>
+              <h2 className="text-lg font-semibold text-gray-800">Assessment Findings</h2>
               <ExportButtons 
                 sessionId={sessionId as string}
-                reportType="technical"
+                reportType="gap_analysis"
                 className="ml-4"
               />
+            </div>
+
+            {/* Findings Overview */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="card p-6 border-l-4 border-red-500">
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="text-lg font-semibold text-red-700">Critical Issues</h3>
+                  <AlertCircle className="text-red-500" size={24} />
+                </div>
+                <div className="text-3xl font-bold text-red-600 mb-1">{report.criticalFindings.length}</div>
+                <p className="text-sm text-red-600">Require immediate attention</p>
+              </div>
+
+              <div className="card p-6 border-l-4 border-yellow-500">
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="text-lg font-semibold text-yellow-700">Not Implemented</h3>
+                  <AlertTriangle className="text-yellow-500" size={24} />
+                </div>
+                <div className="text-3xl font-bold text-yellow-600 mb-1">{report.overview.noCount}</div>
+                <p className="text-sm text-yellow-600">Controls need implementation</p>
+              </div>
+
+              <div className="card p-6 border-l-4 border-blue-500">
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="text-lg font-semibold text-blue-700">Need Review</h3>
+                  <Clock className="text-blue-500" size={24} />
+                </div>
+                <div className="text-3xl font-bold text-blue-600 mb-1">{report.overview.partialCount + report.overview.unsureCount}</div>
+                <p className="text-sm text-blue-600">Partial or uncertain status</p>
+              </div>
             </div>
             {/* Critical Findings */}
             <div className="card p-6">
@@ -616,6 +713,182 @@ export default function ReportPage() {
                 ))}
               </div>
             )}
+            </div>
+          </div>
+        )}
+
+        {/* Reports Tab */}
+        {activeTab === 'reports' && (
+          <div className="space-y-6">
+            <div className="flex justify-between items-center">
+              <h2 className="text-lg font-semibold text-gray-800">Professional Reports</h2>
+              <div className="text-sm text-gray-600">
+                Generate tailored compliance reports for different stakeholders
+              </div>
+            </div>
+            
+            {/* Bulk Export Section */}
+            <div className="card p-6">
+              <div className="flex items-center mb-6">
+                <Package className="text-blue-600 mr-3" size={24} />
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-800">Complete Report Package</h3>
+                  <p className="text-sm text-gray-600">Download all reports in a single ZIP file</p>
+                </div>
+              </div>
+
+              <div className="flex space-x-4">
+                <button
+                  onClick={() => handleBulkExport('pdf')}
+                  disabled={bulkExporting}
+                  className="btn-primary flex items-center"
+                >
+                  {bulkExporting ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                      Generating Package...
+                    </>
+                  ) : (
+                    <>
+                      <Package size={16} className="mr-2" />
+                      Download All (PDF)
+                    </>
+                  )}
+                </button>
+                
+                <button
+                  onClick={() => handleBulkExport('docx')}
+                  disabled={bulkExporting}
+                  className="btn-secondary flex items-center"
+                >
+                  {bulkExporting ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current mr-2"></div>
+                      Generating Package...
+                    </>
+                  ) : (
+                    <>
+                      <Package size={16} className="mr-2" />
+                      Download All (Word)
+                    </>
+                  )}
+                </button>
+                
+                <button
+                  onClick={handleExportJSON}
+                  className="btn-secondary flex items-center"
+                >
+                  <Download size={16} className="mr-2" />
+                  Raw Data (JSON)
+                </button>
+              </div>
+            </div>
+
+            {/* Individual Reports Section */}
+            <div className="card p-6">
+              <div className="flex items-center mb-6">
+                <FileText className="text-green-600 mr-3" size={24} />
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-800">Individual Reports</h3>
+                  <p className="text-sm text-gray-600">Generate specific reports for targeted stakeholders</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {[
+                  {
+                    type: 'followup',
+                    title: 'Follow-Up Report',
+                    description: 'Questions on notice, documentation requests, and evidence gathering assignments with deadlines',
+                    icon: Clock,
+                    color: 'orange',
+                    priority: 'High Priority'
+                  },
+                  {
+                    type: 'gap_analysis',
+                    title: 'Gap Analysis Report', 
+                    description: 'Complete compliance assessment with risk-prioritized findings, implementation roadmap, and readiness level',
+                    icon: AlertTriangle,
+                    color: 'red',
+                    priority: 'Core Deliverable'
+                  },
+                  {
+                    type: 'executive',
+                    title: 'Executive Brief',
+                    description: 'Concise 1-2 page summary for C-suite leadership with key findings and business impact',
+                    icon: Shield,
+                    color: 'blue',
+                    priority: 'Optional'
+                  }
+                ].map((reportConfig) => {
+                  const Icon = reportConfig.icon;
+                  const isExportingPdf = exportingReports[`${reportConfig.type}_pdf`];
+                  const isExportingDocx = exportingReports[`${reportConfig.type}_docx`];
+                  
+                  return (
+                    <div key={reportConfig.type} className="border rounded-lg p-4">
+                      <div className="flex items-start mb-4">
+                        <Icon className={`mr-3 text-${reportConfig.color}-600`} size={24} />
+                        <div className="flex-1">
+                          <div className="flex items-center justify-between mb-2">
+                            <h4 className="font-semibold text-gray-800">{reportConfig.title}</h4>
+                            <span className={`text-xs px-2 py-1 rounded ${
+                              reportConfig.priority === 'High Priority' ? 'bg-orange-100 text-orange-700' :
+                              reportConfig.priority === 'Core Deliverable' ? 'bg-red-100 text-red-700' :
+                              'bg-blue-100 text-blue-700'
+                            }`}>
+                              {reportConfig.priority}
+                            </span>
+                          </div>
+                          <p className="text-sm text-gray-600 leading-relaxed">{reportConfig.description}</p>
+                        </div>
+                      </div>
+                      
+                      <div className="flex space-x-2">
+                        <button
+                          onClick={() => handleIndividualExport(reportConfig.type, 'pdf')}
+                          disabled={isExportingPdf || isExportingDocx}
+                          className="flex-1 px-3 py-2 text-sm bg-red-50 text-red-700 rounded hover:bg-red-100 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                        >
+                          {isExportingPdf ? (
+                            <div className="animate-spin rounded-full h-3 w-3 border-b border-current"></div>
+                          ) : (
+                            'PDF'
+                          )}
+                        </button>
+                        
+                        <button
+                          onClick={() => handleIndividualExport(reportConfig.type, 'docx')}
+                          disabled={isExportingPdf || isExportingDocx}
+                          className="flex-1 px-3 py-2 text-sm bg-blue-50 text-blue-700 rounded hover:bg-blue-100 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                        >
+                          {isExportingDocx ? (
+                            <div className="animate-spin rounded-full h-3 w-3 border-b border-current"></div>
+                          ) : (
+                            'Word'
+                          )}
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Report Information */}
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <div className="flex">
+                <AlertCircle className="text-blue-600 mr-3 mt-0.5" size={20} />
+                <div className="text-sm text-blue-800">
+                  <p className="font-medium mb-1">RPO Report Guidelines</p>
+                  <ul className="space-y-1 text-blue-700">
+                    <li>• <strong>Follow-Up Report</strong> - Deliver within 24-48 hours for client action items</li>
+                    <li>• <strong>Gap Analysis Report</strong> - Primary deliverable with business context and implementation roadmap</li>
+                    <li>• <strong>Executive Brief</strong> - Optional 1-2 page summary for leadership stakeholders</li>
+                    <li>• Word documents allow customization for client-specific branding and requirements</li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
         )}

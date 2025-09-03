@@ -1,11 +1,9 @@
 // Import generators dynamically when needed
 import { Session, Client } from './types';
 import { 
-  generateExecutiveSummaryHTML, 
-  generateTechnicalFindingsHTML,
-  generateHomeworkDocumentHTML,
-  generateProgressTrackingHTML,
-  generateCertificationReadinessHTML,
+  generateFollowUpReportHTML,
+  generateGapAnalysisReportHTML,
+  generateExecutiveBriefHTML,
   getBaseCSS,
   ReportData
 } from './reportTemplates';
@@ -13,7 +11,7 @@ import { calculateScore, generateAssessmentReport, getReadinessLevel } from './s
 import { getClient } from './clientUtils';
 
 export type ExportFormat = 'pdf' | 'docx';
-export type ReportType = 'executive' | 'technical' | 'homework' | 'progress' | 'certification';
+export type ReportType = 'followup' | 'gap_analysis' | 'executive';
 
 export interface ExportOptions {
   reportType: ReportType;
@@ -46,20 +44,14 @@ export class ReportExporter {
     
     let content = '';
     switch (reportType) {
+      case 'followup':
+        content = generateFollowUpReportHTML(data);
+        break;
+      case 'gap_analysis':
+        content = generateGapAnalysisReportHTML(data);
+        break;
       case 'executive':
-        content = generateExecutiveSummaryHTML(data);
-        break;
-      case 'technical':
-        content = generateTechnicalFindingsHTML(data);
-        break;
-      case 'homework':
-        content = generateHomeworkDocumentHTML(data);
-        break;
-      case 'progress':
-        content = generateProgressTrackingHTML(data);
-        break;
-      case 'certification':
-        content = generateCertificationReadinessHTML(data);
+        content = generateExecutiveBriefHTML(data);
         break;
       default:
         throw new Error(`Unknown report type: ${reportType}`);
@@ -82,11 +74,9 @@ export class ReportExporter {
 
   private getReportTitle(reportType: ReportType): string {
     const titles = {
-      executive: 'Executive Summary',
-      technical: 'Technical Findings',
-      homework: 'Homework Assignment',
-      progress: 'Progress Report',
-      certification: 'Certification Readiness'
+      followup: 'Follow-Up Report',
+      gap_analysis: 'Gap Analysis Report', 
+      executive: 'Executive Brief'
     };
     return titles[reportType];
   }
@@ -189,122 +179,133 @@ export class ReportExporter {
     content += `Generated: ${new Date().toLocaleDateString()}\n\n`;
 
     switch (reportType) {
+      case 'followup':
+        content += this.generateFollowUpTextContent(reportData, client);
+        break;
+      case 'gap_analysis':
+        content += this.generateGapAnalysisTextContent(reportData, client);
+        break;
       case 'executive':
-        content += this.generateExecutiveTextContent(reportData, client);
-        break;
-      case 'technical':
-        content += this.generateTechnicalTextContent(reportData, client);
-        break;
-      case 'homework':
-        content += this.generateHomeworkTextContent(reportData, client);
-        break;
-      case 'progress':
-        content += this.generateProgressTextContent(reportData, client);
-        break;
-      case 'certification':
-        content += this.generateCertificationTextContent(reportData, client);
+        content += this.generateExecutiveBriefTextContent(reportData, client);
         break;
     }
 
     return content;
   }
 
-  private generateExecutiveTextContent(reportData: ReportData, client: Client): string {
+  private generateFollowUpTextContent(reportData: ReportData, client: Client): string {
     let content = '';
     
-    content += "ASSESSMENT OVERVIEW\n\n";
+    content += "QUESTIONS ON NOTICE - FOLLOW-UP REQUIRED\n\n";
+    content += "Response Timeline: Please provide responses within 5 business days\n\n";
+
+    const homeworkItems = reportData.report.homeworkItems || [];
+    if (homeworkItems.length > 0) {
+      content += "ACTION ITEMS:\n\n";
+      homeworkItems.forEach((item: any, index: number) => {
+        content += `${index + 1}. [${item.controlId || item.questionId}] ${item.question || item.context}\n`;
+        if (item.notes) content += `   Notes: ${item.notes}\n`;
+        content += `   Priority: ${item.priority || 'Medium'}\n`;
+        content += `   Required Response: Provide evidence, documentation, or clarification\n\n`;
+      });
+    } else {
+      content += "✓ No follow-up items required. All questions were answered with confidence.\n\n";
+    }
+
+    content += "NEXT STEPS:\n";
+    content += "1. Review all action items and assign responsible team members\n";
+    content += "2. Gather required documentation and evidence\n";
+    content += "3. Schedule follow-up meeting within 5 business days\n";
+    content += "4. Submit responses to your assigned RPO\n\n";
+
+    return content;
+  }
+
+  private generateGapAnalysisTextContent(reportData: ReportData, client: Client): string {
+    let content = '';
+    
+    content += "COMPREHENSIVE CMMC GAP ANALYSIS\n\n";
+    content += `Overall Compliance: ${reportData.report.overview.percentage}%\n`;
+    content += `Readiness Level: ${getReadinessLevel(reportData.report.overview.percentage).level}\n\n`;
+
+    content += "BUSINESS CONTEXT:\n";
+    content += `Company: ${client.companyName}\n`;
+    content += `Industry: ${client.industry || 'Not specified'}\n`;
+    content += `Federal Contracts: ${client.contracts?.hasFederalContracts ? 'Yes' : 'No'}\n`;
+    content += `CUI Handling: ${client.contracts?.handlesCUI ? 'Yes' : 'No'}\n\n`;
+
+    content += "IMPLEMENTATION STATUS:\n";
+    content += `✓ Fully Implemented: ${reportData.report.overview.yesCount} controls\n`;
+    content += `◐ Partial Implementation: ${reportData.report.overview.partialCount} controls\n`;
+    content += `✗ Not Implemented: ${reportData.report.overview.noCount} controls\n`;
+    content += `? Require Verification: ${reportData.report.overview.unsureCount} controls\n\n`;
+
+    content += "RISK ASSESSMENT:\n";
+    if (reportData.report.overview.percentage < 60) {
+      content += "🚨 HIGH RISK - Immediate action required for contract eligibility\n";
+    } else if (reportData.report.overview.percentage < 80) {
+      content += "⚠️ MEDIUM RISK - Substantial remediation needed before certification\n";
+    } else {
+      content += "✅ LOW RISK - Good compliance posture with focused remediation needed\n";
+    }
+    content += "\n";
+
+    content += "IMPLEMENTATION ROADMAP:\n";
+    content += "Phase 1 (Weeks 1-4): Critical remediation and baseline security\n";
+    content += "Phase 2 (Weeks 5-8): Compliance enhancement and documentation\n";
+    content += "Phase 3 (Weeks 9-12): Assessment preparation and final validation\n\n";
+
+    content += "TIMELINE ESTIMATE:\n";
+    if (reportData.report.overview.percentage >= 80) {
+      content += "6-12 weeks to certification readiness\n";
+    } else {
+      content += "10-16 weeks to certification readiness\n";
+    }
+    content += "2-4 weeks for C3PAO assessment process\n\n";
+
+    return content;
+  }
+
+  private generateExecutiveBriefTextContent(reportData: ReportData, client: Client): string {
+    let content = '';
+    
+    content += "EXECUTIVE BRIEF - CMMC COMPLIANCE\n\n";
     content += `Overall Score: ${reportData.report.overview.percentage}% (${getReadinessLevel(reportData.report.overview.percentage).level})\n`;
-    content += `Framework: ${reportData.framework.name}\n`;
-    content += `Assessment Date: ${new Date().toLocaleDateString()}\n\n`;
+    content += `Controls Requiring Work: ${reportData.report.overview.noCount + reportData.report.overview.partialCount}\n`;
+    content += `Timeline to Certification: ${reportData.report.overview.percentage >= 80 ? '6-12' : '10-16'} weeks\n\n`;
 
-    if (reportData.report.criticalFindings.length > 0) {
-      content += "CRITICAL FINDINGS\n\n";
-      reportData.report.criticalFindings.slice(0, 5).forEach(finding => {
-        content += `${finding.domain}: ${finding.question}\n`;
-      });
-      content += "\n";
-    }
-
-    if (reportData.report.quickWins.length > 0) {
-      content += "QUICK WINS\n\n";
-      reportData.report.quickWins.slice(0, 5).forEach(win => {
-        content += `${win.domain}: ${win.question}\n`;
-      });
-      content += "\n";
-    }
-
-    return content;
-  }
-
-  private generateTechnicalTextContent(reportData: ReportData, client: Client): string {
-    let content = '';
-    
-    content += "TECHNICAL ASSESSMENT DETAILS\n\n";
-
-    Object.entries(reportData.report.domainScores).forEach(([domain, score]: [string, any]) => {
-      const domainFindings = reportData.report.criticalFindings.filter((f: any) => f.domain === domain);
-      
-      content += `${domain.toUpperCase()} DOMAIN\n`;
-      content += `Score: ${Math.round(score.percentage)}%\n`;
-
-      if (domainFindings.length > 0) {
-        content += "Findings:\n";
-        domainFindings.forEach((finding: any) => {
-          content += `• ${finding.question}\n`;
-        });
+    content += "BUSINESS IMPACT:\n";
+    if (client.contracts?.hasFederalContracts) {
+      content += "⚠️ Federal Contract Risk: ";
+      if (reportData.report.overview.percentage < 80) {
+        content += "Compliance gaps may impact contract renewals and new opportunities\n";
+      } else {
+        content += "Strong compliance posture supports continued federal contracting\n";
       }
-      content += "\n";
-    });
-
-    return content;
-  }
-
-  private generateHomeworkTextContent(reportData: ReportData, client: Client): string {
-    let content = '';
-    
-    content += "ACTION ITEMS AND FOLLOW-UP\n\n";
-
-    if (reportData.report.homeworkItems.length > 0) {
-      content += "REQUIRED ACTIONS:\n\n";
-
-      reportData.report.homeworkItems.forEach((item: any, index: number) => {
-        content += `${index + 1}. ${item.question}\n`;
-        content += `   Priority: ${item.priority}\n\n`;
-      });
     }
+    content += "\n";
 
-    return content;
-  }
+    content += "STRATEGIC RECOMMENDATION:\n";
+    if (reportData.report.overview.percentage >= 90) {
+      content += "✅ PROCEED WITH CERTIFICATION - Schedule C3PAO assessment immediately\n";
+    } else if (reportData.report.overview.percentage >= 70) {
+      content += "⚡ ACCELERATED REMEDIATION - Target certification within 3-4 months\n";
+    } else {
+      content += "🚨 COMPREHENSIVE REMEDIATION - Establish dedicated compliance program\n";
+    }
+    content += "\n";
 
-  private generateProgressTextContent(reportData: ReportData, client: Client): string {
-    let content = '';
-    
-    content += "PROGRESS TRACKING REPORT\n\n";
-    content += `Completion: ${reportData.report.overview.percentage}%\n`;
-    content += `Questions Answered: ${reportData.report.overview.answeredQuestions} of ${reportData.report.overview.totalQuestions}\n\n`;
+    content += "IMMEDIATE EXECUTIVE ACTIONS REQUIRED:\n";
+    content += "1. Budget approval for compliance program investment\n";
+    content += "2. Set realistic certification target timeline\n";
+    content += "3. Assign dedicated compliance program owner\n";
+    content += "4. Engage implementation partners and vendors\n\n";
 
-    Object.entries(reportData.report.domainScores).forEach(([domain, score]: [string, any]) => {
-      content += `${domain}: ${Math.round(score.percentage)}%\n`;
-    });
-
-    return content;
-  }
-
-  private generateCertificationTextContent(reportData: ReportData, client: Client): string {
-    let content = '';
-    
-    content += "CERTIFICATION READINESS ASSESSMENT\n\n";
-    content += `Readiness Level: ${getReadinessLevel(reportData.report.overview.percentage).level}\n`;
-    content += `Overall Score: ${reportData.report.overview.percentage}%\n\n`;
-
-    const readinessText = reportData.report.overview.percentage >= 90 
-      ? "Your organization demonstrates strong compliance readiness and should be well-prepared for certification."
-      : reportData.report.overview.percentage >= 80
-      ? "Your organization is nearly ready for certification with some areas requiring attention."
-      : "Your organization requires significant improvement before pursuing certification.";
-
-    content += "ASSESSMENT:\n\n";
-    content += `${readinessText}\n\n`;
+    content += "ROI BENEFITS:\n";
+    content += "• Access to federal contracts requiring CMMC\n";
+    content += "• Competitive advantage in federal marketplace\n";
+    content += "• Enhanced cybersecurity protection\n";
+    content += "• Reduced compliance and security risks\n\n";
 
     return content;
   }
@@ -364,7 +365,7 @@ export async function exportAllReports(
   format: ExportFormat,
   sessionId: string
 ): Promise<{ [key: string]: { buffer: Buffer; fileName: string } }> {
-  const reportTypes: ReportType[] = ['executive', 'technical', 'homework', 'progress', 'certification'];
+  const reportTypes: ReportType[] = ['followup', 'gap_analysis', 'executive'];
   const results: { [key: string]: { buffer: Buffer; fileName: string } } = {};
 
   for (const reportType of reportTypes) {

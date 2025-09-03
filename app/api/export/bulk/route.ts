@@ -37,11 +37,9 @@ export async function POST(request: NextRequest) {
     const JSZip = await import('jszip');
     const zip = new JSZip.default();
     const reportsToExport: ReportType[] = reportTypes || [
-      'executive', 
-      'technical', 
-      'homework', 
-      'progress', 
-      'certification'
+      'followup',
+      'gap_analysis', 
+      'executive'
     ];
 
     // Generate all requested reports
