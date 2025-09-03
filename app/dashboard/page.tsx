@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Shield, User, FileText, Clock, Package, Download, Plus, Search } from 'lucide-react';
+import { Shield, User, FileText, Clock, Package, Download, Plus, Search, Trash2, AlertTriangle, BarChart3, FileCheck } from 'lucide-react';
 import { getAllClients, getRecentClients, getClientSessions } from '@/lib/clientUtils';
 import { Client } from '@/lib/types';
 import ClientForm from '@/components/ClientForm';
@@ -21,6 +21,11 @@ export default function DashboardPage() {
   const [selectedClient, setSelectedClient] = useState<string | null>(null);
   const [clientSessions, setClientSessions] = useState<SessionInfo[]>([]);
   const [bulkExporting, setBulkExporting] = useState(false);
+  const [deleteConfirmation, setDeleteConfirmation] = useState<{
+    sessionId: string;
+    sessionName: string;
+  } | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     const loadClients = async () => {
@@ -80,6 +85,34 @@ export default function DashboardPage() {
     return Math.round((completedResponses / totalResponses) * 100);
   };
 
+  const handleDeleteAssessment = async (sessionId: string) => {
+    if (!deleteConfirmation) return;
+    
+    setDeleting(true);
+    try {
+      const response = await fetch(`/api/assessments/${sessionId}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete assessment');
+      }
+
+      // Refresh the client sessions list
+      if (selectedClient) {
+        const sessions = await getClientSessions(selectedClient);
+        setClientSessions(sessions);
+      }
+
+      setDeleteConfirmation(null);
+    } catch (error) {
+      console.error('Failed to delete assessment:', error);
+      alert('Failed to delete assessment. Please try again.');
+    } finally {
+      setDeleting(false);
+    }
+  };
+
   const handleBulkExportClient = async (clientId: string, format: 'pdf' | 'docx') => {
     setBulkExporting(true);
     
@@ -111,7 +144,7 @@ export default function DashboardPage() {
           format,
           sessionId: completedSession.id,
           sessionData,
-          reportTypes: ['executive', 'technical', 'homework', 'progress', 'certification']
+          reportTypes: ['followup', 'gap_analysis', 'executive']
         }),
       });
 
@@ -407,6 +440,17 @@ export default function DashboardPage() {
                                 >
                                   {session.status === 'completed' ? 'Review' : 'Continue'}
                                 </button>
+                                
+                                <button
+                                  onClick={() => setDeleteConfirmation({
+                                    sessionId: session.id,
+                                    sessionName: session.frameworkName
+                                  })}
+                                  className="text-sm text-red-600 hover:text-red-800 flex items-center"
+                                  title="Delete assessment"
+                                >
+                                  <Trash2 size={14} />
+                                </button>
                               </div>
                             </div>
                           </div>
@@ -424,10 +468,167 @@ export default function DashboardPage() {
                 </div>
               </div>
             ) : (
-              <div className="card p-8 text-center">
-                <User className="mx-auto text-gray-400 mb-4" size={48} />
-                <h2 className="text-lg font-semibold text-gray-800 mb-2">Select a Client</h2>
-                <p className="text-gray-600">Choose a client from the list to view their assessments and reports</p>
+              <div className="space-y-6">
+                {/* Welcome Card */}
+                <div className="card p-8">
+                  <div className="text-center mb-8">
+                    <BarChart3 className="mx-auto text-gray-600 mb-4" size={48} />
+                    <h2 className="text-2xl font-semibold text-gray-800 mb-2">CMMC Gap Analysis Platform</h2>
+                    <p className="text-gray-600 max-w-2xl mx-auto">
+                      Professional RPO consulting platform delivering comprehensive CMMC assessments 
+                      and client-ready deliverables. Select a client to begin or view assessment results.
+                    </p>
+                  </div>
+
+                  <div className="grid md:grid-cols-2 gap-8 items-center">
+                    {/* Static Donut Chart */}
+                    <div className="flex justify-center">
+                      <div className="relative">
+                        <svg width="200" height="200" className="transform -rotate-90">
+                          {/* Background circle */}
+                          <circle
+                            cx="100"
+                            cy="100"
+                            r="80"
+                            fill="none"
+                            stroke="#f1f5f9"
+                            strokeWidth="24"
+                          />
+                          
+                          {/* Implemented segment (40%) */}
+                          <circle
+                            cx="100"
+                            cy="100"
+                            r="80"
+                            fill="none"
+                            stroke="#16a34a"
+                            strokeWidth="24"
+                            strokeDasharray={`${0.4 * (2 * Math.PI * 80)} ${2 * Math.PI * 80}`}
+                            strokeDashoffset="0"
+                          />
+                          
+                          {/* Partial segment (25%) */}
+                          <circle
+                            cx="100"
+                            cy="100"
+                            r="80"
+                            fill="none"
+                            stroke="#eab308"
+                            strokeWidth="24"
+                            strokeDasharray={`${0.25 * (2 * Math.PI * 80)} ${2 * Math.PI * 80}`}
+                            strokeDashoffset={-0.4 * (2 * Math.PI * 80)}
+                          />
+                          
+                          {/* Gaps segment (25%) */}
+                          <circle
+                            cx="100"
+                            cy="100"
+                            r="80"
+                            fill="none"
+                            stroke="#dc2626"
+                            strokeWidth="24"
+                            strokeDasharray={`${0.25 * (2 * Math.PI * 80)} ${2 * Math.PI * 80}`}
+                            strokeDashoffset={-(0.4 + 0.25) * (2 * Math.PI * 80)}
+                          />
+                          
+                          {/* Unknown segment (10%) */}
+                          <circle
+                            cx="100"
+                            cy="100"
+                            r="80"
+                            fill="none"
+                            stroke="#6b7280"
+                            strokeWidth="24"
+                            strokeDasharray={`${0.1 * (2 * Math.PI * 80)} ${2 * Math.PI * 80}`}
+                            strokeDashoffset={-(0.4 + 0.25 + 0.25) * (2 * Math.PI * 80)}
+                          />
+                        </svg>
+                        
+                        {/* Center label */}
+                        <div className="absolute inset-0 flex flex-col items-center justify-center">
+                          <div className="text-2xl font-bold text-gray-800">130</div>
+                          <div className="text-sm text-gray-600">Controls</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Report Information */}
+                    <div className="space-y-6">
+                      <div>
+                        <h3 className="text-lg font-semibold text-gray-800 mb-4">RPO Deliverables</h3>
+                        <div className="space-y-4">
+                          <div className="flex items-start space-x-3">
+                            <FileCheck className="text-blue-600 mt-1 flex-shrink-0" size={20} />
+                            <div>
+                              <div className="font-medium text-gray-800">Follow-Up Report</div>
+                              <div className="text-sm text-gray-600">Questions requiring client attention and verification</div>
+                            </div>
+                          </div>
+                          
+                          <div className="flex items-start space-x-3">
+                            <FileText className="text-green-600 mt-1 flex-shrink-0" size={20} />
+                            <div>
+                              <div className="font-medium text-gray-800">Gap Analysis Report</div>
+                              <div className="text-sm text-gray-600">Detailed technical findings and remediation roadmap</div>
+                            </div>
+                          </div>
+                          
+                          <div className="flex items-start space-x-3">
+                            <User className="text-purple-600 mt-1 flex-shrink-0" size={20} />
+                            <div>
+                              <div className="font-medium text-gray-800">Executive Brief</div>
+                              <div className="text-sm text-gray-600">C-suite summary with business impact and recommendations</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Legend for chart */}
+                      <div>
+                        <h4 className="font-medium text-gray-700 mb-3">Control Implementation Status</h4>
+                        <div className="grid grid-cols-2 gap-2 text-sm">
+                          <div className="flex items-center space-x-2">
+                            <div className="w-3 h-3 rounded-full bg-green-600"></div>
+                            <span>Implemented (40%)</span>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                            <span>Partial (25%)</span>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <div className="w-3 h-3 rounded-full bg-red-600"></div>
+                            <span>Gaps (25%)</span>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <div className="w-3 h-3 rounded-full bg-gray-500"></div>
+                            <span>Unknown (10%)</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Quick Actions */}
+                <div className="card p-6">
+                  <h3 className="text-lg font-semibold text-gray-800 mb-4">Quick Actions</h3>
+                  <div className="flex flex-wrap gap-3">
+                    <button
+                      onClick={() => setShowNewClientForm(true)}
+                      className="btn-primary flex items-center"
+                    >
+                      <Plus size={16} className="mr-2" />
+                      Add New Client
+                    </button>
+                    <button
+                      onClick={() => window.location.href = '/assessment/new'}
+                      className="btn-secondary flex items-center"
+                    >
+                      <FileText size={16} className="mr-2" />
+                      Start Assessment
+                    </button>
+                  </div>
+                </div>
               </div>
             )}
           </div>
@@ -441,6 +642,47 @@ export default function DashboardPage() {
           onCancel={() => setShowNewClientForm(false)}
           isModal={true}
         />
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {deleteConfirmation && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 max-w-md mx-4">
+            <div className="flex items-center mb-4">
+              <AlertTriangle className="text-red-600 mr-3" size={24} />
+              <h3 className="text-lg font-semibold text-gray-800">Delete Assessment</h3>
+            </div>
+            
+            <p className="text-gray-600 mb-6">
+              Are you sure you want to delete the assessment "{deleteConfirmation.sessionName}"? 
+              This action cannot be undone and will permanently remove all assessment data.
+            </p>
+            
+            <div className="flex justify-end space-x-3">
+              <button
+                onClick={() => setDeleteConfirmation(null)}
+                disabled={deleting}
+                className="px-4 py-2 text-gray-600 hover:text-gray-800 disabled:opacity-50"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => handleDeleteAssessment(deleteConfirmation.sessionId)}
+                disabled={deleting}
+                className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 disabled:opacity-50 flex items-center"
+              >
+                {deleting ? (
+                  <>
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                    Deleting...
+                  </>
+                ) : (
+                  'Delete'
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

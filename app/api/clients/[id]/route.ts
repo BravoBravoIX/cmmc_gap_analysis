@@ -46,7 +46,7 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-// DELETE /api/clients/[id] - Delete specific client
+// DELETE /api/clients/[id] - Delete specific client and all associated data
 export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
   try {
     // Check if client exists
@@ -55,8 +55,23 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
       return NextResponse.json({ error: 'Client not found' }, { status: 404 });
     }
 
+    // Get all sessions for this client and delete them first
+    const allSessions = await fsm.getAllSessions();
+    const clientSessions = allSessions.filter(session => session.clientId === params.id);
+    
+    // Delete all client sessions
+    for (const session of clientSessions) {
+      await fsm.deleteSession(session.id);
+    }
+
+    // Delete the client
     await fsm.deleteClient(params.id);
-    return NextResponse.json({ success: true });
+    
+    return NextResponse.json({ 
+      success: true, 
+      message: `Client and ${clientSessions.length} associated assessments deleted successfully`,
+      deletedSessions: clientSessions.length
+    });
   } catch (error) {
     console.error('Failed to delete client:', error);
     return NextResponse.json({ error: 'Failed to delete client' }, { status: 500 });
