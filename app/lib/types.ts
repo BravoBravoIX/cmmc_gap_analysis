@@ -72,17 +72,82 @@ export interface Session {
   frameworkId: string;
   mode: 'quick' | 'detailed';
   status: 'in-progress' | 'completed' | 'paused';
+  createdAt: string;
+  updatedAt: string;
   startedAt: string;
-  lastModified: string;
-  completedAt?: string;
+  completedAt: string | null;
   currentDomain: number;
   currentQuestion: number;
   responses: Record<string, Answer>;
   progress: {
     totalQuestions: number;
     answeredQuestions: number;
-    skippedQuestions: number;
-    percentage: number;
+    completionPercentage: number;
+    currentDomain: number;
+    currentQuestion: number;
+    domains: Record<string, any>;
+  };
+  statistics: {
+    totalControls: number;
+    assessed: number;
+    remaining: number;
+    results: {
+      yes: number;
+      partial: number;
+      no: number;
+      unsure: number;
+      notApplicable: number;
+      notAssessed: number;
+    };
+    byDomain: Record<string, any>;
+    score: {
+      current: number;
+      projected: number;
+      confidence: 'low' | 'medium' | 'high';
+    };
+    criticalFindings: Array<{
+      controlId: string;
+      issue: string;
+      risk: 'low' | 'medium' | 'high' | 'critical';
+      impact: string;
+    }>;
+  };
+  homework: Array<{
+    id: string;
+    controlId: string;
+    question: string;
+    assignedTo: string;
+    dueDate: string;
+    status: 'pending' | 'in-progress' | 'completed';
+    notes?: string;
+  }>;
+  session: {
+    duration: number;
+    startTime: string;
+    endTime: string | null;
+    pauseEvents: Array<{
+      timestamp: string;
+      duration: number;
+    }>;
+    completionPercentage: number;
+  };
+  signatures: {
+    consultant: {
+      name: string;
+      date: string | null;
+      signed: boolean;
+    };
+    client: {
+      name: string;
+      title: string;
+      date: string | null;
+      signed: boolean;
+    };
+  };
+  metadata: {
+    version: string;
+    tool: string;
+    toolVersion: string;
   };
 }
 

@@ -19,11 +19,11 @@ export async function POST(request: NextRequest) {
   try {
     const inputData = await request.json();
     
-    // Transform flat input to nested Client structure
+    // Transform flat input to comprehensive Client structure matching reference template
     const clientData = {
       id: inputData.id || `client_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       companyName: inputData.companyName,
-      dba: inputData.dba,
+      dba: inputData.dba || '',
       industry: inputData.industry,
       logo: inputData.logo,
       size: {
@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
         revenue: inputData.companySize === 'small' ? 'Under $10M' : 
                 inputData.companySize === 'medium' ? '$10M - $100M' :
                 inputData.companySize === 'large' ? 'Over $100M' : 'Not specified',
-        locations: 1
+        locations: inputData.locations || 1
       },
       contact: {
         primary: {
@@ -41,11 +41,35 @@ export async function POST(request: NextRequest) {
           email: inputData.contactEmail,
           phone: inputData.contactPhone || '',
           title: inputData.contactTitle || 'Primary Contact'
+        },
+        technical: {
+          name: inputData.technicalContactName || '',
+          email: inputData.technicalContactEmail || '',
+          phone: inputData.technicalContactPhone || '',
+          title: inputData.technicalContactTitle || ''
+        },
+        executive: {
+          name: inputData.executiveContactName || '',
+          email: inputData.executiveContactEmail || '',
+          phone: inputData.executiveContactPhone || '',
+          title: inputData.executiveContactTitle || ''
         }
       },
+      address: {
+        street1: inputData.street1 || '',
+        street2: inputData.street2 || '',
+        city: inputData.city || '',
+        state: inputData.state || '',
+        zip: inputData.zip || '',
+        country: inputData.country || 'USA'
+      },
       contracts: {
+        hasFederalContracts: inputData.hasGovernmentContracts || false,
+        contractTypes: inputData.contractTypes || [],
+        primeOrSub: inputData.primeOrSub || '',
+        agencies: inputData.agencies || [],
         handlesCUI: inputData.handlesCUI || false,
-        hasGovernmentContracts: inputData.hasGovernmentContracts || false
+        handlesFCI: inputData.handlesFCI || false
       },
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()

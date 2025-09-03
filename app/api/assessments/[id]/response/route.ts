@@ -38,11 +38,23 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
       return NextResponse.json({ error: 'Assessment not found' }, { status: 404 });
     }
 
-    // Update response with timestamp
+    // Enhanced response structure matching reference template
     const responseData = {
-      ...answer,
-      questionId,
-      timestamp: new Date().toISOString()
+      controlId: answer.controlId || questionId,
+      domain: answer.domain || questionId.split('.')[0],
+      question: answer.question || '',
+      answer: answer.answer,
+      confidence: answer.confidence || 'medium',
+      notes: answer.notes || '',
+      evidence: answer.evidence || [],
+      followUpCompleted: answer.followUpCompleted || false,
+      followUpResponses: answer.followUpResponses || {},
+      requiresHomework: answer.requiresHomework || false,
+      homeworkAssigned: answer.homeworkAssigned || null,
+      remediation: answer.remediation || null,
+      timestamp: new Date().toISOString(),
+      answeredBy: answer.answeredBy || 'consultant',
+      questionId
     };
 
     // Update session responses
