@@ -1,32 +1,27 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Shield, User, FileText, Clock, Package, Download, Plus, Search, Trash2, AlertTriangle, BarChart3, FileCheck, Settings } from 'lucide-react';
+import { Shield, User, FileText, Clock, Package, Download, Plus, Search, Trash2, AlertTriangle, BarChart3, FileCheck, Settings, Database } from 'lucide-react';
 import { getAllClients, getRecentClients, getClientSessions } from '@/lib/clientUtils';
-import { Client } from '@/lib/types';
+import { Client, Session } from '@/lib/types';
 import ClientForm from '@/components/ClientForm';
 import AnimatedDonutChart from '@/components/AnimatedDonutChart';
 
-interface SessionInfo {
-  id: string;
-  frameworkName: string;
-  createdAt: string;
-  completionPercentage: number;
-  status: 'active' | 'completed' | 'draft';
-}
+// Using Session interface from types instead of custom SessionInfo
 
 export default function HomePage() {
   const [clients, setClients] = useState<Client[]>([]);
   const [showNewClientForm, setShowNewClientForm] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedClient, setSelectedClient] = useState<string | null>(null);
-  const [clientSessions, setClientSessions] = useState<SessionInfo[]>([]);
+  const [clientSessions, setClientSessions] = useState<Session[]>([]);
   const [bulkExporting, setBulkExporting] = useState(false);
   const [deleteConfirmation, setDeleteConfirmation] = useState<{
     sessionId: string;
     sessionName: string;
   } | null>(null);
   const [deleting, setDeleting] = useState(false);
+  const [bulkExportingAll, setBulkExportingAll] = useState(false);
 
   useEffect(() => {
     const loadClients = async () => {
@@ -174,6 +169,45 @@ export default function HomePage() {
       console.error('Bulk export failed:', error);
       alert('Bulk export failed. Please try again.');
       setBulkExporting(false);
+    }
+  };
+
+  const handleBulkExportAll = async () => {
+    if (clients.length === 0) {
+      alert('No clients available to export');
+      return;
+    }
+
+    setBulkExportingAll(true);
+    
+    try {
+      const response = await fetch('/api/export/clients', {
+        method: 'POST',
+      });
+
+      if (!response.ok) {
+        throw new Error('Bulk export failed');
+      }
+
+      // Download the file
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      
+      const timestamp = new Date().toISOString().split('T')[0];
+      a.download = `CMMC_All_Clients_Export_${timestamp}.zip`;
+      
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+
+    } catch (error) {
+      console.error('Bulk export failed:', error);
+      alert('Failed to export all client data. Please try again.');
+    } finally {
+      setBulkExportingAll(false);
     }
   };
 
@@ -413,9 +447,23 @@ export default function HomePage() {
                         <div key={session.id} className="border rounded-lg p-4 hover:shadow-sm transition-shadow">
                           <div className="flex items-center justify-between mb-2">
                             <div>
-                              <div className="font-medium text-gray-800">{session.frameworkName}</div>
+                              <div className="flex items-center space-x-2 mb-1">
+                                <div className="font-medium text-gray-800">
+                                  {({
+                                    'cmmc_l1': 'CMMC Level 1',
+                                    'cmmc_l2': 'CMMC Level 2',
+                                    'cmmc_l3': 'CMMC Level 3'
+                                  }[session.frameworkId] || session.frameworkId)}
+                                </div>
+                                <span className="px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded">
+                                  {session.mode === 'detailed' ? 'Detailed' : 'Quick'}
+                                </span>
+                              </div>
                               <div className="text-sm text-gray-600">
-                                Created: {new Date(session.createdAt).toLocaleDateString()}
+                                <div>Created: {new Date(session.createdAt).toLocaleDateString()} at {new Date(session.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                                {session.updatedAt !== session.createdAt && (
+                                  <div className="mt-1">Last edited: {new Date(session.updatedAt).toLocaleDateString()} at {new Date(session.updatedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                                )}
                               </div>
                             </div>
                             
@@ -452,7 +500,11 @@ export default function HomePage() {
                                 <button
                                   onClick={() => setDeleteConfirmation({
                                     sessionId: session.id,
-                                    sessionName: session.frameworkName
+                                    sessionName: ({
+                                      'cmmc_l1': 'CMMC Level 1',
+                                      'cmmc_l2': 'CMMC Level 2', 
+                                      'cmmc_l3': 'CMMC Level 3'
+                                    }[session.frameworkId] || session.frameworkId)
                                   })}
                                   className="text-sm text-red-600 hover:text-red-800 flex items-center"
                                   title="Delete assessment"
@@ -466,7 +518,7 @@ export default function HomePage() {
                           <div className="w-full bg-gray-200 rounded-full h-2">
                             <div
                               className="bg-gray-700 h-2 rounded-full"
-                              style={{ width: `${session.completionPercentage}%` }}
+                              style={{ width: `${session.progress?.completionPercentage || 0}%` }}
                             />
                           </div>
                         </div>
@@ -573,6 +625,24 @@ export default function HomePage() {
                     >
                       <Settings size={16} className="mr-2" />
                       Manage Clients
+                    </button>
+                    <button
+                      onClick={handleBulkExportAll}
+                      disabled={bulkExportingAll || clients.length === 0}
+                      className="btn-secondary flex items-center disabled:opacity-50"
+                      title="Export all client data and assessments"
+                    >
+                      {bulkExportingAll ? (
+                        <>
+                          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current mr-2"></div>
+                          Exporting...
+                        </>
+                      ) : (
+                        <>
+                          <Database size={16} className="mr-2" />
+                          Export All Data
+                        </>
+                      )}
                     </button>
                   </div>
                 </div>

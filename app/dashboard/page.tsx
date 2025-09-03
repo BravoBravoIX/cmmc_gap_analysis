@@ -186,7 +186,7 @@ export default function DashboardPage() {
               <Shield className="text-gray-700 mr-3" size={32} />
               <div>
                 <h1 className="text-2xl font-semibold text-gray-800">Client Dashboard</h1>
-                <p className="text-gray-600">Manage clients and assessments</p>
+                <p className="text-gray-600">Manage clients and assessments (Updated)</p>
               </div>
             </div>
             
@@ -401,13 +401,33 @@ export default function DashboardPage() {
                     </div>
                   ) : (
                     <div className="space-y-4">
-                      {clientSessions.map(session => (
+                      {clientSessions.map(session => {
+                        // Map frameworkId to display name
+                        const frameworkDisplayName = {
+                          'cmmc_l1': 'CMMC Level 1',
+                          'cmmc_l2': 'CMMC Level 2',
+                          'cmmc_l3': 'CMMC Level 3'
+                        }[session.frameworkId] || session.frameworkId;
+                        
+                        const createdDate = new Date(session.createdAt);
+                        const updatedDate = new Date(session.updatedAt);
+                        const assessmentType = session.mode === 'detailed' ? 'Detailed' : 'Quick';
+                        
+                        return (
                         <div key={session.id} className="border rounded-lg p-4 hover:shadow-sm transition-shadow">
                           <div className="flex items-center justify-between mb-2">
                             <div>
-                              <div className="font-medium text-gray-800">{session.frameworkName}</div>
+                              <div className="flex items-center space-x-2 mb-1">
+                                <div className="font-medium text-gray-800">{frameworkDisplayName}</div>
+                                <span className="px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded">
+                                  {assessmentType}
+                                </span>
+                              </div>
                               <div className="text-sm text-gray-600">
-                                Created: {new Date(session.createdAt).toLocaleDateString()}
+                                <div>Created: {createdDate.toLocaleDateString()} at {createdDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                                {session.updatedAt !== session.createdAt && (
+                                  <div className="mt-1">Last edited: {updatedDate.toLocaleDateString()} at {updatedDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                                )}
                               </div>
                             </div>
                             
@@ -444,7 +464,7 @@ export default function DashboardPage() {
                                 <button
                                   onClick={() => setDeleteConfirmation({
                                     sessionId: session.id,
-                                    sessionName: session.frameworkName
+                                    sessionName: frameworkDisplayName
                                   })}
                                   className="text-sm text-red-600 hover:text-red-800 flex items-center"
                                   title="Delete assessment"
@@ -462,7 +482,8 @@ export default function DashboardPage() {
                             />
                           </div>
                         </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   )}
                 </div>
