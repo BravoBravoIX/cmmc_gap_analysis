@@ -1,0 +1,413 @@
+{
+  "domain": "AC",
+  "title": "Access Control",
+  "icon": "Lock",
+  "description": "Advanced access control for Controlled Unclassified Information (CUI)",
+  "level": 2,
+  "questions": [
+    {
+      "id": "ac_2_001",
+      "control": "AC.L1-3.1.1",
+      "question": "Do you limit system access to only authorized users?",
+      "context": "This means having a list of who should have access to systems with CUI, and ensuring only those people can get in.",
+      "examples": "User accounts, Active Directory, access request process",
+      "followUp": "Who manages user accounts? How do you add/remove users?",
+      "level": 1,
+      "nistSource": "AC-2",
+      "assessmentObjectives": [
+        "System access is limited to authorized users",
+        "System access is limited to processes acting on behalf of authorized users",
+        "System access is limited to authorized devices"
+      ],
+      "dependencies": {
+        "enables": ["ac_2_002", "ac_2_003", "ac_2_004", "ac_2_005"]
+      }
+    },
+    {
+      "id": "ac_2_002",
+      "control": "AC.L1-3.1.2",
+      "question": "Do you limit what authorized users can do based on their job role?",
+      "context": "Not everyone needs admin access. Accounting shouldn't access IT systems, IT shouldn't access HR files.",
+      "examples": "Admin vs regular user accounts, role-based permissions",
+      "followUp": "Do you have different permission levels? Who has admin access?",
+      "level": 1,
+      "nistSource": "AC-3",
+      "dependencies": {
+        "requires": ["ac_2_001"]
+      }
+    },
+    {
+      "id": "ac_2_003",
+      "control": "AC.L2-3.1.3",
+      "question": "Do you control the flow of CUI within and between systems?",
+      "context": "Information flow control determines where CUI can travel, not just who can access it.",
+      "examples": "Network segmentation, data loss prevention, firewall rules between systems",
+      "followUp": "How do you prevent CUI from moving to unauthorized systems?",
+      "level": 2,
+      "nistSource": "AC-4",
+      "assessmentObjectives": [
+        "Information flows are identified and documented",
+        "Approved authorizations for information flow exist",
+        "Flow control mechanisms are implemented"
+      ],
+      "dependencies": {
+        "requires": ["ac_2_001", "ac_2_002"]
+      }
+    },
+    {
+      "id": "ac_2_004",
+      "control": "AC.L2-3.1.4",
+      "question": "Do you separate duties to prevent single person from causing harm?",
+      "context": "Critical functions should require multiple people. One person shouldn't be able to create and approve.",
+      "examples": "Separate admin roles, dual approval for changes, segregation of duties matrix",
+      "followUp": "What critical functions require multiple people? How is this enforced?",
+      "level": 2,
+      "nistSource": "AC-5",
+      "assessmentObjectives": [
+        "Duties requiring separation are identified",
+        "Access authorizations support separation of duties",
+        "Separation is enforced technically or procedurally"
+      ],
+      "dependencies": {
+        "requires": ["ac_2_001", "ac_2_002"]
+      }
+    },
+    {
+      "id": "ac_2_005",
+      "control": "AC.L2-3.1.5",
+      "question": "Do you implement least privilege and restrict admin functions?",
+      "context": "Users only get minimum access needed for their job. Admin access is strictly controlled.",
+      "examples": "Regular vs admin accounts, just-in-time access, privileged access management",
+      "followUp": "How do you determine minimum necessary access? Who can perform admin functions?",
+      "level": 2,
+      "nistSource": "AC-6",
+      "assessmentObjectives": [
+        "Least privilege principle is implemented",
+        "Security functions are identified and restricted",
+        "Privileged accounts are minimized and controlled"
+      ],
+      "dependencies": {
+        "requires": ["ac_2_002"],
+        "enables": ["ac_2_006", "ac_2_007"]
+      }
+    },
+    {
+      "id": "ac_2_006",
+      "control": "AC.L2-3.1.6",
+      "question": "Do privileged users use non-privileged accounts for regular work?",
+      "context": "Admins shouldn't use their admin account for email and web browsing.",
+      "examples": "Separate admin accounts, UAC prompts, sudo requirements",
+      "followUp": "Do admins have separate accounts? When do they use privileged accounts?",
+      "level": 2,
+      "nistSource": "AC-6(2)",
+      "assessmentObjectives": [
+        "Privileged users have non-privileged accounts",
+        "Non-privileged accounts are used for non-admin tasks",
+        "Account usage is monitored"
+      ],
+      "dependencies": {
+        "requires": ["ac_2_005"],
+        "skipIfNo": []
+      }
+    },
+    {
+      "id": "ac_2_007",
+      "control": "AC.L2-3.1.7",
+      "question": "Do you prevent and log when non-privileged users try admin functions?",
+      "context": "Regular users shouldn't be able to run admin commands, and attempts should be logged.",
+      "examples": "UAC controls, sudo restrictions, audit logs of privilege escalation attempts",
+      "followUp": "What happens when a regular user tries to do something administrative?",
+      "level": 2,
+      "nistSource": "AC-6(9)(10)",
+      "assessmentObjectives": [
+        "Non-privileged users cannot execute privileged functions",
+        "Attempts to execute privileged functions are captured in logs",
+        "Logs are reviewed for unauthorized attempts"
+      ],
+      "dependencies": {
+        "requires": ["ac_2_005"],
+        "skipIfNo": []
+      }
+    },
+    {
+      "id": "ac_2_008",
+      "control": "AC.L2-3.1.8",
+      "question": "Do you limit unsuccessful login attempts?",
+      "context": "After several failed logins, accounts should lock to prevent password guessing.",
+      "examples": "Account lockout after 5 attempts, 30-minute lockout period",
+      "followUp": "How many failed attempts trigger lockout? How long is the lockout?",
+      "level": 2,
+      "nistSource": "AC-7",
+      "assessmentObjectives": [
+        "Limit on consecutive failed attempts is defined",
+        "Account lockout is automatic",
+        "Lockout duration is appropriate"
+      ],
+      "dependencies": {
+        "autoFail": [],
+        "skipIfNo": []
+      }
+    },
+    {
+      "id": "ac_2_009",
+      "control": "AC.L2-3.1.9",
+      "question": "Do you display privacy and security notices at login?",
+      "context": "Login banners warn about authorized use only and monitoring.",
+      "examples": "Windows login banner, SSH banner, web application notices",
+      "followUp": "What does your login banner say? Is it on all systems?",
+      "level": 2,
+      "nistSource": "AC-8",
+      "assessmentObjectives": [
+        "System use notification is displayed",
+        "Notice appears before granting access",
+        "Notice is consistent with CUI requirements"
+      ],
+      "dependencies": {
+        "autoFail": [],
+        "skipIfNo": []
+      }
+    },
+    {
+      "id": "ac_2_010",
+      "control": "AC.L2-3.1.10",
+      "question": "Do sessions lock after inactivity?",
+      "context": "Computers should lock automatically when not in use.",
+      "examples": "15-minute screen lock, password required to unlock",
+      "followUp": "How long before screens lock? Do users lock screens manually?",
+      "level": 2,
+      "nistSource": "AC-11",
+      "assessmentObjectives": [
+        "Session lock is configured",
+        "Lock activates after defined period",
+        "Pattern/password required to unlock"
+      ],
+      "dependencies": {
+        "autoFail": [],
+        "skipIfNo": []
+      }
+    },
+    {
+      "id": "ac_2_011",
+      "control": "AC.L2-3.1.11",
+      "question": "Do you automatically terminate sessions after inactivity?",
+      "context": "Sessions should end after extended inactivity, not just lock.",
+      "examples": "VPN disconnects after 2 hours idle, RDP sessions timeout",
+      "followUp": "When do remote sessions terminate? What about local sessions?",
+      "level": 2,
+      "nistSource": "AC-12",
+      "assessmentObjectives": [
+        "Session termination conditions are defined",
+        "Automatic termination is configured",
+        "Different timeouts for different session types"
+      ],
+      "dependencies": {
+        "autoFail": [],
+        "skipIfNo": []
+      }
+    },
+    {
+      "id": "ac_2_012",
+      "control": "AC.L2-3.1.12",
+      "question": "Do you monitor and control remote access?",
+      "context": "VPN, remote desktop, and other remote connections need extra monitoring.",
+      "examples": "VPN logs, authorized remote access methods, remote session monitoring",
+      "followUp": "What remote access methods are allowed? How are they monitored?",
+      "level": 2,
+      "nistSource": "AC-17",
+      "assessmentObjectives": [
+        "Remote access methods are documented",
+        "Remote access is monitored",
+        "Unauthorized methods are blocked"
+      ],
+      "dependencies": {
+        "enables": ["ac_2_013", "ac_2_014", "ac_2_015"]
+      }
+    },
+    {
+      "id": "ac_2_013",
+      "control": "AC.L2-3.1.13",
+      "question": "Do you use encryption for remote sessions?",
+      "context": "Remote connections must be encrypted to protect CUI in transit.",
+      "examples": "VPN with AES encryption, SSH instead of Telnet, HTTPS not HTTP",
+      "followUp": "What encryption is used for remote access? Any unencrypted protocols?",
+      "level": 2,
+      "nistSource": "AC-17(2)",
+      "assessmentObjectives": [
+        "Cryptographic mechanisms are implemented",
+        "Encryption meets FIPS requirements",
+        "All remote access uses encryption"
+      ],
+      "dependencies": {
+        "requires": ["ac_2_012"],
+        "skipIfNo": []
+      }
+    },
+    {
+      "id": "ac_2_014",
+      "control": "AC.L2-3.1.14",
+      "question": "Do you control and monitor privileged remote access?",
+      "context": "Admin access from outside needs extra scrutiny and control.",
+      "examples": "Jump boxes, privileged access management, session recording",
+      "followUp": "Can admins connect directly from home? How is admin remote access different?",
+      "level": 2,
+      "nistSource": "AC-17(3)(4)",
+      "assessmentObjectives": [
+        "Privileged remote access is identified",
+        "Additional controls for privileged access exist",
+        "Privileged sessions are monitored/recorded"
+      ],
+      "dependencies": {
+        "requires": ["ac_2_012", "ac_2_005"],
+        "skipIfNo": []
+      }
+    },
+    {
+      "id": "ac_2_015",
+      "control": "AC.L2-3.1.15",
+      "question": "Do you route remote access through managed points?",
+      "context": "All remote connections should go through controlled entry points.",
+      "examples": "VPN gateway, remote access gateway, bastion hosts",
+      "followUp": "Can users connect directly to internal systems? What are the entry points?",
+      "level": 2,
+      "nistSource": "AC-17(3)",
+      "assessmentObjectives": [
+        "Managed access control points exist",
+        "All remote access goes through these points",
+        "Direct connections are blocked"
+      ],
+      "dependencies": {
+        "requires": ["ac_2_012"],
+        "skipIfNo": []
+      }
+    },
+    {
+      "id": "ac_2_016",
+      "control": "AC.L2-3.1.16",
+      "question": "Do you control wireless access with authentication and encryption?",
+      "context": "WiFi needs strong security - WPA2/WPA3 with enterprise authentication.",
+      "examples": "WPA2-Enterprise, certificate-based WiFi, no open networks",
+      "followUp": "What WiFi security is used? Any guest networks? How do they connect to CUI systems?",
+      "level": 2,
+      "nistSource": "AC-18",
+      "assessmentObjectives": [
+        "Wireless access points are identified",
+        "Strong authentication is required",
+        "Encryption protects wireless traffic"
+      ],
+      "dependencies": {
+        "autoFail": [],
+        "skipIfNo": []
+      }
+    },
+    {
+      "id": "ac_2_017",
+      "control": "AC.L2-3.1.17",
+      "question": "Do you protect wireless access using authentication and encryption?",
+      "context": "Wireless connections must authenticate users and encrypt traffic.",
+      "examples": "802.1X authentication, AES encryption, no WEP or WPA",
+      "followUp": "What authentication method for WiFi? What encryption standard?",
+      "level": 2,
+      "nistSource": "AC-18(1)",
+      "assessmentObjectives": [
+        "Authentication protocols are implemented",
+        "Encryption protocols meet requirements",
+        "Weak protocols are disabled"
+      ],
+      "dependencies": {
+        "requires": ["ac_2_016"],
+        "skipIfNo": []
+      }
+    },
+    {
+      "id": "ac_2_018",
+      "control": "AC.L2-3.1.18",
+      "question": "Do you control mobile device connections?",
+      "context": "Phones, tablets, and laptops need special controls when accessing CUI.",
+      "examples": "MDM solution, mobile device policy, BYOD restrictions",
+      "followUp": "Can personal phones access email? What about company laptops at home?",
+      "level": 2,
+      "nistSource": "AC-19",
+      "assessmentObjectives": [
+        "Mobile devices are identified",
+        "Connection requirements are defined",
+        "Technical controls are implemented"
+      ],
+      "dependencies": {
+        "enables": ["ac_2_019"]
+      }
+    },
+    {
+      "id": "ac_2_019",
+      "control": "AC.L2-3.1.19",
+      "question": "Do you encrypt CUI on mobile devices?",
+      "context": "Laptops, phones, tablets must encrypt CUI storage.",
+      "examples": "BitLocker, FileVault, iOS/Android encryption",
+      "followUp": "Are all laptops encrypted? What about phones with email?",
+      "level": 2,
+      "nistSource": "AC-19(5)",
+      "assessmentObjectives": [
+        "Encryption is enabled on mobile devices",
+        "Encryption meets FIPS standards",
+        "Encryption status is verified"
+      ],
+      "dependencies": {
+        "requires": ["ac_2_018"],
+        "skipIfNo": []
+      }
+    },
+    {
+      "id": "ac_2_020",
+      "control": "AC.L1-3.1.20",
+      "question": "Do you control connections from external systems?",
+      "context": "This includes VPNs, remote desktop, and any external access to your network.",
+      "examples": "VPN with authentication, firewall rules, remote access policy",
+      "followUp": "How do employees connect remotely? What about contractors?",
+      "level": 1,
+      "nistSource": "AC-20",
+      "dependencies": {
+        "enables": ["ac_2_021"]
+      }
+    },
+    {
+      "id": "ac_2_021",
+      "control": "AC.L2-3.1.21",
+      "question": "Do you limit use of portable storage on external systems?",
+      "context": "USB drives with CUI shouldn't be used on non-company computers.",
+      "examples": "Encrypted USB only, no personal computer use, policy enforcement",
+      "followUp": "Can employees use USB drives at home? What about at client sites?",
+      "level": 2,
+      "nistSource": "AC-20(2)",
+      "assessmentObjectives": [
+        "Portable storage devices are identified",
+        "Use restrictions are defined",
+        "Restrictions are enforced or monitored"
+      ],
+      "dependencies": {
+        "requires": ["ac_2_020"],
+        "skipIfNo": []
+      }
+    },
+    {
+      "id": "ac_2_022",
+      "control": "AC.L1-3.1.22",
+      "question": "Do you control what employees can post publicly about federal contracts?",
+      "context": "FCI shouldn't be shared on social media, public websites, or in marketing materials.",
+      "examples": "Social media policy, training on information handling",
+      "followUp": "Do you have a social media policy? Who reviews public posts?",
+      "level": 1,
+      "nistSource": "AC-22",
+      "dependencies": {
+        "autoFail": [],
+        "skipIfNo": []
+      }
+    }
+  ],
+  "metadata": {
+    "version": "2.0",
+    "lastUpdated": "2024-03-15",
+    "totalControls": 22,
+    "level1Controls": 4,
+    "level2Controls": 18,
+    "estimatedTime": "45-60 minutes"
+  }
+}

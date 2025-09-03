@@ -1,0 +1,146 @@
+{
+  "domain": "PE",
+  "title": "Physical Security",
+  "icon": "Building",
+  "description": "Protecting physical access to systems and facilities",
+  "questions": [
+    {
+      "id": "pe_1_131",
+      "control": "PE.L1-3.10.1",
+      "question": "Do you limit physical access to areas with IT systems?",
+      "context": "Server rooms, network closets, and offices with FCI need access control.",
+      "examples": "Locked doors, key cards, restricted areas",
+      "followUp": "Where are your servers? Who has keys/access cards?",
+      "level": 1,
+      "nistSource": "PE-2",
+      "discussion": "Physical access controls protect organizational systems, equipment, and supporting infrastructure. This includes facilities and areas within facilities containing systems that process, store, or transmit CUI.",
+      "assessmentObjectives": [
+        "Physical access points are identified",
+        "Physical access is controlled to facilities",
+        "Access authorizations are enforced"
+      ],
+      "whatToExamine": [
+        "Physical access control policy",
+        "List of areas requiring protection",
+        "Access authorization lists",
+        "Door locks and key card systems"
+      ],
+      "redFlags": [
+        "Server room unlocked",
+        "No restricted areas",
+        "Everyone has keys",
+        "Network equipment in public areas"
+      ],
+      "dependencies": {
+        "enables": ["pe_1_132", "pe_1_133", "pe_1_134"],
+        "autoFail": [],
+        "skipIfNo": []
+      }
+    },
+    {
+      "id": "pe_1_132",
+      "control": "PE.L1-3.10.3",
+      "question": "Do you escort and monitor visitors?",
+      "context": "Visitors shouldn't wander freely, especially near sensitive areas.",
+      "examples": "Sign-in process, visitor badges, escort requirements",
+      "followUp": "How do visitors check in? Are they supervised?",
+      "level": 1,
+      "nistSource": "PE-3",
+      "discussion": "Visitors include individuals who don't have routine access. This includes customers, vendors, service personnel, and even employees from other departments.",
+      "assessmentObjectives": [
+        "Visitors are identified and registered",
+        "Visitors are escorted or monitored",
+        "Visitor badges are used and collected"
+      ],
+      "whatToExamine": [
+        "Visitor control procedures",
+        "Visitor log books",
+        "Visitor badge examples",
+        "Escort procedures"
+      ],
+      "redFlags": [
+        "No visitor sign-in",
+        "Visitors roam freely",
+        "No visitor badges",
+        "No escort policy"
+      ],
+      "dependencies": {
+        "requires": ["pe_1_131"],
+        "autoFail": [],
+        "skipIfNo": []
+      }
+    },
+    {
+      "id": "pe_1_133",
+      "control": "PE.L1-3.10.4",
+      "question": "Do you keep logs of physical access?",
+      "context": "You need records of who entered secure areas and when.",
+      "examples": "Visitor log book, key card logs, sign-in sheets",
+      "followUp": "How long do you keep visitor logs? Are they reviewed?",
+      "level": 1,
+      "nistSource": "PE-8",
+      "discussion": "Physical access logs help with investigations and can identify patterns of suspicious behavior. These should be protected and retained appropriately.",
+      "assessmentObjectives": [
+        "Physical access is logged",
+        "Logs include date, time, and individual",
+        "Logs are retained for appropriate period"
+      ],
+      "whatToExamine": [
+        "Physical access logs",
+        "Visitor logs from past months",
+        "Key card system reports",
+        "Log retention policy"
+      ],
+      "redFlags": [
+        "No access logs kept",
+        "Logs immediately discarded",
+        "No visitor records",
+        "Can't tell who accessed secure areas"
+      ],
+      "dependencies": {
+        "requires": ["pe_1_131"],
+        "autoFail": [],
+        "skipIfNo": []
+      }
+    },
+    {
+      "id": "pe_1_134",
+      "control": "PE.L1-3.10.5",
+      "question": "Do you control physical access devices (keys, cards)?",
+      "context": "Track who has keys, collect them when employees leave.",
+      "examples": "Key inventory, badge management, collection process",
+      "followUp": "Who manages keys/badges? What happens when someone leaves?",
+      "level": 1,
+      "nistSource": "PE-5",
+      "discussion": "Physical access devices include keys, locks, combinations, and card readers. These need to be inventoried, controlled, and collected upon termination.",
+      "assessmentObjectives": [
+        "Inventory of physical access devices exists",
+        "Devices are collected upon termination",
+        "Lost devices procedures exist"
+      ],
+      "whatToExamine": [
+        "Key/badge inventory",
+        "Termination procedures",
+        "Lost key/badge procedures",
+        "Access device management records"
+      ],
+      "redFlags": [
+        "No key inventory",
+        "Ex-employees still have keys",
+        "No process for lost keys",
+        "Unknown number of keys in circulation"
+      ],
+      "dependencies": {
+        "requires": ["pe_1_131"],
+        "autoFail": [],
+        "skipIfNo": []
+      }
+    }
+  ],
+  "metadata": {
+    "version": "2.0",
+    "lastUpdated": "2024-03-15",
+    "totalControls": 4,
+    "estimatedTime": "10 minutes"
+  }
+}

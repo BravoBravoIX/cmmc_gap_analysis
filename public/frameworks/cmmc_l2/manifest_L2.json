@@ -1,0 +1,288 @@
+{
+  "framework": "CMMC Level 2",
+  "version": "2.0",
+  "description": "Protection of Controlled Unclassified Information (CUI)",
+  "totalControls": 110,
+  "level1Controls": 17,
+  "level2OnlyControls": 93,
+  "estimatedTime": "4-6 hours",
+  "assessmentModes": [
+    {
+      "id": "quick",
+      "name": "Quick Gap Analysis",
+      "description": "High-level assessment for initial gap identification",
+      "estimatedTime": "2-3 hours"
+    },
+    {
+      "id": "detailed",
+      "name": "Detailed Assessment",
+      "description": "Comprehensive assessment with evidence organization tracking",
+      "estimatedTime": "8-16 hours"
+    },
+    {
+      "id": "delta",
+      "name": "Level 1 to Level 2 Delta",
+      "description": "Only assess the 93 additional L2 controls",
+      "estimatedTime": "3-4 hours"
+    }
+  ],
+  "domains": [
+    {
+      "id": "AC",
+      "file": "AC_L2.json",
+      "title": "Access Control",
+      "icon": "Lock",
+      "level1Controls": 4,
+      "level2Controls": 18,
+      "totalControls": 22,
+      "controls": [
+        "3.1.1", "3.1.2", "3.1.3", "3.1.4", "3.1.5", "3.1.6", "3.1.7",
+        "3.1.8", "3.1.9", "3.1.10", "3.1.11", "3.1.12", "3.1.13", "3.1.14",
+        "3.1.15", "3.1.16", "3.1.17", "3.1.18", "3.1.19", "3.1.20", "3.1.21", "3.1.22"
+      ]
+    },
+    {
+      "id": "AT",
+      "file": "AT_L2.json",
+      "title": "Awareness and Training",
+      "icon": "GraduationCap",
+      "level1Controls": 0,
+      "level2Controls": 3,
+      "totalControls": 3,
+      "controls": ["3.2.1", "3.2.2", "3.2.3"]
+    },
+    {
+      "id": "AU",
+      "file": "AU_L2.json",
+      "title": "Audit and Accountability",
+      "icon": "FileText",
+      "level1Controls": 0,
+      "level2Controls": 9,
+      "totalControls": 9,
+      "controls": [
+        "3.3.1", "3.3.2", "3.3.3", "3.3.4", "3.3.5", "3.3.6", "3.3.7", "3.3.8", "3.3.9"
+      ]
+    },
+    {
+      "id": "CM",
+      "file": "CM_L2.json",
+      "title": "Configuration Management",
+      "icon": "Settings",
+      "level1Controls": 0,
+      "level2Controls": 9,
+      "totalControls": 9,
+      "controls": [
+        "3.4.1", "3.4.2", "3.4.3", "3.4.4", "3.4.5", "3.4.6", "3.4.7", "3.4.8", "3.4.9"
+      ]
+    },
+    {
+      "id": "IA",
+      "file": "IA_L2.json",
+      "title": "Identification and Authentication",
+      "icon": "User",
+      "level1Controls": 2,
+      "level2Controls": 9,
+      "totalControls": 11,
+      "controls": [
+        "3.5.1", "3.5.2", "3.5.3", "3.5.4", "3.5.5", "3.5.6", "3.5.7",
+        "3.5.8", "3.5.9", "3.5.10", "3.5.11"
+      ]
+    },
+    {
+      "id": "IR",
+      "file": "IR_L2.json",
+      "title": "Incident Response",
+      "icon": "AlertCircle",
+      "level1Controls": 0,
+      "level2Controls": 7,
+      "totalControls": 7,
+      "controls": [
+        "3.6.1", "3.6.2", "3.6.3", "3.6.4", "3.6.5", "3.6.6", "3.6.7"
+      ]
+    },
+    {
+      "id": "MA",
+      "file": "MA_L2.json",
+      "title": "Maintenance",
+      "icon": "Wrench",
+      "level1Controls": 0,
+      "level2Controls": 6,
+      "totalControls": 6,
+      "controls": [
+        "3.7.1", "3.7.2", "3.7.3", "3.7.4", "3.7.5", "3.7.6"
+      ]
+    },
+    {
+      "id": "MP",
+      "file": "MP_L2.json",
+      "title": "Media Protection",
+      "icon": "HardDrive",
+      "level1Controls": 1,
+      "level2Controls": 8,
+      "totalControls": 9,
+      "controls": [
+        "3.8.1", "3.8.2", "3.8.3", "3.8.4", "3.8.5", "3.8.6", "3.8.7", "3.8.8", "3.8.9"
+      ]
+    },
+    {
+      "id": "PS",
+      "file": "PS_L2.json",
+      "title": "Personnel Security",
+      "icon": "Users",
+      "level1Controls": 0,
+      "level2Controls": 2,
+      "totalControls": 2,
+      "controls": ["3.9.1", "3.9.2"]
+    },
+    {
+      "id": "PE",
+      "file": "PE_L2.json",
+      "title": "Physical Protection",
+      "icon": "Building",
+      "level1Controls": 4,
+      "level2Controls": 2,
+      "totalControls": 6,
+      "controls": [
+        "3.10.1", "3.10.2", "3.10.3", "3.10.4", "3.10.5", "3.10.6"
+      ]
+    },
+    {
+      "id": "RA",
+      "file": "RA_L2.json",
+      "title": "Risk Assessment",
+      "icon": "AlertTriangle",
+      "level1Controls": 0,
+      "level2Controls": 3,
+      "totalControls": 3,
+      "controls": ["3.11.1", "3.11.2", "3.11.3"]
+    },
+    {
+      "id": "CA",
+      "file": "CA_L2.json",
+      "title": "Security Assessment",
+      "icon": "Clipboard",
+      "level1Controls": 0,
+      "level2Controls": 4,
+      "totalControls": 4,
+      "controls": ["3.12.1", "3.12.2", "3.12.3", "3.12.4"]
+    },
+    {
+      "id": "SC",
+      "file": "SC_L2.json",
+      "title": "System and Communications Protection",
+      "icon": "Network",
+      "level1Controls": 2,
+      "level2Controls": 14,
+      "totalControls": 16,
+      "controls": [
+        "3.13.1", "3.13.2", "3.13.3", "3.13.4", "3.13.5", "3.13.6", "3.13.7",
+        "3.13.8", "3.13.9", "3.13.10", "3.13.11", "3.13.12", "3.13.13",
+        "3.13.14", "3.13.15", "3.13.16"
+      ]
+    },
+    {
+      "id": "SI",
+      "file": "SI_L2.json",
+      "title": "System and Information Integrity",
+      "icon": "Monitor",
+      "level1Controls": 4,
+      "level2Controls": 3,
+      "totalControls": 7,
+      "controls": [
+        "3.14.1", "3.14.2", "3.14.3", "3.14.4", "3.14.5", "3.14.6", "3.14.7"
+      ]
+    }
+  ],
+  "dependencies": {
+    "description": "Control dependencies for adaptive assessment",
+    "criticalPaths": [
+      {
+        "name": "Access Control Foundation",
+        "controls": ["3.1.1", "3.1.2"],
+        "enables": ["3.1.3", "3.1.4", "3.1.5", "3.1.6", "3.1.7"]
+      },
+      {
+        "name": "Authentication Chain",
+        "controls": ["3.5.1", "3.5.2"],
+        "enables": ["3.5.3", "3.5.4", "3.5.5", "3.5.6", "3.5.7", "3.5.8", "3.5.9", "3.5.10", "3.5.11"]
+      },
+      {
+        "name": "Audit Foundation",
+        "controls": ["3.3.1", "3.3.2"],
+        "enables": ["3.3.3", "3.3.4", "3.3.5", "3.3.6", "3.3.7", "3.3.8", "3.3.9"]
+      }
+    ]
+  },
+  "scoring": {
+    "method": "weighted",
+    "weights": {
+      "level1": 1.5,
+      "level2": 1.0,
+      "critical": 2.0
+    },
+    "levels": [
+      {
+        "score": 100,
+        "label": "CMMC Level 2 Ready",
+        "color": "green",
+        "description": "Ready for CMMC Level 2 certification assessment"
+      },
+      {
+        "score": 85,
+        "label": "Nearly Compliant",
+        "color": "blue",
+        "description": "Minor gaps, ready within 1-2 months"
+      },
+      {
+        "score": 70,
+        "label": "Progressing",
+        "color": "yellow",
+        "description": "3-6 months of work needed"
+      },
+      {
+        "score": 50,
+        "label": "Significant Gaps",
+        "color": "orange",
+        "description": "6-12 months implementation needed"
+      },
+      {
+        "score": 0,
+        "label": "Major Implementation Required",
+        "color": "red",
+        "description": "12+ months to achieve compliance"
+      }
+    ]
+  },
+  "reportTemplates": [
+    {
+      "id": "executive_l2",
+      "name": "Executive Summary",
+      "description": "High-level L2 readiness for leadership"
+    },
+    {
+      "id": "technical_l2",
+      "name": "Technical Gap Analysis",
+      "description": "Detailed control-by-control analysis"
+    },
+    {
+      "id": "roadmap",
+      "name": "Implementation Roadmap",
+      "description": "Prioritized plan to achieve Level 2"
+    },
+    {
+      "id": "delta_report",
+      "name": "L1 to L2 Delta",
+      "description": "Gap analysis of additional L2 controls only"
+    },
+    {
+      "id": "ssp_draft",
+      "name": "SSP Draft",
+      "description": "System Security Plan template with findings"
+    },
+    {
+      "id": "poam",
+      "name": "POAM",
+      "description": "Plan of Action and Milestones"
+    }
+  ]
+}

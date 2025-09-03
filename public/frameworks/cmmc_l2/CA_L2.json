@@ -1,0 +1,145 @@
+{
+  "domain": "CA",
+  "title": "Security Assessment",
+  "icon": "Clipboard",
+  "description": "Assessing security controls and managing system security plans",
+  "level": 2,
+  "questions": [
+    {
+      "id": "ca_2_001",
+      "control": "CA.L2-3.12.1",
+      "question": "Do you periodically assess your security controls?",
+      "context": "Regular assessment ensures security controls are working as intended.",
+      "examples": "Annual assessments, control testing, self-assessments, third-party assessments",
+      "followUp": "How often do you assess controls? Who does it? What's the scope?",
+      "level": 2,
+      "nistSource": "CA-2",
+      "discussion": "Security control assessments determine if controls are implemented correctly, operating as intended, and producing desired outcomes.",
+      "assessmentObjectives": [
+        "Assessment frequency defined",
+        "Assessments performed regularly",
+        "All controls assessed",
+        "Results documented"
+      ],
+      "whatToExamine": [
+        "Assessment schedule",
+        "Assessment reports",
+        "Assessment procedures",
+        "Control test results"
+      ],
+      "redFlags": [
+        "Never assess controls",
+        "No assessment schedule",
+        "Incomplete assessments",
+        "No documentation"
+      ],
+      "dependencies": {
+        "enables": ["ca_2_002", "ca_2_003", "ca_2_004"]
+      }
+    },
+    {
+      "id": "ca_2_002",
+      "control": "CA.L2-3.12.2",
+      "question": "Do you develop and update plans of action for deficiencies?",
+      "context": "When assessments find problems, you need plans to fix them with timelines.",
+      "examples": "POA&M, remediation plans, milestone tracking, corrective action plans",
+      "followUp": "How do you track deficiencies? What's in your POA&M? How are milestones managed?",
+      "level": 2,
+      "nistSource": "CA-5",
+      "discussion": "Plans of action and milestones (POA&Ms) document planned remediation actions for identified weaknesses and track progress.",
+      "assessmentObjectives": [
+        "POA&M process exists",
+        "Deficiencies documented",
+        "Milestones established",
+        "Progress tracked"
+      ],
+      "whatToExamine": [
+        "POA&M documents",
+        "Remediation plans",
+        "Milestone tracking",
+        "Status reports"
+      ],
+      "redFlags": [
+        "No action plans",
+        "Deficiencies ignored",
+        "No timelines",
+        "No progress tracking"
+      ],
+      "dependencies": {
+        "requires": ["ca_2_001"]
+      }
+    },
+    {
+      "id": "ca_2_003",
+      "control": "CA.L2-3.12.3",
+      "question": "Do you monitor security controls continuously?",
+      "context": "Continuous monitoring ensures controls remain effective between formal assessments.",
+      "examples": "Ongoing monitoring, automated tools, dashboards, metrics collection",
+      "followUp": "What do you monitor continuously? What tools are used? Who reviews results?",
+      "level": 2,
+      "nistSource": "CA-7",
+      "discussion": "Continuous monitoring maintains ongoing awareness of security posture and control effectiveness to support risk management decisions.",
+      "assessmentObjectives": [
+        "Monitoring strategy defined",
+        "Ongoing monitoring implemented",
+        "Metrics collected",
+        "Results analyzed"
+      ],
+      "whatToExamine": [
+        "Monitoring strategy",
+        "Monitoring tools",
+        "Dashboards/reports",
+        "Analysis procedures"
+      ],
+      "redFlags": [
+        "No continuous monitoring",
+        "Only annual checks",
+        "No automation",
+        "Results not reviewed"
+      ],
+      "dependencies": {
+        "requires": ["ca_2_001"]
+      }
+    },
+    {
+      "id": "ca_2_004",
+      "control": "CA.L2-3.12.4",
+      "question": "Do you maintain system security plans?",
+      "context": "SSPs document how security requirements are implemented in your systems.",
+      "examples": "System Security Plan, security documentation, control descriptions, system boundaries",
+      "followUp": "Do you have an SSP? When was it last updated? Does it cover all systems with CUI?",
+      "level": 2,
+      "nistSource": "PL-2",
+      "discussion": "System security plans describe system boundaries, environments, security requirements implementation, and connections to other systems.",
+      "assessmentObjectives": [
+        "SSP exists and current",
+        "System boundaries defined",
+        "Controls documented",
+        "Interconnections identified"
+      ],
+      "whatToExamine": [
+        "System Security Plan",
+        "System diagrams",
+        "Control implementation details",
+        "Update history"
+      ],
+      "redFlags": [
+        "No SSP",
+        "Very outdated",
+        "Incomplete documentation",
+        "Wrong boundaries"
+      ],
+      "dependencies": {
+        "requires": ["ca_2_001"]
+      }
+    }
+  ],
+  "metadata": {
+    "version": "2.0",
+    "lastUpdated": "2024-03-15",
+    "totalControls": 4,
+    "level1Controls": 0,
+    "level2Controls": 4,
+    "estimatedTime": "15 minutes"
+  }
+}

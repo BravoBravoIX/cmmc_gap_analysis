@@ -1,0 +1,94 @@
+{
+  "client": {
+    "id": "uuid-generated-client-id",
+    "companyName": "",
+    "dba": "",
+    "industry": "",
+    "size": {
+      "employees": 0,
+      "revenue": "",
+      "locations": 1
+    },
+    "contact": {
+      "primary": {
+        "name": "",
+        "title": "",
+        "email": "",
+        "phone": ""
+      },
+      "technical": {
+        "name": "",
+        "title": "",
+        "email": "",
+        "phone": ""
+      },
+      "executive": {
+        "name": "",
+        "title": "",
+        "email": "",
+        "phone": ""
+      }
+    },
+    "address": {
+      "street1": "",
+      "street2": "",
+      "city": "",
+      "state": "",
+      "zip": "",
+      "country": "USA"
+    },
+    "contracts": {
+      "hasFederalContracts": false,
+      "contractTypes": [],
+      "primeOrSub": "",
+      "agencies": [],
+      "handlesCUI": false,
+      "handlesFCI": false
+    }
+  },
+  "assessment": {
+    "id": "uuid-generated-assessment-id",
+    "clientId": "uuid-generated-client-id",
+    "type": "CMMC Level 1",
+    "mode": "quick",
+    "status": "in-progress",
+    "dates": {
+      "created": "",
+      "started": "",
+      "lastModified": "",
+      "completed": null,
+      "expires": null
+    },
+    "consultant": {
+      "name": "",
+      "email": "",
+      "company": "",
+      "certifications": []
+    },
+    "scope": {
+      "systemName": "",
+      "systemDescription": "",
+      "boundaries": {
+        "users": 0,
+        "workstations": 0,
+        "servers": 0,
+        "locations": [],
+        "cloudServices": []
+      },
+      "dataTypes": {
+        "cui": false,
+        "fci": false,
+        "pii": false,
+        "phi": false,
+        "financial": false
+      }
+    }
+  },
+  "metadata": {
+    "version": "1.0",
+    "created": "",
+    "lastModified": "",
+    "tool": "CMMC Gap Analysis Tool",
+    "toolVersion": "1.0.0"
+  }
+}

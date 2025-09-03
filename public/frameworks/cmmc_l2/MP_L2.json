@@ -1,0 +1,292 @@
+{
+  "domain": "MP",
+  "title": "Media Protection",
+  "icon": "HardDrive",
+  "description": "Protecting CUI on media and devices throughout their lifecycle",
+  "level": 2,
+  "questions": [
+    {
+      "id": "mp_2_001",
+      "control": "MP.L2-3.8.1",
+      "question": "Do you physically control and store media containing CUI?",
+      "context": "Physical media with CUI needs to be locked up and access controlled.",
+      "examples": "Locked cabinets, media safe, access logs, inventory tracking",
+      "followUp": "Where is media stored? Who has access? How is it tracked?",
+      "level": 2,
+      "nistSource": "MP-4",
+      "discussion": "Physical control of media prevents unauthorized access, theft, or loss of CUI. Storage must be commensurate with the sensitivity.",
+      "assessmentObjectives": [
+        "Media storage is physically secure",
+        "Access is controlled",
+        "Media is inventoried",
+        "Environmental controls adequate"
+      ],
+      "whatToExamine": [
+        "Media storage locations",
+        "Access controls",
+        "Media inventory",
+        "Storage procedures"
+      ],
+      "redFlags": [
+        "Media left on desks",
+        "Unlocked storage",
+        "No inventory",
+        "Unknown media location"
+      ],
+      "dependencies": {
+        "enables": ["mp_2_002", "mp_2_003", "mp_2_004", "mp_2_005", "mp_2_006", "mp_2_007", "mp_2_008", "mp_2_009"]
+      }
+    },
+    {
+      "id": "mp_2_002",
+      "control": "MP.L2-3.8.2",
+      "question": "Do you limit access to CUI on media to authorized users?",
+      "context": "Only people who need access to CUI should be able to access media containing it.",
+      "examples": "Access control lists, checkout procedures, need-to-know basis, media logs",
+      "followUp": "Who can access media with CUI? How is access approved? Any tracking?",
+      "level": 2,
+      "nistSource": "MP-2",
+      "discussion": "Access restrictions ensure only authorized individuals can access CUI on media, reducing risk of unauthorized disclosure.",
+      "assessmentObjectives": [
+        "Access restrictions defined",
+        "Authorization required",
+        "Access is logged",
+        "Need-to-know enforced"
+      ],
+      "whatToExamine": [
+        "Access authorization lists",
+        "Media access logs",
+        "Checkout procedures",
+        "Access control mechanisms"
+      ],
+      "redFlags": [
+        "Anyone can access",
+        "No authorization needed",
+        "No access tracking",
+        "Shared media access"
+      ],
+      "dependencies": {
+        "requires": ["mp_2_001"]
+      }
+    },
+    {
+      "id": "mp_2_003",
+      "control": "MP.L1-3.8.3",
+      "question": "Do you sanitize equipment before disposal or reuse?",
+      "context": "Wiping hard drives, destroying media that had CUI on it.",
+      "examples": "DBAN for hard drives, physical destruction, certificate of destruction",
+      "followUp": "What happens to old computers? How are hard drives handled?",
+      "level": 1,
+      "nistSource": "MP-6",
+      "assessmentObjectives": [
+        "Sanitization procedures exist",
+        "Media sanitized before disposal",
+        "Sanitization verified/documented"
+      ],
+      "dependencies": {
+        "requires": ["mp_2_001"]
+      }
+    },
+    {
+      "id": "mp_2_004",
+      "control": "MP.L2-3.8.4",
+      "question": "Do you mark media with CUI markings and distribution limitations?",
+      "context": "Media containing CUI must be labeled so people know it needs protection.",
+      "examples": "CUI labels, classification markings, handling instructions, distribution limits",
+      "followUp": "How is media marked? What labels are used? Are removable media labeled?",
+      "level": 2,
+      "nistSource": "MP-3",
+      "discussion": "Marking media ensures proper handling and alerts users to protection requirements. Labels indicate distribution limitations.",
+      "assessmentObjectives": [
+        "Marking requirements defined",
+        "Media is properly marked",
+        "Distribution limits indicated",
+        "Removable media included"
+      ],
+      "whatToExamine": [
+        "Media marking procedures",
+        "Sample marked media",
+        "Label templates",
+        "Marking tools/supplies"
+      ],
+      "redFlags": [
+        "Unmarked media",
+        "No CUI labels",
+        "Can't identify CUI media",
+        "No distribution markings"
+      ],
+      "dependencies": {
+        "requires": ["mp_2_001"]
+      }
+    },
+    {
+      "id": "mp_2_005",
+      "control": "MP.L2-3.8.5",
+      "question": "Do you control access to media and maintain accountability?",
+      "context": "You need to know who has media with CUI and be able to track it.",
+      "examples": "Media library, checkout system, chain of custody, media logs",
+      "followUp": "How do you track who has media? Any checkout process? How is it returned?",
+      "level": 2,
+      "nistSource": "MP-5",
+      "discussion": "Accountability ensures media location is known and can be recovered. Tracking prevents loss and enables investigation.",
+      "assessmentObjectives": [
+        "Accountability system exists",
+        "Media location tracked",
+        "Checkout/return process",
+        "Chain of custody maintained"
+      ],
+      "whatToExamine": [
+        "Media tracking system",
+        "Checkout logs",
+        "Chain of custody forms",
+        "Inventory records"
+      ],
+      "redFlags": [
+        "Don't know who has media",
+        "No tracking system",
+        "Media goes missing",
+        "No accountability"
+      ],
+      "dependencies": {
+        "requires": ["mp_2_001", "mp_2_002"]
+      }
+    },
+    {
+      "id": "mp_2_006",
+      "control": "MP.L2-3.8.6",
+      "question": "Do you protect media during transport?",
+      "context": "Media with CUI needs physical and technical protection when moved outside facilities.",
+      "examples": "Locked cases, encryption, courier services, tracking, receipts",
+      "followUp": "How is media transported? What protections are used? How is delivery confirmed?",
+      "level": 2,
+      "nistSource": "MP-5",
+      "discussion": "Media transport protection prevents loss, theft, or unauthorized access during movement between locations.",
+      "assessmentObjectives": [
+        "Transport procedures defined",
+        "Physical protection provided",
+        "Encryption used if required",
+        "Delivery confirmation obtained"
+      ],
+      "whatToExamine": [
+        "Transport procedures",
+        "Shipping records",
+        "Encryption tools",
+        "Receipt confirmations"
+      ],
+      "redFlags": [
+        "Unprotected mailing",
+        "No encryption",
+        "No tracking",
+        "Lost shipments"
+      ],
+      "dependencies": {
+        "requires": ["mp_2_001", "mp_2_004"]
+      }
+    },
+    {
+      "id": "mp_2_007",
+      "control": "MP.L2-3.8.7",
+      "question": "Do you restrict use of removable media?",
+      "context": "USB drives and other removable media are risky and should be controlled.",
+      "examples": "USB blocking, approved device list, disabled ports, media policy",
+      "followUp": "Can users plug in USB drives? Any restrictions? How are they enforced?",
+      "level": 2,
+      "nistSource": "MP-7",
+      "discussion": "Removable media restrictions prevent data loss and malware introduction. Technical controls are more effective than policy alone.",
+      "assessmentObjectives": [
+        "Usage restrictions defined",
+        "Technical controls implemented",
+        "Approved media list exists",
+        "Exceptions documented"
+      ],
+      "whatToExamine": [
+        "Media use policy",
+        "USB port configurations",
+        "Device control software",
+        "Exception records"
+      ],
+      "redFlags": [
+        "Unrestricted USB use",
+        "Any device allowed",
+        "No technical controls",
+        "Personal devices used"
+      ],
+      "dependencies": {
+        "requires": ["mp_2_001"],
+        "enables": ["mp_2_008"]
+      }
+    },
+    {
+      "id": "mp_2_008",
+      "control": "MP.L2-3.8.8",
+      "question": "Do you prohibit use of portable storage without identifiable owner?",
+      "context": "Found USB drives or media with unknown owners should never be used.",
+      "examples": "Policy against found media, user awareness training, technical blocks",
+      "followUp": "What happens if someone finds a USB drive? Is there training on this risk?",
+      "level": 2,
+      "nistSource": "MP-7(1)",
+      "discussion": "Portable storage devices without owners may contain malware or be part of an attack. They should never be connected to systems.",
+      "assessmentObjectives": [
+        "Policy prohibits unknown media",
+        "Users trained on risks",
+        "Technical controls if possible",
+        "Incident process for found media"
+      ],
+      "whatToExamine": [
+        "Media use policy",
+        "Training materials",
+        "User awareness",
+        "Incident procedures"
+      ],
+      "redFlags": [
+        "People use found USBs",
+        "No policy on this",
+        "No user awareness",
+        "Curiosity wins"
+      ],
+      "dependencies": {
+        "requires": ["mp_2_007"]
+      }
+    },
+    {
+      "id": "mp_2_009",
+      "control": "MP.L2-3.8.9",
+      "question": "Do you protect confidentiality of backup CUI?",
+      "context": "Backups containing CUI need the same protection as the original data.",
+      "examples": "Encrypted backups, secure storage, offsite protection, access controls",
+      "followUp": "Are backups encrypted? Where are they stored? Who can access them?",
+      "level": 2,
+      "nistSource": "CP-9",
+      "discussion": "Backup media contains CUI and requires equivalent protection including encryption, access control, and physical security.",
+      "assessmentObjectives": [
+        "Backups are encrypted",
+        "Storage is secure",
+        "Access is controlled",
+        "Offsite backups protected"
+      ],
+      "whatToExamine": [
+        "Backup procedures",
+        "Encryption settings",
+        "Storage locations",
+        "Access controls"
+      ],
+      "redFlags": [
+        "Unencrypted backups",
+        "Backups unsecured",
+        "Anyone can access",
+        "Offsite not protected"
+      ],
+      "dependencies": {
+        "requires": ["mp_2_001"]
+      }
+    }
+  ],
+  "metadata": {
+    "version": "2.0",
+    "lastUpdated": "2024-03-15",
+    "totalControls": 9,
+    "level1Controls": 1,
+    "level2Controls": 8,
+    "estimatedTime": "20 minutes"
+  }
+}

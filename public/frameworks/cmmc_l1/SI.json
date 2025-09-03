@@ -1,0 +1,147 @@
+{
+  "domain": "SI",
+  "title": "System Health",
+  "icon": "Monitor",
+  "description": "Keeping systems secure and up-to-date",
+  "questions": [
+    {
+      "id": "si_1_210",
+      "control": "SI.L1-3.14.1",
+      "question": "Do you identify and fix system flaws promptly?",
+      "context": "Installing patches and updates when they're released.",
+      "examples": "Windows Updates, Patch Tuesday, update policy",
+      "followUp": "How often are updates installed? Who manages this?",
+      "level": 1,
+      "nistSource": "SI-2",
+      "discussion": "Organizations identify, report, and correct system flaws in a timely manner. This includes installing security-relevant software and firmware updates.",
+      "assessmentObjectives": [
+        "System flaws are identified",
+        "Patches are tested and installed",
+        "Update process is documented"
+      ],
+      "whatToExamine": [
+        "Patch management process",
+        "Update logs and history",
+        "System update configurations",
+        "Patch testing procedures"
+      ],
+      "redFlags": [
+        "Updates disabled",
+        "Months behind on patches",
+        "No update schedule",
+        "Never restart for updates"
+      ],
+      "dependencies": {
+        "enables": ["si_1_211"],
+        "autoFail": [],
+        "skipIfNo": []
+      }
+    },
+    {
+      "id": "si_1_211",
+      "control": "SI.L1-3.14.2",
+      "question": "Do you have antivirus/anti-malware protection?",
+      "context": "Basic protection against viruses and malicious software.",
+      "examples": "Windows Defender, commercial antivirus, endpoint protection",
+      "followUp": "What antivirus do you use? On all computers?",
+      "level": 1,
+      "nistSource": "SI-3",
+      "discussion": "Malicious code protection mechanisms include antivirus software and intrusion detection/prevention systems. These must be installed and operating.",
+      "assessmentObjectives": [
+        "Anti-malware is deployed on all systems",
+        "Protection mechanisms are configured properly",
+        "Real-time protection is enabled"
+      ],
+      "whatToExamine": [
+        "Antivirus deployment records",
+        "Configuration settings",
+        "License documentation",
+        "Protection status reports"
+      ],
+      "redFlags": [
+        "No antivirus installed",
+        "Antivirus disabled",
+        "Expired licenses",
+        "Some computers unprotected"
+      ],
+      "dependencies": {
+        "requires": ["si_1_210"],
+        "enables": ["si_1_212", "si_1_213"],
+        "autoFail": ["si_1_212", "si_1_213"],
+        "skipIfNo": ["si_1_212", "si_1_213"]
+      }
+    },
+    {
+      "id": "si_1_212",
+      "control": "SI.L1-3.14.4",
+      "question": "Do you update antivirus definitions regularly?",
+      "context": "Antivirus needs current threat information to be effective.",
+      "examples": "Automatic updates, daily definition updates",
+      "followUp": "Are updates automatic? How do you verify they're current?",
+      "level": 1,
+      "nistSource": "SI-3(4)",
+      "discussion": "Malicious code protection mechanisms must be updated whenever new releases are available. This includes signature/definition files and the scanning engine itself.",
+      "assessmentObjectives": [
+        "Definition updates are automatic",
+        "Updates occur regularly (daily preferred)",
+        "Update status is monitored"
+      ],
+      "whatToExamine": [
+        "Antivirus update settings",
+        "Definition update logs",
+        "Update frequency configuration",
+        "Current definition versions"
+      ],
+      "redFlags": [
+        "Manual updates only",
+        "Definitions weeks old",
+        "Updates blocked by firewall",
+        "No monitoring of update status"
+      ],
+      "dependencies": {
+        "requires": ["si_1_211"],
+        "autoFail": [],
+        "skipIfNo": []
+      }
+    },
+    {
+      "id": "si_1_213",
+      "control": "SI.L1-3.14.5",
+      "question": "Do you perform periodic system scans?",
+      "context": "Regular scans catch what real-time protection might miss.",
+      "examples": "Weekly full scans, scheduled scans, scan reports",
+      "followUp": "How often do scans run? Who reviews results?",
+      "level": 1,
+      "nistSource": "SI-3(5)",
+      "discussion": "Periodic scans of organizational systems and real-time scans of files from external sources help ensure malicious code is detected and addressed.",
+      "assessmentObjectives": [
+        "Periodic scans are scheduled",
+        "Full system scans occur regularly",
+        "Scan results are reviewed"
+      ],
+      "whatToExamine": [
+        "Scan schedules",
+        "Recent scan reports",
+        "Scan configuration settings",
+        "Response procedures for detections"
+      ],
+      "redFlags": [
+        "No scheduled scans",
+        "Scans always cancelled",
+        "Results never reviewed",
+        "No action on findings"
+      ],
+      "dependencies": {
+        "requires": ["si_1_211"],
+        "autoFail": [],
+        "skipIfNo": []
+      }
+    }
+  ],
+  "metadata": {
+    "version": "2.0",
+    "lastUpdated": "2024-03-15",
+    "totalControls": 4,
+    "estimatedTime": "10 minutes"
+  }
+}

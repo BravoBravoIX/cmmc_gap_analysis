@@ -1,0 +1,242 @@
+{
+  "domain": "IR",
+  "title": "Incident Response",
+  "icon": "AlertCircle",
+  "description": "Preparing for, detecting, and responding to security incidents",
+  "level": 2,
+  "questions": [
+    {
+      "id": "ir_2_001",
+      "control": "IR.L2-3.6.1",
+      "question": "Do you have an incident response plan?",
+      "context": "A documented plan for handling security incidents including roles, responsibilities, and procedures.",
+      "examples": "Incident response plan, IR procedures, contact lists, escalation procedures",
+      "followUp": "Show me your IR plan. When was it last updated? Who's on the response team?",
+      "level": 2,
+      "nistSource": "IR-1",
+      "discussion": "An incident response plan ensures consistent, effective response to security incidents. It defines roles, responsibilities, and procedures.",
+      "assessmentObjectives": [
+        "IR plan exists and is documented",
+        "Roles and responsibilities defined",
+        "Contact information current",
+        "Plan is regularly updated"
+      ],
+      "whatToExamine": [
+        "Incident response plan",
+        "Team contact lists",
+        "Roles and responsibilities",
+        "Update records"
+      ],
+      "redFlags": [
+        "No documented plan",
+        "Outdated contact info",
+        "Unclear responsibilities",
+        "Never updated"
+      ],
+      "dependencies": {
+        "enables": ["ir_2_002", "ir_2_003", "ir_2_004", "ir_2_005", "ir_2_006", "ir_2_007"],
+        "autoFail": ["ir_2_003", "ir_2_005", "ir_2_006"]
+      }
+    },
+    {
+      "id": "ir_2_002",
+      "control": "IR.L2-3.6.2",
+      "question": "Do you track and report incidents?",
+      "context": "Incidents need to be documented, tracked through resolution, and reported as required.",
+      "examples": "Incident tickets, tracking system, incident database, reporting procedures",
+      "followUp": "How do you track incidents? What gets reported and to whom? Show me recent examples.",
+      "level": 2,
+      "nistSource": "IR-5",
+      "discussion": "Incident tracking ensures no incidents are forgotten, patterns are identified, and required reporting occurs.",
+      "assessmentObjectives": [
+        "Tracking system exists",
+        "All incidents documented",
+        "Status tracked to closure",
+        "Reporting requirements met"
+      ],
+      "whatToExamine": [
+        "Incident tracking system",
+        "Incident records",
+        "Reporting procedures",
+        "Closure documentation"
+      ],
+      "redFlags": [
+        "No tracking system",
+        "Incidents forgotten",
+        "No documentation",
+        "Never reported"
+      ],
+      "dependencies": {
+        "requires": ["ir_2_001"]
+      }
+    },
+    {
+      "id": "ir_2_003",
+      "control": "IR.L2-3.6.3",
+      "question": "Do you test your incident response capability?",
+      "context": "IR plans need regular testing through exercises, simulations, or tabletops.",
+      "examples": "Tabletop exercises, IR drills, simulated incidents, red team exercises",
+      "followUp": "When was the last IR test? What type? What did you learn? Any improvements made?",
+      "level": 2,
+      "nistSource": "IR-3",
+      "discussion": "Testing validates the incident response plan works and team members know their roles. Tests identify gaps and improvements.",
+      "assessmentObjectives": [
+        "IR testing occurs regularly",
+        "Different test types used",
+        "Lessons learned documented",
+        "Plan updated based on tests"
+      ],
+      "whatToExamine": [
+        "Test plans and schedules",
+        "Exercise reports",
+        "Lessons learned",
+        "Plan updates from tests"
+      ],
+      "redFlags": [
+        "Never tested",
+        "Only discussion, no practice",
+        "No lessons learned",
+        "Plan never updated"
+      ],
+      "dependencies": {
+        "requires": ["ir_2_001"]
+      }
+    },
+    {
+      "id": "ir_2_004",
+      "control": "IR.L2-3.6.4",
+      "question": "Do you provide incident response training?",
+      "context": "Response team members need training on their roles and the IR procedures.",
+      "examples": "IR team training, role-specific training, annual refreshers, new member training",
+      "followUp": "What IR training is provided? Who gets it? How often? Is it role-specific?",
+      "level": 2,
+      "nistSource": "IR-2",
+      "discussion": "Training ensures incident response team members can effectively perform their duties during an actual incident.",
+      "assessmentObjectives": [
+        "IR training program exists",
+        "Team members trained",
+        "Role-specific training provided",
+        "Regular refresher training"
+      ],
+      "whatToExamine": [
+        "Training materials",
+        "Training records",
+        "Role-specific content",
+        "Training schedule"
+      ],
+      "redFlags": [
+        "No IR training",
+        "Team untrained",
+        "Generic training only",
+        "One-time training"
+      ],
+      "dependencies": {
+        "requires": ["ir_2_001"]
+      }
+    },
+    {
+      "id": "ir_2_005",
+      "control": "IR.L2-3.6.5",
+      "question": "Do you have incident detection and analysis capabilities?",
+      "context": "You need to detect incidents quickly and analyze them to understand impact and response.",
+      "examples": "IDS/IPS, SIEM, log analysis, anomaly detection, forensic tools",
+      "followUp": "How do you detect incidents? What analysis tools do you have? Who does analysis?",
+      "level": 2,
+      "nistSource": "IR-4",
+      "discussion": "Detection and analysis capabilities enable organizations to identify incidents quickly and understand their scope and impact.",
+      "assessmentObjectives": [
+        "Detection mechanisms deployed",
+        "Analysis tools available",
+        "Trained analysts assigned",
+        "Procedures documented"
+      ],
+      "whatToExamine": [
+        "Detection tools",
+        "Analysis capabilities",
+        "Alert configurations",
+        "Analysis procedures"
+      ],
+      "redFlags": [
+        "No detection tools",
+        "No analysis capability",
+        "Nobody trained to analyze",
+        "No procedures"
+      ],
+      "dependencies": {
+        "requires": ["ir_2_001"]
+      }
+    },
+    {
+      "id": "ir_2_006",
+      "control": "IR.L2-3.6.6",
+      "question": "Do you contain, eradicate, and recover from incidents?",
+      "context": "Incidents need to be contained to prevent spread, threats removed, and systems recovered.",
+      "examples": "Isolation procedures, malware removal, system restoration, backup recovery",
+      "followUp": "How do you contain incidents? What's the eradication process? How do you recover?",
+      "level": 2,
+      "nistSource": "IR-4",
+      "discussion": "Containment limits damage, eradication removes the threat, and recovery restores normal operations while preventing reinfection.",
+      "assessmentObjectives": [
+        "Containment strategies defined",
+        "Eradication procedures exist",
+        "Recovery processes documented",
+        "Evidence preserved"
+      ],
+      "whatToExamine": [
+        "Containment procedures",
+        "Eradication tools",
+        "Recovery processes",
+        "Evidence handling"
+      ],
+      "redFlags": [
+        "No containment strategy",
+        "Can't remove threats",
+        "No recovery plan",
+        "Evidence destroyed"
+      ],
+      "dependencies": {
+        "requires": ["ir_2_001", "ir_2_005"]
+      }
+    },
+    {
+      "id": "ir_2_007",
+      "control": "IR.L2-3.6.7",
+      "question": "Do you perform post-incident reviews?",
+      "context": "After incidents, review what happened, what worked, what didn't, and how to improve.",
+      "examples": "Post-incident reports, lessons learned meetings, root cause analysis, improvement plans",
+      "followUp": "Do you review all incidents? What's documented? How are improvements tracked?",
+      "level": 2,
+      "nistSource": "IR-4",
+      "discussion": "Post-incident activities improve security posture by identifying root causes, evaluating response effectiveness, and implementing improvements.",
+      "assessmentObjectives": [
+        "Reviews conducted after incidents",
+        "Root causes identified",
+        "Lessons learned documented",
+        "Improvements implemented"
+      ],
+      "whatToExamine": [
+        "Post-incident reports",
+        "Lessons learned documents",
+        "Root cause analyses",
+        "Improvement tracking"
+      ],
+      "redFlags": [
+        "No reviews",
+        "Same incidents repeat",
+        "No lessons learned",
+        "No improvements"
+      ],
+      "dependencies": {
+        "requires": ["ir_2_001", "ir_2_002"]
+      }
+    }
+  ],
+  "metadata": {
+    "version": "2.0",
+    "lastUpdated": "2024-03-15",
+    "totalControls": 7,
+    "level1Controls": 0,
+    "level2Controls": 7,
+    "estimatedTime": "20 minutes"
+  }
+}

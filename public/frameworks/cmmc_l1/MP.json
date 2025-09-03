@@ -1,0 +1,46 @@
+{
+  "domain": "MP",
+  "title": "Media Protection",
+  "icon": "HardDrive",
+  "description": "Protecting data on devices and media",
+  "questions": [
+    {
+      "id": "mp_1_118",
+      "control": "MP.L1-3.8.3",
+      "question": "Do you sanitize equipment before disposal or reuse?",
+      "context": "Wiping hard drives, destroying media that had FCI on it.",
+      "examples": "DBAN for hard drives, physical destruction, certificate of destruction",
+      "followUp": "What happens to old computers? How are hard drives handled?",
+      "level": 1,
+      "nistSource": "MP-6",
+      "discussion": "Media sanitization ensures CUI cannot be retrieved from disposed equipment. This includes hard drives, USB drives, phones, copiers with hard drives, and any device that stored CUI.",
+      "assessmentObjectives": [
+        "Sanitization procedures exist",
+        "Media is sanitized before disposal",
+        "Sanitization is verified/documented"
+      ],
+      "whatToExamine": [
+        "Media sanitization procedures",
+        "Disposal records",
+        "Certificates of destruction",
+        "Sanitization tools used"
+      ],
+      "redFlags": [
+        "Computers thrown in trash",
+        "Hard drives not wiped",
+        "No disposal procedures",
+        "Donated equipment with data"
+      ],
+      "dependencies": {
+        "autoFail": [],
+        "skipIfNo": []
+      }
+    }
+  ],
+  "metadata": {
+    "version": "2.0",
+    "lastUpdated": "2024-03-15",
+    "totalControls": 1,
+    "estimatedTime": "3 minutes"
+  }
+}

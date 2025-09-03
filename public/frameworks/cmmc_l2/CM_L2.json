@@ -1,0 +1,306 @@
+{
+  "domain": "CM",
+  "title": "Configuration Management",
+  "icon": "Settings",
+  "description": "Managing and controlling system configurations and changes",
+  "level": 2,
+  "questions": [
+    {
+      "id": "cm_2_001",
+      "control": "CM.L2-3.4.1",
+      "question": "Do you have baseline configurations for your systems?",
+      "context": "Standard secure configurations for servers, workstations, and network devices.",
+      "examples": "Windows baseline, server hardening guide, router configs, gold images",
+      "followUp": "What baselines do you use? How were they developed? When last updated?",
+      "level": 2,
+      "nistSource": "CM-2",
+      "discussion": "Configuration baselines serve as a basis for future builds, releases, and changes. They include security settings, installed software, and patch levels.",
+      "assessmentObjectives": [
+        "Baseline configurations are documented",
+        "Baselines include security settings",
+        "Different baselines for different system types",
+        "Baselines are maintained current"
+      ],
+      "whatToExamine": [
+        "Configuration baselines",
+        "Hardening guides",
+        "Gold images",
+        "Security templates"
+      ],
+      "redFlags": [
+        "No documented baselines",
+        "Using defaults",
+        "Inconsistent configurations",
+        "Outdated baselines"
+      ],
+      "dependencies": {
+        "enables": ["cm_2_002", "cm_2_003", "cm_2_004", "cm_2_005", "cm_2_006", "cm_2_007"]
+      }
+    },
+    {
+      "id": "cm_2_002",
+      "control": "CM.L2-3.4.2",
+      "question": "Do you track and control configuration changes?",
+      "context": "Changes to systems need approval and documentation to prevent security issues.",
+      "examples": "Change control board, change tickets, configuration management database",
+      "followUp": "How are changes requested? Who approves them? How are they documented?",
+      "level": 2,
+      "nistSource": "CM-3",
+      "discussion": "Configuration change control involves systematic proposal, justification, implementation, testing, review, and disposition of changes.",
+      "assessmentObjectives": [
+        "Change control process exists",
+        "Changes are approved before implementation",
+        "Changes are tested",
+        "Changes are documented"
+      ],
+      "whatToExamine": [
+        "Change control procedures",
+        "Sample change requests",
+        "Approval records",
+        "Change logs"
+      ],
+      "redFlags": [
+        "Anyone can make changes",
+        "No approval process",
+        "Undocumented changes",
+        "No testing before production"
+      ],
+      "dependencies": {
+        "requires": ["cm_2_001"]
+      }
+    },
+    {
+      "id": "cm_2_003",
+      "control": "CM.L2-3.4.3",
+      "question": "Do you analyze security impacts before making changes?",
+      "context": "Changes can introduce vulnerabilities. Security review prevents problems.",
+      "examples": "Security impact analysis, risk assessment for changes, security review checklist",
+      "followUp": "Who does security reviews? What's considered? Any changes rejected for security?",
+      "level": 2,
+      "nistSource": "CM-4",
+      "discussion": "Security impact analysis determines the potential security ramifications of changes prior to implementation.",
+      "assessmentObjectives": [
+        "Security impact analysis is required",
+        "Analysis occurs before approval",
+        "Security representatives involved",
+        "High-risk changes get extra scrutiny"
+      ],
+      "whatToExamine": [
+        "Impact analysis procedures",
+        "Sample analyses",
+        "Security review records",
+        "Risk assessment documentation"
+      ],
+      "redFlags": [
+        "No security review",
+        "Changes first, review later",
+        "Security not consulted",
+        "No risk consideration"
+      ],
+      "dependencies": {
+        "requires": ["cm_2_002"]
+      }
+    },
+    {
+      "id": "cm_2_004",
+      "control": "CM.L2-3.4.4",
+      "question": "Do you define and enforce access restrictions for changes?",
+      "context": "Only authorized personnel should be able to make system changes.",
+      "examples": "Admin rights control, change windows, approval requirements, separation of duties",
+      "followUp": "Who can make changes? Any restrictions on when? How is this enforced?",
+      "level": 2,
+      "nistSource": "CM-5",
+      "discussion": "Access restrictions for change include physical and logical access controls, separation of duties, and automated enforcement mechanisms.",
+      "assessmentObjectives": [
+        "Change access is restricted",
+        "Logical access controls enforced",
+        "Physical access controlled",
+        "Separation of duties implemented"
+      ],
+      "whatToExamine": [
+        "Access control lists",
+        "Admin account management",
+        "Change window definitions",
+        "Enforcement mechanisms"
+      ],
+      "redFlags": [
+        "Too many people can change",
+        "No change windows",
+        "Developers have production access",
+        "No separation of duties"
+      ],
+      "dependencies": {
+        "requires": ["cm_2_002"]
+      }
+    },
+    {
+      "id": "cm_2_005",
+      "control": "CM.L2-3.4.5",
+      "question": "Do you use security settings that restrict functionality?",
+      "context": "Systems should be configured for maximum security, limiting unnecessary features.",
+      "examples": "Disabled services, blocked ports, removed software, security templates",
+      "followUp": "What's disabled or restricted? How do you determine what's necessary?",
+      "level": 2,
+      "nistSource": "CM-6",
+      "discussion": "Organizations configure systems to provide only essential capabilities and specifically prohibit or restrict functions, ports, protocols, and services.",
+      "assessmentObjectives": [
+        "Security configuration settings defined",
+        "Unnecessary functions disabled",
+        "Restrictive settings implemented",
+        "Deviations documented and approved"
+      ],
+      "whatToExamine": [
+        "Security configuration guides",
+        "System settings",
+        "Service configurations",
+        "Deviation documentation"
+      ],
+      "redFlags": [
+        "Everything enabled by default",
+        "Unknown services running",
+        "All ports open",
+        "No hardening applied"
+      ],
+      "dependencies": {
+        "requires": ["cm_2_001"]
+      }
+    },
+    {
+      "id": "cm_2_006",
+      "control": "CM.L2-3.4.6",
+      "question": "Do you restrict software to only what's authorized?",
+      "context": "Unauthorized software can introduce vulnerabilities and violate licenses.",
+      "examples": "Approved software list, application whitelisting, software restriction policies",
+      "followUp": "How do you control what software is installed? What's the approval process?",
+      "level": 2,
+      "nistSource": "CM-7",
+      "discussion": "The organization identifies software programs authorized to execute and prohibits execution of unauthorized software.",
+      "assessmentObjectives": [
+        "Authorized software list exists",
+        "Unauthorized software prohibited",
+        "Enforcement mechanisms in place",
+        "Exceptions are documented"
+      ],
+      "whatToExamine": [
+        "Software inventory",
+        "Authorized software list",
+        "Software restriction policies",
+        "Whitelisting configuration"
+      ],
+      "redFlags": [
+        "Users install anything",
+        "No software inventory",
+        "Unknown programs running",
+        "No installation restrictions"
+      ],
+      "dependencies": {
+        "requires": ["cm_2_001"],
+        "enables": ["cm_2_007", "cm_2_008"]
+      }
+    },
+    {
+      "id": "cm_2_007",
+      "control": "CM.L2-3.4.7",
+      "question": "Do you use application whitelisting/allowlisting?",
+      "context": "Only allowing known-good programs to run prevents malware and unauthorized software.",
+      "examples": "AppLocker, Windows Defender Application Control, software restriction policies",
+      "followUp": "What whitelisting solution? How is the list maintained? How are updates handled?",
+      "level": 2,
+      "nistSource": "CM-7(5)",
+      "discussion": "Application whitelisting allows only authorized software to execute, denying all others by default.",
+      "assessmentObjectives": [
+        "Whitelisting solution deployed",
+        "Whitelist is maintained",
+        "Bypass attempts are logged",
+        "Updates process exists"
+      ],
+      "whatToExamine": [
+        "Whitelisting configuration",
+        "Authorized application list",
+        "Bypass logs",
+        "Update procedures"
+      ],
+      "redFlags": [
+        "No whitelisting",
+        "Blacklisting only",
+        "Whitelist not maintained",
+        "Easy to bypass"
+      ],
+      "dependencies": {
+        "requires": ["cm_2_006"]
+      }
+    },
+    {
+      "id": "cm_2_008",
+      "control": "CM.L2-3.4.8",
+      "question": "Do you control and monitor user-installed software?",
+      "context": "Users shouldn't install software that could compromise CUI systems.",
+      "examples": "Admin rights removal, software installation logs, approval process",
+      "followUp": "Can users install software? How do you track installations? What about portable apps?",
+      "level": 2,
+      "nistSource": "CM-11",
+      "discussion": "Organizations control user installation of software through policies, automated mechanisms, and monitoring.",
+      "assessmentObjectives": [
+        "User installation policies exist",
+        "Installation is monitored",
+        "Unauthorized installs detected",
+        "Enforcement mechanisms in place"
+      ],
+      "whatToExamine": [
+        "Software installation policy",
+        "User permission settings",
+        "Installation logs",
+        "Detection mechanisms"
+      ],
+      "redFlags": [
+        "All users are admins",
+        "No installation monitoring",
+        "Portable apps everywhere",
+        "No policy enforcement"
+      ],
+      "dependencies": {
+        "requires": ["cm_2_006"]
+      }
+    },
+    {
+      "id": "cm_2_009",
+      "control": "CM.L2-3.4.9",
+      "question": "Do you control essential system capabilities?",
+      "context": "Only the minimum necessary programs, services, and ports should be active.",
+      "examples": "Minimal services, least functionality, disabled unnecessary features",
+      "followUp": "How do you determine what's essential? What's been disabled? Any exceptions?",
+      "level": 2,
+      "nistSource": "CM-7(1)",
+      "discussion": "Systems are configured to provide only essential capabilities and specifically prohibit or restrict the use of unnecessary functions.",
+      "assessmentObjectives": [
+        "Essential capabilities defined",
+        "Non-essential disabled",
+        "Periodic reviews conducted",
+        "Exceptions documented"
+      ],
+      "whatToExamine": [
+        "Essential services list",
+        "System configuration",
+        "Disabled features documentation",
+        "Review records"
+      ],
+      "redFlags": [
+        "Everything running",
+        "Don't know what's essential",
+        "Never reviewed",
+        "No documentation"
+      ],
+      "dependencies": {
+        "requires": ["cm_2_001", "cm_2_005"]
+      }
+    }
+  ],
+  "metadata": {
+    "version": "2.0",
+    "lastUpdated": "2024-03-15",
+    "totalControls": 9,
+    "level1Controls": 0,
+    "level2Controls": 9,
+    "estimatedTime": "25 minutes"
+  }
+}

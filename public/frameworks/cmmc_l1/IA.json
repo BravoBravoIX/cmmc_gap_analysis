@@ -1,0 +1,80 @@
+{
+  "domain": "IA",
+  "title": "User Authentication",
+  "icon": "User",
+  "description": "Verifying users are who they say they are",
+  "questions": [
+    {
+      "id": "ia_1_076",
+      "control": "IA.L1-3.5.1",
+      "question": "Does each user have a unique username/ID?",
+      "context": "No shared accounts like 'admin' or 'office'. Each person needs their own login.",
+      "examples": "firstname.lastname format, employee ID, no generic accounts",
+      "followUp": "Are there any shared accounts currently? How are accounts named?",
+      "level": 1,
+      "nistSource": "IA-2",
+      "discussion": "All users must be uniquely identified and authenticated before accessing systems. Generic or shared accounts make it impossible to track who did what.",
+      "assessmentObjectives": [
+        "Each user has a unique identifier",
+        "No shared or group accounts exist",
+        "User identities can be traced to specific individuals"
+      ],
+      "whatToExamine": [
+        "User account list",
+        "Account naming conventions",
+        "Authentication logs",
+        "Account management procedures"
+      ],
+      "redFlags": [
+        "Accounts named 'admin', 'user', 'temp'",
+        "Multiple people know one password",
+        "Generic department accounts",
+        "Guest accounts with access to CUI"
+      ],
+      "dependencies": {
+        "enables": ["ia_1_077"],
+        "autoFail": [],
+        "skipIfNo": []
+      }
+    },
+    {
+      "id": "ia_1_077",
+      "control": "IA.L1-3.5.2",
+      "question": "Do you verify user identity before granting access (passwords, MFA)?",
+      "context": "Users must prove who they are. Passwords are minimum, MFA is better.",
+      "examples": "Windows login, password requirements, multi-factor authentication",
+      "followUp": "What are your password requirements? Is MFA enabled?",
+      "level": 1,
+      "nistSource": "IA-3",
+      "discussion": "Authentication verifies the identity of users, processes, or devices as a prerequisite to allowing access. This typically involves something you know (password), have (token), or are (biometric).",
+      "assessmentObjectives": [
+        "Authentication is required for system access",
+        "Authentication mechanisms are properly configured",
+        "Password or stronger authentication is enforced"
+      ],
+      "whatToExamine": [
+        "Authentication mechanisms",
+        "Password policy",
+        "MFA configuration if applicable",
+        "System login screenshots"
+      ],
+      "redFlags": [
+        "No password required",
+        "Same password for everyone",
+        "Passwords never expire",
+        "Default passwords still in use"
+      ],
+      "dependencies": {
+        "requires": ["ia_1_076"],
+        "autoFail": [],
+        "skipIfNo": []
+      }
+    }
+  ],
+  "metadata": {
+    "version": "2.0",
+    "lastUpdated": "2024-03-15",
+    "totalControls": 2,
+    "estimatedTime": "5 minutes"
+  }
+}

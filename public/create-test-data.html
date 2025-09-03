@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Test Data</title>
+</head>
+<body>
+    <h1>Creating Test Data...</h1>
+    <p>This will create test company data in localStorage.</p>
+    <div id="status">Running...</div>
+
+    <script>
+        function createTestCompany() {
+            const testClient = {
+                id: 'test-company-123',
+                companyName: 'Acme Defense Solutions',
+                dba: 'ADS',
+                industry: 'Defense Contracting',
+                size: {
+                    employees: 150,
+                    revenue: '$10M - $50M',
+                    locations: 2
+                },
+                contact: {
+                    primary: {
+                        name: 'John Smith',
+                        title: 'CISO',
+                        email: 'john.smith@acmedefense.com',
+                        phone: '555-123-4567'
+                    },
+                    technical: {
+                        name: 'Jane Doe',
+                        title: 'IT Manager',
+                        email: 'jane.doe@acmedefense.com',
+                        phone: '555-123-4568'
+                    }
+                },
+                address: {
+                    street1: '123 Defense Drive',
+                    street2: 'Suite 100',
+                    city: 'Arlington',
+                    state: 'VA',
+                    zip: '22201',
+                    country: 'USA'
+                },
+                contracts: {
+                    hasFederalContracts: true,
+                    contractTypes: ['prime', 'subcontractor'],
+                    primeOrSub: 'both',
+                    agencies: ['dod', 'dhs'],
+                    handlesCUI: true,
+                    handlesFCI: true
+                }
+            };
+
+            localStorage.setItem('client_test-company-123', JSON.stringify(testClient));
+            
+            const recentClients = JSON.parse(localStorage.getItem('recentClients') || '[]');
+            const updatedClients = [testClient, ...recentClients.filter(c => c.id !== 'test-company-123')].slice(0, 20);
+            localStorage.setItem('recentClients', JSON.stringify(updatedClients));
+
+            console.log('Test company created:', testClient);
+            return testClient;
+        }
+
+        function createTestSession() {
+            const sessionId = 'test-session-456';
+            const testSession = {
+                id: sessionId,
+                clientId: 'test-company-123',
+                frameworkId: 'cmmc_l1',
+                status: 'in-progress',
+                progress: {
+                    currentDomain: 2,
+                    currentQuestion: 8,
+                    totalQuestions: 17,
+                    answeredQuestions: 8
+                },
+                responses: {
+                    // Access Control questions (using real IDs from AC.json)
+                    'ac_1_001': {
+                        answer: 'yes',
+                        notes: 'We have implemented user accounts with authorized access only',
+                        evidenceOrganized: true,
+                        timestamp: new Date().toISOString()
+                    },
+                    'ac_1_002': {
+                        answer: 'partial',
+                        notes: 'Role-based access is partially implemented - needs refinement',
+                        evidenceOrganized: false,
+                        timestamp: new Date().toISOString()
+                    },
+                    'ac_1_020': {
+                        answer: 'yes',
+                        notes: 'VPN is in place for remote access with authentication',
+                        evidenceOrganized: true,
+                        timestamp: new Date().toISOString()
+                    },
+                    'ac_1_022': {
+                        answer: 'no',
+                        notes: 'Need to implement social media and public posting policy',
+                        evidenceOrganized: false,
+                        timestamp: new Date().toISOString()
+                    },
+                    // User Authentication questions (using real IDs from IA.json)
+                    'ia_1_076': {
+                        answer: 'yes',
+                        notes: 'Each user has unique username - no shared accounts',
+                        evidenceOrganized: true,
+                        timestamp: new Date().toISOString()
+                    },
+                    'ia_1_077': {
+                        answer: 'partial',
+                        notes: 'MFA implemented for admin accounts, rolling out to all users',
+                        evidenceOrganized: true,
+                        timestamp: new Date().toISOString()
+                    },
+                    // System Protection questions
+                    'sc_1_175': {
+                        answer: 'unsure',
+                        notes: 'Need to verify network monitoring capabilities with IT team',
+                        evidenceOrganized: false,
+                        timestamp: new Date().toISOString()
+                    },
+                    // System Health questions  
+                    'si_1_210': {
+                        answer: 'yes',
+                        notes: 'Antivirus deployed on all systems with real-time scanning',
+                        evidenceOrganized: true,
+                        timestamp: new Date().toISOString()
+                    }
+                },
+                startedAt: new Date(Date.now() - 1000 * 60 * 45).toISOString(),
+                lastModified: new Date().toISOString(),
+                notes: 'Initial CMMC Level 1 assessment for defense contractor - 8 of 17 questions completed'
+            };
+
+            localStorage.setItem(`session_${sessionId}`, JSON.stringify(testSession));
+            console.log('Test session created:', testSession);
+            return testSession;
+        }
+
+        // Auto-run when page loads
+        window.onload = function() {
+            try {
+                console.log('Cleaning old test data and creating fresh test data...');
+                // Clean up any existing test data first
+                localStorage.removeItem('client_test-company-123');
+                localStorage.removeItem('session_test-session-456');
+                
+                const company = createTestCompany();
+                const session = createTestSession();
+                
+                document.getElementById('status').innerHTML = `
+                    <div style="color: green;">
+                        <h2>✅ Test Data Created Successfully!</h2>
+                        <p><strong>Company:</strong> ${company.companyName}</p>
+                        <p><strong>Session ID:</strong> ${session.id}</p>
+                        <p><strong>Status:</strong> ${session.status}</p>
+                        <p><strong>Responses:</strong> ${Object.keys(session.responses).length} questions answered</p>
+                        <hr>
+                        <p><strong>Next Steps:</strong></p>
+                        <ol>
+                            <li>Go to <a href="http://localhost:3003">http://localhost:3003</a></li>
+                            <li>You should see "Acme Defense Solutions" in the dashboard</li>
+                            <li>Click on the company to view sessions</li>
+                            <li>Click on the session to view reports</li>
+                            <li>Test PDF, Word, and bulk exports</li>
+                        </ol>
+                    </div>
+                `;
+                
+                // Auto-redirect after 3 seconds
+                setTimeout(() => {
+                    window.location.href = 'http://localhost:3003';
+                }, 3000);
+                
+            } catch (error) {
+                document.getElementById('status').innerHTML = `
+                    <div style="color: red;">
+                        <h2>❌ Error Creating Test Data</h2>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+                console.error('Error creating test data:', error);
+            }
+        };
+    </script>
+</body>
+</html>

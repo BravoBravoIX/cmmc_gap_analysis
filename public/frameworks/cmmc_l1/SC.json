@@ -1,0 +1,80 @@
+{
+  "domain": "SC",
+  "title": "System Protection",
+  "icon": "Network",
+  "description": "Protecting your network and communications",
+  "questions": [
+    {
+      "id": "sc_1_175",
+      "control": "SC.L1-3.13.1",
+      "question": "Do you monitor and protect your network boundaries?",
+      "context": "Your firewall and network security - protecting the perimeter.",
+      "examples": "Firewall configured and enabled, network monitoring",
+      "followUp": "What firewall do you use? Is it actively monitored?",
+      "level": 1,
+      "nistSource": "SC-7",
+      "discussion": "System boundaries include network perimeters and key internal boundaries. Communications are monitored and controlled at these boundaries through firewalls, proxies, and other boundary devices.",
+      "assessmentObjectives": [
+        "Network boundaries are defined",
+        "Boundary protection devices are implemented",
+        "Communications are monitored at boundaries"
+      ],
+      "whatToExamine": [
+        "Network diagrams",
+        "Firewall configurations",
+        "Boundary protection devices",
+        "Network monitoring tools"
+      ],
+      "redFlags": [
+        "No firewall",
+        "Windows firewall disabled",
+        "No network segmentation",
+        "Flat network with no boundaries"
+      ],
+      "dependencies": {
+        "enables": ["sc_1_176"],
+        "autoFail": [],
+        "skipIfNo": []
+      }
+    },
+    {
+      "id": "sc_1_176",
+      "control": "SC.L1-3.13.5",
+      "question": "Do you use publicly available security guidance?",
+      "context": "Using known bad IP lists, security updates from vendors.",
+      "examples": "Windows Defender updates, firewall deny lists, threat feeds",
+      "followUp": "How do security tools get updated? Automatically?",
+      "level": 1,
+      "nistSource": "SC-7(5)",
+      "discussion": "Organizations should use threat intelligence and security guidance from vendors, government sources, and security communities to enhance boundary protection.",
+      "assessmentObjectives": [
+        "Security guidance sources are identified",
+        "Guidance is implemented in security tools",
+        "Updates are applied regularly"
+      ],
+      "whatToExamine": [
+        "Security tool update configurations",
+        "Threat intelligence sources used",
+        "Firewall deny lists",
+        "Security bulletin subscriptions"
+      ],
+      "redFlags": [
+        "Never update security tools",
+        "No threat intelligence used",
+        "Ignore vendor security bulletins",
+        "Manual updates that never happen"
+      ],
+      "dependencies": {
+        "requires": ["sc_1_175"],
+        "autoFail": [],
+        "skipIfNo": []
+      }
+    }
+  ],
+  "metadata": {
+    "version": "2.0",
+    "lastUpdated": "2024-03-15",
+    "totalControls": 2,
+    "estimatedTime": "5 minutes"
+  }
+}

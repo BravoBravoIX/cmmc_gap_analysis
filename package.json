@@ -1,0 +1,43 @@
+{
+  "name": "cmmc-gap-analysis-tool",
+  "version": "1.0.0",
+  "description": "Consultant-led CMMC compliance assessment platform",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@types/uuid": "^10.0.0",
+    "archiver": "^7.0.1",
+    "async-mutex": "^0.5.0",
+    "docx": "^9.5.1",
+    "jszip": "^3.10.1",
+    "lucide-react": "^0.400.0",
+    "next": "^14.2.0",
+    "puppeteer": "^24.18.0",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
+    "typescript": "^5.4.0",
+    "uuid": "^10.0.0",
+    "zustand": "^4.5.0"
+  },
+  "devDependencies": {
+    "@types/archiver": "^6.0.3",
+    "@types/node": "^20.14.0",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "autoprefixer": "^10.4.19",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^14.2.0",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.4"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  }
+}

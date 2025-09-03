@@ -1,0 +1,166 @@
+{
+  "assessmentId": "uuid-generated-assessment-id",
+  "framework": "CMMC Level 1",
+  "responses": {
+    "ac_1_001": {
+      "controlId": "AC.L1-3.1.1",
+      "domain": "AC",
+      "question": "Do you limit system access to only authorized users?",
+      "answer": "yes",
+      "confidence": "high",
+      "notes": "Using Active Directory with formal account management process. Account reviews quarterly.",
+      "evidence": [
+        {
+          "type": "document",
+          "name": "Access Control Policy v2.1",
+          "location": "SharePoint/Policies/",
+          "verified": true
+        },
+        {
+          "type": "screenshot",
+          "name": "AD User Management Console",
+          "location": "evidence/ac_1_001_screenshot.png",
+          "verified": false
+        }
+      ],
+      "followUpCompleted": true,
+      "followUpResponses": {
+        "Who manages user accounts?": "IT Department - specifically John Smith and Jane Doe",
+        "How do you add/remove users?": "Formal ticket process through ServiceNow, requires manager approval"
+      },
+      "timestamp": "2024-03-15T10:30:00Z",
+      "answeredBy": "consultant@company.com"
+    },
+    "ac_1_002": {
+      "controlId": "AC.L1-3.1.2",
+      "domain": "AC",
+      "question": "Do you limit what authorized users can do based on their job role?",
+      "answer": "partial",
+      "confidence": "medium",
+      "notes": "Role-based access for most systems but not consistently implemented across all applications",
+      "evidence": [],
+      "followUpCompleted": true,
+      "followUpResponses": {
+        "Do you have different permission levels?": "Yes for Windows/AD, No for some legacy apps",
+        "Who has admin access?": "IT team (4 people) plus some developers (needs review)"
+      },
+      "timestamp": "2024-03-15T10:35:00Z",
+      "answeredBy": "consultant@company.com"
+    },
+    "ac_1_020": {
+      "controlId": "AC.L1-3.1.20",
+      "domain": "AC",
+      "question": "Do you control connections from external systems?",
+      "answer": "no",
+      "confidence": "high",
+      "notes": "No VPN currently. Users use RDP directly to servers (major finding)",
+      "evidence": [],
+      "followUpCompleted": true,
+      "followUpResponses": {
+        "How do employees connect remotely?": "Direct RDP to server (port forwarded)",
+        "What about contractors?": "Same as employees - given RDP credentials"
+      },
+      "remediation": {
+        "priority": "critical",
+        "estimatedEffort": "2 weeks",
+        "recommendation": "Implement VPN solution immediately. Disable direct RDP."
+      },
+      "timestamp": "2024-03-15T10:40:00Z",
+      "answeredBy": "consultant@company.com"
+    },
+    "ac_1_022": {
+      "controlId": "AC.L1-3.1.22",
+      "domain": "AC",
+      "question": "Do you control what employees can post publicly about federal contracts?",
+      "answer": "unsure",
+      "confidence": "low",
+      "notes": "No formal policy found. Need to check with HR and Marketing.",
+      "evidence": [],
+      "followUpCompleted": false,
+      "followUpResponses": {},
+      "requiresHomework": true,
+      "homeworkAssigned": {
+        "task": "Locate social media policy and training materials",
+        "assignedTo": "HR Manager",
+        "dueDate": "2024-03-22"
+      },
+      "timestamp": "2024-03-15T10:45:00Z",
+      "answeredBy": "consultant@company.com"
+    }
+  },
+  "statistics": {
+    "totalControls": 17,
+    "assessed": 4,
+    "remaining": 13,
+    "results": {
+      "yes": 1,
+      "partial": 1,
+      "no": 1,
+      "unsure": 1,
+      "notApplicable": 0,
+      "notAssessed": 13
+    },
+    "byDomain": {
+      "AC": {
+        "total": 4,
+        "assessed": 4,
+        "yes": 1,
+        "partial": 1,
+        "no": 1,
+        "unsure": 1
+      },
+      "IA": {
+        "total": 2,
+        "assessed": 0,
+        "yes": 0,
+        "partial": 0,
+        "no": 0,
+        "unsure": 0
+      }
+    },
+    "score": {
+      "current": 35,
+      "projected": 65,
+      "confidence": "medium"
+    },
+    "criticalFindings": [
+      {
+        "controlId": "AC.L1-3.1.20",
+        "issue": "Direct RDP access from internet",
+        "risk": "critical",
+        "impact": "Unauthorized access to CUI systems"
+      }
+    ]
+  },
+  "homework": [
+    {
+      "id": "hw_001",
+      "controlId": "AC.L1-3.1.22",
+      "question": "Locate and provide social media policy",
+      "assignedTo": "HR Manager",
+      "dueDate": "2024-03-22",
+      "status": "pending",
+      "notes": "Check with Marketing team as well"
+    }
+  ],
+  "session": {
+    "duration": 1800,
+    "startTime": "2024-03-15T10:00:00Z",
+    "endTime": "2024-03-15T10:30:00Z",
+    "pauseEvents": [],
+    "completionPercentage": 23.5
+  },
+  "signatures": {
+    "consultant": {
+      "name": "",
+      "date": null,
+      "signed": false
+    },
+    "client": {
+      "name": "",
+      "title": "",
+      "date": null,
+      "signed": false
+    }
+  }
+}

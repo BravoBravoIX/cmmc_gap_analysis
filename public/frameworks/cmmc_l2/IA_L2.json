@@ -1,0 +1,344 @@
+{
+  "domain": "IA",
+  "title": "Identification and Authentication",
+  "icon": "User",
+  "description": "Verifying the identity of users, processes, and devices",
+  "level": 2,
+  "questions": [
+    {
+      "id": "ia_2_001",
+      "control": "IA.L1-3.5.1",
+      "question": "Does each user have a unique username/ID?",
+      "context": "No shared accounts like 'admin' or 'office'. Each person needs their own login.",
+      "examples": "firstname.lastname format, employee ID, no generic accounts",
+      "followUp": "Are there any shared accounts currently? How are accounts named?",
+      "level": 1,
+      "nistSource": "IA-2",
+      "assessmentObjectives": [
+        "Each user has unique identifier",
+        "No shared or group accounts exist",
+        "User identities traceable to individuals"
+      ],
+      "dependencies": {
+        "enables": ["ia_2_002", "ia_2_003", "ia_2_004", "ia_2_005"]
+      }
+    },
+    {
+      "id": "ia_2_002",
+      "control": "IA.L1-3.5.2",
+      "question": "Do you verify user identity before granting access (passwords, MFA)?",
+      "context": "Users must prove who they are. Passwords are minimum, MFA is better.",
+      "examples": "Windows login, password requirements, multi-factor authentication",
+      "followUp": "What are your password requirements? Is MFA enabled?",
+      "level": 1,
+      "nistSource": "IA-3",
+      "assessmentObjectives": [
+        "Authentication required for access",
+        "Authentication mechanisms configured",
+        "Password or stronger authentication enforced"
+      ],
+      "dependencies": {
+        "requires": ["ia_2_001"],
+        "enables": ["ia_2_003", "ia_2_004", "ia_2_005", "ia_2_006", "ia_2_007", "ia_2_008", "ia_2_009", "ia_2_010", "ia_2_011"]
+      }
+    },
+    {
+      "id": "ia_2_003",
+      "control": "IA.L2-3.5.3",
+      "question": "Do you use multi-factor authentication (MFA)?",
+      "context": "MFA requires something you know (password) plus something you have (phone/token) or are (fingerprint).",
+      "examples": "SMS codes, authenticator apps, hardware tokens, biometrics",
+      "followUp": "What MFA methods are used? For all users or just some? Any exceptions?",
+      "level": 2,
+      "nistSource": "IA-2(1)",
+      "discussion": "Multi-factor authentication provides increased assurance that users are who they claim to be. It significantly reduces account compromise risk.",
+      "assessmentObjectives": [
+        "MFA is implemented",
+        "Multiple factors required",
+        "MFA covers network access",
+        "MFA covers privileged accounts"
+      ],
+      "whatToExamine": [
+        "MFA configuration",
+        "Authentication policies",
+        "MFA enrollment records",
+        "Exception documentation"
+      ],
+      "redFlags": [
+        "No MFA anywhere",
+        "Password-only access",
+        "MFA optional",
+        "Many exceptions"
+      ],
+      "dependencies": {
+        "requires": ["ia_2_002"],
+        "enables": ["ia_2_004", "ia_2_010"],
+        "skipIfNo": ["ia_2_004", "ia_2_010"]
+      }
+    },
+    {
+      "id": "ia_2_004",
+      "control": "IA.L2-3.5.4",
+      "question": "Do privileged accounts use MFA?",
+      "context": "Admin accounts absolutely must have MFA - they're high-value targets.",
+      "examples": "Admin MFA required, no exceptions for administrators, privileged access management",
+      "followUp": "Do ALL admin accounts have MFA? Any service accounts without it?",
+      "level": 2,
+      "nistSource": "IA-2(2)",
+      "discussion": "Privileged accounts have elevated access and require stronger authentication. MFA for these accounts is critical.",
+      "assessmentObjectives": [
+        "All privileged accounts identified",
+        "MFA required for privileged access",
+        "No exceptions for admins",
+        "Service accounts addressed"
+      ],
+      "whatToExamine": [
+        "Privileged account list",
+        "MFA enforcement settings",
+        "Admin login procedures",
+        "Service account documentation"
+      ],
+      "redFlags": [
+        "Some admins without MFA",
+        "Service accounts excluded",
+        "Shared admin passwords",
+        "MFA can be bypassed"
+      ],
+      "dependencies": {
+        "requires": ["ia_2_003"]
+      }
+    },
+    {
+      "id": "ia_2_005",
+      "control": "IA.L2-3.5.5",
+      "question": "Do you replay-resistant authentication for network access?",
+      "context": "Authentication should prevent captured credentials from being reused.",
+      "examples": "One-time passwords, challenge-response, timestamps, nonces",
+      "followUp": "What prevents credential replay attacks? How are sessions protected?",
+      "level": 2,
+      "nistSource": "IA-2(8)",
+      "discussion": "Replay-resistant mechanisms prevent captured authentication data from being reused to gain unauthorized access.",
+      "assessmentObjectives": [
+        "Replay resistance implemented",
+        "Time-based or one-time tokens used",
+        "Session hijacking prevented",
+        "Network protocols secure"
+      ],
+      "whatToExamine": [
+        "Authentication mechanisms",
+        "Protocol configurations",
+        "Session management",
+        "Token implementation"
+      ],
+      "redFlags": [
+        "Static passwords only",
+        "No session protection",
+        "Credentials in clear text",
+        "Tokens never expire"
+      ],
+      "dependencies": {
+        "requires": ["ia_2_002"]
+      }
+    },
+    {
+      "id": "ia_2_006",
+      "control": "IA.L2-3.5.6",
+      "question": "Do you disable accounts after a period of inactivity?",
+      "context": "Unused accounts are security risks - they should be automatically disabled.",
+      "examples": "90-day inactivity disables account, quarterly account reviews, automated deactivation",
+      "followUp": "When are inactive accounts disabled? How do you identify them? What's the process?",
+      "level": 2,
+      "nistSource": "IA-4",
+      "discussion": "Inactive accounts provide unnecessary attack surface. Automatic disabling ensures unused accounts can't be exploited.",
+      "assessmentObjectives": [
+        "Inactivity period defined",
+        "Automatic disabling configured",
+        "Regular reviews conducted",
+        "Reactivation process exists"
+      ],
+      "whatToExamine": [
+        "Account management policy",
+        "Inactivity settings",
+        "Disabled account reports",
+        "Reactivation procedures"
+      ],
+      "redFlags": [
+        "Accounts never disabled",
+        "Years of inactive accounts",
+        "No monitoring of usage",
+        "Ex-employees still active"
+      ],
+      "dependencies": {
+        "requires": ["ia_2_001"]
+      }
+    },
+    {
+      "id": "ia_2_007",
+      "control": "IA.L2-3.5.7",
+      "question": "Do you enforce minimum password complexity?",
+      "context": "Passwords need to be strong enough to resist guessing and cracking.",
+      "examples": "12+ characters, upper/lower/number/special, no dictionary words, no reuse",
+      "followUp": "What are the password requirements? How are they enforced? Any exceptions?",
+      "level": 2,
+      "nistSource": "IA-5",
+      "discussion": "Password complexity requirements make passwords harder to guess or crack. Length is more important than complexity.",
+      "assessmentObjectives": [
+        "Complexity requirements defined",
+        "Technical enforcement in place",
+        "Minimum length adequate (12+)",
+        "Password history enforced"
+      ],
+      "whatToExamine": [
+        "Password policy",
+        "Technical settings",
+        "Enforcement mechanisms",
+        "User guidance"
+      ],
+      "redFlags": [
+        "8 character passwords",
+        "No complexity required",
+        "Same password forever",
+        "Password1! everywhere"
+      ],
+      "dependencies": {
+        "requires": ["ia_2_002"]
+      }
+    },
+    {
+      "id": "ia_2_008",
+      "control": "IA.L2-3.5.8",
+      "question": "Do you prohibit password reuse?",
+      "context": "Users shouldn't cycle through the same passwords repeatedly.",
+      "examples": "Remember last 24 passwords, minimum age before change, no common passwords",
+      "followUp": "How many passwords are remembered? Can users change back immediately?",
+      "level": 2,
+      "nistSource": "IA-5(1)",
+      "discussion": "Password reuse restrictions prevent users from alternating between a small set of passwords, maintaining better security over time.",
+      "assessmentObjectives": [
+        "Password history enforced",
+        "Sufficient passwords remembered (24)",
+        "Minimum age configured",
+        "Technical enforcement active"
+      ],
+      "whatToExamine": [
+        "Password history settings",
+        "Domain/system policies",
+        "Technical configurations",
+        "Enforcement reports"
+      ],
+      "redFlags": [
+        "No password history",
+        "Only 3 passwords remembered",
+        "Can change back same day",
+        "Not technically enforced"
+      ],
+      "dependencies": {
+        "requires": ["ia_2_007"]
+      }
+    },
+    {
+      "id": "ia_2_009",
+      "control": "IA.L2-3.5.9",
+      "question": "Do you encrypt passwords in storage and transmission?",
+      "context": "Passwords must be protected both when saved and when sent over networks.",
+      "examples": "Hashed passwords, TLS/SSL for transmission, no plain text storage",
+      "followUp": "How are passwords stored? Are they encrypted in transit? Any legacy systems?",
+      "level": 2,
+      "nistSource": "IA-5(1)",
+      "discussion": "Cryptographic protection of passwords prevents their disclosure if systems are compromised or network traffic intercepted.",
+      "assessmentObjectives": [
+        "Passwords cryptographically protected",
+        "Strong hashing algorithms used",
+        "Transmission encrypted",
+        "No plain text passwords"
+      ],
+      "whatToExamine": [
+        "Password storage methods",
+        "Encryption configurations",
+        "Network protocols",
+        "Legacy system inventory"
+      ],
+      "redFlags": [
+        "Plain text passwords",
+        "Weak hashing (MD5)",
+        "Unencrypted protocols",
+        "Passwords in config files"
+      ],
+      "dependencies": {
+        "requires": ["ia_2_002", "ia_2_007"]
+      }
+    },
+    {
+      "id": "ia_2_010",
+      "control": "IA.L2-3.5.10",
+      "question": "Do you use temporary passwords that must be changed?",
+      "context": "Initial or reset passwords should be temporary and require immediate change.",
+      "examples": "Force change on first login, temporary password expires, unique initial passwords",
+      "followUp": "What happens with new accounts? How are passwords reset? Must they be changed?",
+      "level": 2,
+      "nistSource": "IA-5(1)",
+      "discussion": "Temporary passwords ensure users create their own unique passwords and prevent default passwords from remaining active.",
+      "assessmentObjectives": [
+        "Temporary passwords issued",
+        "Immediate change required",
+        "Temporary passwords unique",
+        "Expiration enforced"
+      ],
+      "whatToExamine": [
+        "Account creation process",
+        "Password reset procedures",
+        "First login requirements",
+        "Temporary password policy"
+      ],
+      "redFlags": [
+        "Same default password",
+        "No forced change",
+        "Passwords emailed",
+        "Never expire"
+      ],
+      "dependencies": {
+        "requires": ["ia_2_002", "ia_2_007"]
+      }
+    },
+    {
+      "id": "ia_2_011",
+      "control": "IA.L2-3.5.11",
+      "question": "Do you obscure feedback during authentication?",
+      "context": "Passwords shouldn't be visible when typed, and errors shouldn't reveal valid usernames.",
+      "examples": "Password masking, generic error messages, no username confirmation",
+      "followUp": "Are passwords hidden when typed? What do error messages say? Any information leakage?",
+      "level": 2,
+      "nistSource": "IA-6",
+      "discussion": "Obscuring authentication feedback prevents shoulder surfing and username enumeration attacks.",
+      "assessmentObjectives": [
+        "Passwords masked during entry",
+        "Generic error messages used",
+        "No username enumeration",
+        "No timing differences"
+      ],
+      "whatToExamine": [
+        "Login interfaces",
+        "Error messages",
+        "Password fields",
+        "Authentication responses"
+      ],
+      "redFlags": [
+        "Passwords shown in clear",
+        "Invalid username vs password",
+        "Different response times",
+        "Username confirmation"
+      ],
+      "dependencies": {
+        "requires": ["ia_2_002"]
+      }
+    }
+  ],
+  "metadata": {
+    "version": "2.0",
+    "lastUpdated": "2024-03-15",
+    "totalControls": 11,
+    "level1Controls": 2,
+    "level2Controls": 9,
+    "estimatedTime": "25 minutes"
+  }
+}

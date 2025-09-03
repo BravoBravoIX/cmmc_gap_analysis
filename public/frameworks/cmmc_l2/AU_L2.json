@@ -1,0 +1,303 @@
+{
+  "domain": "AU",
+  "title": "Audit and Accountability",
+  "icon": "FileText",
+  "description": "Logging, monitoring, and accountability for system events",
+  "level": 2,
+  "questions": [
+    {
+      "id": "au_2_001",
+      "control": "AU.L2-3.3.1",
+      "question": "Do you create and retain audit logs for CUI systems?",
+      "context": "You need to log important events like logins, access to CUI, and system changes.",
+      "examples": "Windows Event Logs, syslog, application logs, security logs",
+      "followUp": "What events do you log? Where are logs stored? How long are they kept?",
+      "level": 2,
+      "nistSource": "AU-2",
+      "discussion": "Audit logs record events that occur within systems and networks. These logs are essential for detecting security incidents, troubleshooting, and forensics.",
+      "assessmentObjectives": [
+        "Auditable events are defined",
+        "Audit logging is enabled",
+        "Logs capture required events"
+      ],
+      "whatToExamine": [
+        "Audit log configuration",
+        "List of auditable events",
+        "Sample audit logs",
+        "Log retention policy"
+      ],
+      "redFlags": [
+        "Logging disabled",
+        "Only default Windows logs",
+        "No CUI access logging",
+        "Logs deleted immediately"
+      ],
+      "dependencies": {
+        "enables": ["au_2_002", "au_2_003", "au_2_004", "au_2_005", "au_2_006", "au_2_007", "au_2_008", "au_2_009"],
+        "autoFail": ["au_2_002", "au_2_003", "au_2_004", "au_2_005", "au_2_006", "au_2_007", "au_2_008", "au_2_009"]
+      }
+    },
+    {
+      "id": "au_2_002",
+      "control": "AU.L2-3.3.2",
+      "question": "Do audit logs capture who, what, when, where, and outcome of events?",
+      "context": "Logs must have enough detail to understand what happened and who did it.",
+      "examples": "Username, timestamp, source IP, action performed, success/failure",
+      "followUp": "Show me a sample log entry. Can you tell who did what and when?",
+      "level": 2,
+      "nistSource": "AU-3",
+      "discussion": "Audit record content must support incident investigations and meet regulatory requirements. Each log entry needs sufficient detail to reconstruct events.",
+      "assessmentObjectives": [
+        "Log content includes user identity",
+        "Timestamps are accurate and consistent",
+        "Event outcomes are recorded",
+        "Source and destination are captured"
+      ],
+      "whatToExamine": [
+        "Sample audit records",
+        "Log format documentation",
+        "Timestamp configuration",
+        "User identification methods"
+      ],
+      "redFlags": [
+        "Generic or missing usernames",
+        "No timestamps",
+        "Can't tell what was accessed",
+        "No success/failure indicators"
+      ],
+      "dependencies": {
+        "requires": ["au_2_001"]
+      }
+    },
+    {
+      "id": "au_2_003",
+      "control": "AU.L2-3.3.3",
+      "question": "Does your logging system allocate enough storage for audit logs?",
+      "context": "Running out of log space means losing critical security information.",
+      "examples": "Dedicated log partition, log rotation, archive storage, monitoring disk space",
+      "followUp": "How much log storage do you have? What happens when it fills up?",
+      "level": 2,
+      "nistSource": "AU-4",
+      "discussion": "Audit log capacity must be sufficient to retain logs for the required period. Systems need to handle high-volume events without losing data.",
+      "assessmentObjectives": [
+        "Log storage capacity is planned",
+        "Storage allocation is monitored",
+        "Actions for storage exceeded are defined"
+      ],
+      "whatToExamine": [
+        "Log storage configuration",
+        "Disk space monitoring",
+        "Log rotation settings",
+        "Archive procedures"
+      ],
+      "redFlags": [
+        "Logs on system drive",
+        "No monitoring of space",
+        "Logs overwrite when full",
+        "No archival process"
+      ],
+      "dependencies": {
+        "requires": ["au_2_001"]
+      }
+    },
+    {
+      "id": "au_2_004",
+      "control": "AU.L2-3.3.4",
+      "question": "Do you alert when audit logging fails?",
+      "context": "If logging stops working, you're blind to attacks and need to know immediately.",
+      "examples": "Alerts for log service stopped, disk full, can't write logs",
+      "followUp": "What triggers alerts? Who gets notified? What's the response procedure?",
+      "level": 2,
+      "nistSource": "AU-5",
+      "discussion": "Audit logging failures can indicate attacks or system problems. Immediate notification ensures logging is restored quickly.",
+      "assessmentObjectives": [
+        "Audit failures are detected",
+        "Alerts are generated",
+        "Response procedures exist"
+      ],
+      "whatToExamine": [
+        "Alert configuration",
+        "Notification procedures",
+        "Sample alerts",
+        "Response documentation"
+      ],
+      "redFlags": [
+        "No monitoring of log service",
+        "No alerts configured",
+        "Nobody assigned to respond",
+        "Logging fails silently"
+      ],
+      "dependencies": {
+        "requires": ["au_2_001"]
+      }
+    },
+    {
+      "id": "au_2_005",
+      "control": "AU.L2-3.3.5",
+      "question": "Do you correlate and review audit logs regularly?",
+      "context": "Logs are useless if nobody looks at them. Regular review catches problems early.",
+      "examples": "Daily log review, SIEM correlation, weekly reports, automated analysis",
+      "followUp": "Who reviews logs? How often? What are they looking for?",
+      "level": 2,
+      "nistSource": "AU-6",
+      "discussion": "Audit review, analysis, and reporting help identify inappropriate or unusual activity. Correlation across multiple logs provides better detection.",
+      "assessmentObjectives": [
+        "Log review process exists",
+        "Reviews occur regularly",
+        "Correlation capabilities exist",
+        "Findings are investigated"
+      ],
+      "whatToExamine": [
+        "Log review procedures",
+        "Review records/reports",
+        "SIEM or analysis tools",
+        "Investigation records"
+      ],
+      "redFlags": [
+        "Never review logs",
+        "Only look after incident",
+        "No correlation capability",
+        "No documented reviews"
+      ],
+      "dependencies": {
+        "requires": ["au_2_001", "au_2_002"]
+      }
+    },
+    {
+      "id": "au_2_006",
+      "control": "AU.L2-3.3.6",
+      "question": "Do you reduce and report audit logs to appropriate personnel?",
+      "context": "Raw logs are overwhelming. Summaries and reports make them actionable.",
+      "examples": "Executive dashboards, security reports, trend analysis, anomaly reports",
+      "followUp": "What reports are generated? Who receives them? How often?",
+      "level": 2,
+      "nistSource": "AU-7",
+      "discussion": "Audit reduction transforms raw logs into useful information. On-demand reporting supports investigations and compliance requirements.",
+      "assessmentObjectives": [
+        "Audit reduction capability exists",
+        "Reports are generated",
+        "Appropriate personnel receive reports",
+        "On-demand reporting available"
+      ],
+      "whatToExamine": [
+        "Sample reports",
+        "Report distribution lists",
+        "Reporting tools",
+        "Report generation procedures"
+      ],
+      "redFlags": [
+        "Only raw logs available",
+        "No reporting capability",
+        "Reports not distributed",
+        "Can't generate custom reports"
+      ],
+      "dependencies": {
+        "requires": ["au_2_001", "au_2_005"]
+      }
+    },
+    {
+      "id": "au_2_007",
+      "control": "AU.L2-3.3.7",
+      "question": "Do you protect audit logs from unauthorized access and modification?",
+      "context": "Attackers try to cover their tracks by deleting or modifying logs.",
+      "examples": "Read-only logs, separate log server, access controls, integrity monitoring",
+      "followUp": "Who can access logs? Can they be modified? How do you detect tampering?",
+      "level": 2,
+      "nistSource": "AU-9",
+      "discussion": "Audit information and tools must be protected from unauthorized access, modification, and deletion. This maintains the integrity of audit trails.",
+      "assessmentObjectives": [
+        "Log access is restricted",
+        "Logs are write-protected",
+        "Integrity mechanisms exist",
+        "Unauthorized changes are detected"
+      ],
+      "whatToExamine": [
+        "Log access controls",
+        "Log server configuration",
+        "Integrity monitoring tools",
+        "Change detection mechanisms"
+      ],
+      "redFlags": [
+        "Everyone can access logs",
+        "Logs can be edited",
+        "No integrity checking",
+        "Local logs only"
+      ],
+      "dependencies": {
+        "requires": ["au_2_001"]
+      }
+    },
+    {
+      "id": "au_2_008",
+      "control": "AU.L2-3.3.8",
+      "question": "Do you collect audit logs centrally?",
+      "context": "Central log collection prevents loss if a system is compromised and enables correlation.",
+      "examples": "Syslog server, SIEM, log aggregation service, centralized logging",
+      "followUp": "Where are logs sent? How quickly? What if the connection fails?",
+      "level": 2,
+      "nistSource": "AU-9(2)",
+      "discussion": "Backing up audit logs to a different system protects against local log tampering and provides centralized analysis capabilities.",
+      "assessmentObjectives": [
+        "Central log collection exists",
+        "Logs are transmitted securely",
+        "Collection is near real-time",
+        "Failed transfers are handled"
+      ],
+      "whatToExamine": [
+        "Log collection architecture",
+        "Syslog/SIEM configuration",
+        "Network traffic flows",
+        "Backup procedures"
+      ],
+      "redFlags": [
+        "Only local logs",
+        "Manual log collection",
+        "Unencrypted transmission",
+        "No redundancy"
+      ],
+      "dependencies": {
+        "requires": ["au_2_001", "au_2_007"]
+      }
+    },
+    {
+      "id": "au_2_009",
+      "control": "AU.L2-3.3.9",
+      "question": "Do you use timestamps from a synchronized source?",
+      "context": "Accurate timestamps are critical for correlating events across systems.",
+      "examples": "NTP server, domain controller time sync, GPS time source",
+      "followUp": "How do systems get their time? How often do they sync? What's the time source?",
+      "level": 2,
+      "nistSource": "AU-8",
+      "discussion": "Time stamps must be synchronized across all systems to support correlation of audit records and accurate forensic analysis.",
+      "assessmentObjectives": [
+        "Time synchronization is configured",
+        "Authoritative time source is used",
+        "Synchronization occurs regularly",
+        "Time drift is monitored"
+      ],
+      "whatToExamine": [
+        "NTP configuration",
+        "Time sync settings",
+        "Time source documentation",
+        "Clock drift monitoring"
+      ],
+      "redFlags": [
+        "No time sync",
+        "Using internet time",
+        "Clocks drift apart",
+        "Manual time setting"
+      ],
+      "dependencies": {
+        "requires": ["au_2_001", "au_2_002"]
+      }
+    }
+  ],
+  "metadata": {
+    "version": "2.0",
+    "lastUpdated": "2024-03-15",
+    "totalControls": 9,
+    "level1Controls": 0,
+    "level2Controls": 9,
+    "estimatedTime": "20 minutes"
+  }
+}

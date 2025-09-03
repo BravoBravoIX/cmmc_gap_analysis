@@ -1,0 +1,210 @@
+{
+  "domain": "MA",
+  "title": "Maintenance",
+  "icon": "Wrench",
+  "description": "Managing system maintenance activities and personnel",
+  "level": 2,
+  "questions": [
+    {
+      "id": "ma_2_001",
+      "control": "MA.L2-3.7.1",
+      "question": "Do you perform and document system maintenance?",
+      "context": "Maintenance activities need to be scheduled, approved, and documented.",
+      "examples": "Maintenance schedules, work orders, maintenance logs, change tickets",
+      "followUp": "How is maintenance scheduled? Who approves it? Where is it documented?",
+      "level": 2,
+      "nistSource": "MA-2",
+      "discussion": "Controlled maintenance ensures systems remain secure during and after maintenance activities. Documentation provides accountability.",
+      "assessmentObjectives": [
+        "Maintenance schedule exists",
+        "Maintenance is approved",
+        "Activities are documented",
+        "Records are maintained"
+      ],
+      "whatToExamine": [
+        "Maintenance schedules",
+        "Maintenance records",
+        "Approval documentation",
+        "Maintenance procedures"
+      ],
+      "redFlags": [
+        "Ad-hoc maintenance",
+        "No documentation",
+        "No approval process",
+        "No records kept"
+      ],
+      "dependencies": {
+        "enables": ["ma_2_002", "ma_2_003", "ma_2_004", "ma_2_005", "ma_2_006"]
+      }
+    },
+    {
+      "id": "ma_2_002",
+      "control": "MA.L2-3.7.2",
+      "question": "Do you control maintenance tools and personnel?",
+      "context": "Maintenance tools and personnel can access sensitive areas and need proper controls.",
+      "examples": "Tool inventory, personnel vetting, supervised maintenance, tool inspection",
+      "followUp": "What tools are used? Who performs maintenance? How are they supervised?",
+      "level": 2,
+      "nistSource": "MA-3",
+      "discussion": "Maintenance tools can introduce vulnerabilities. Personnel need appropriate access controls and supervision.",
+      "assessmentObjectives": [
+        "Maintenance tools controlled",
+        "Personnel are vetted",
+        "Supervision provided as needed",
+        "Tools inspected for malware"
+      ],
+      "whatToExamine": [
+        "Tool control procedures",
+        "Personnel vetting records",
+        "Supervision requirements",
+        "Tool inspection logs"
+      ],
+      "redFlags": [
+        "Unknown tools used",
+        "Unvetted personnel",
+        "Unsupervised access",
+        "No tool inspection"
+      ],
+      "dependencies": {
+        "requires": ["ma_2_001"]
+      }
+    },
+    {
+      "id": "ma_2_003",
+      "control": "MA.L2-3.7.3",
+      "question": "Do you supervise maintenance when personnel don't have required access authorization?",
+      "context": "Vendors or contractors without clearance need escort and supervision during maintenance.",
+      "examples": "Escort requirements, supervision procedures, visitor badges, work monitoring",
+      "followUp": "How are contractors supervised? Who escorts them? What can they access?",
+      "level": 2,
+      "nistSource": "MA-5",
+      "discussion": "Personnel without required access authorization must be supervised to prevent unauthorized access to CUI or system modifications.",
+      "assessmentObjectives": [
+        "Supervision requirements defined",
+        "Escorts assigned",
+        "Activities monitored",
+        "Access limited appropriately"
+      ],
+      "whatToExamine": [
+        "Supervision procedures",
+        "Escort logs",
+        "Contractor access records",
+        "Monitoring documentation"
+      ],
+      "redFlags": [
+        "Contractors work alone",
+        "No supervision",
+        "Full access granted",
+        "No monitoring"
+      ],
+      "dependencies": {
+        "requires": ["ma_2_001", "ma_2_002"]
+      }
+    },
+    {
+      "id": "ma_2_004",
+      "control": "MA.L2-3.7.4",
+      "question": "Do you control and monitor remote maintenance?",
+      "context": "Remote maintenance is high-risk and needs extra controls like approval and monitoring.",
+      "examples": "Remote access approval, session recording, strong authentication, audit logs",
+      "followUp": "Is remote maintenance allowed? How is it approved? How is it monitored?",
+      "level": 2,
+      "nistSource": "MA-4",
+      "discussion": "Remote maintenance provides external access to systems. It requires approval, strong authentication, and monitoring.",
+      "assessmentObjectives": [
+        "Remote maintenance policy exists",
+        "Approval required",
+        "Strong authentication used",
+        "Sessions monitored/recorded"
+      ],
+      "whatToExamine": [
+        "Remote maintenance policy",
+        "Approval records",
+        "Authentication mechanisms",
+        "Session logs/recordings"
+      ],
+      "redFlags": [
+        "Unrestricted remote access",
+        "No approval needed",
+        "Weak authentication",
+        "No monitoring"
+      ],
+      "dependencies": {
+        "requires": ["ma_2_001"],
+        "enables": ["ma_2_005"]
+      }
+    },
+    {
+      "id": "ma_2_005",
+      "control": "MA.L2-3.7.5",
+      "question": "Do you require MFA for remote maintenance?",
+      "context": "Remote maintenance is high-risk and must use multi-factor authentication.",
+      "examples": "VPN with MFA, privileged access management, hardware tokens for vendors",
+      "followUp": "What MFA is required for remote maintenance? Any exceptions? How is it enforced?",
+      "level": 2,
+      "nistSource": "MA-4(6)",
+      "discussion": "Multi-factor authentication for remote maintenance prevents unauthorized access even if passwords are compromised.",
+      "assessmentObjectives": [
+        "MFA required for all remote maintenance",
+        "No exceptions",
+        "Technical enforcement",
+        "Vendors included"
+      ],
+      "whatToExamine": [
+        "Remote access configuration",
+        "MFA requirements",
+        "Vendor access procedures",
+        "Authentication logs"
+      ],
+      "redFlags": [
+        "Password-only access",
+        "MFA optional",
+        "Vendor exceptions",
+        "Shared accounts"
+      ],
+      "dependencies": {
+        "requires": ["ma_2_004"]
+      }
+    },
+    {
+      "id": "ma_2_006",
+      "control": "MA.L2-3.7.6",
+      "question": "Do you terminate remote sessions when maintenance is complete?",
+      "context": "Remote maintenance sessions should end immediately when work is done.",
+      "examples": "Automatic session timeout, manual termination requirement, session monitoring",
+      "followUp": "How are sessions terminated? Any automatic timeouts? Who verifies termination?",
+      "level": 2,
+      "nistSource": "MA-4(3)",
+      "discussion": "Terminating maintenance sessions prevents unauthorized access through forgotten or hijacked connections.",
+      "assessmentObjectives": [
+        "Session termination required",
+        "Automatic timeouts configured",
+        "Termination verified",
+        "No persistent connections"
+      ],
+      "whatToExamine": [
+        "Session timeout settings",
+        "Termination procedures",
+        "Session logs",
+        "Connection monitoring"
+      ],
+      "redFlags": [
+        "Sessions left open",
+        "No timeouts",
+        "Persistent connections",
+        "No verification"
+      ],
+      "dependencies": {
+        "requires": ["ma_2_004"]
+      }
+    }
+  ],
+  "metadata": {
+    "version": "2.0",
+    "lastUpdated": "2024-03-15",
+    "totalControls": 6,
+    "level1Controls": 0,
+    "level2Controls": 6,
+    "estimatedTime": "15 minutes"
+  }
+}

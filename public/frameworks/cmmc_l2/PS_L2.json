@@ -1,0 +1,81 @@
+{
+  "domain": "PS",
+  "title": "Personnel Security",
+  "icon": "Users",
+  "description": "Screening personnel and protecting CUI during personnel changes",
+  "level": 2,
+  "questions": [
+    {
+      "id": "ps_2_001",
+      "control": "PS.L2-3.9.1",
+      "question": "Do you screen individuals before authorizing access to CUI?",
+      "context": "Background checks or other screening before granting access to sensitive information.",
+      "examples": "Background checks, reference checks, credit checks, security clearances",
+      "followUp": "What screening is performed? Who requires screening? Any different levels?",
+      "level": 2,
+      "nistSource": "PS-3",
+      "discussion": "Personnel screening helps ensure individuals with access to CUI are trustworthy and meet suitability requirements.",
+      "assessmentObjectives": [
+        "Screening requirements defined",
+        "Screening completed before access",
+        "Appropriate to risk level",
+        "Records maintained"
+      ],
+      "whatToExamine": [
+        "Screening procedures",
+        "Background check records",
+        "Position risk designations",
+        "Screening documentation"
+      ],
+      "redFlags": [
+        "No screening",
+        "Access before screening",
+        "Inadequate screening",
+        "No records kept"
+      ],
+      "dependencies": {
+        "enables": ["ps_2_002"]
+      }
+    },
+    {
+      "id": "ps_2_002",
+      "control": "PS.L2-3.9.2",
+      "question": "Do you protect CUI during personnel terminations and transfers?",
+      "context": "When people leave or change roles, their access must be removed and equipment returned.",
+      "examples": "Termination checklists, account disabling, badge return, exit interviews",
+      "followUp": "What's the termination process? How quickly is access removed? What about transfers?",
+      "level": 2,
+      "nistSource": "PS-4",
+      "discussion": "Personnel actions require timely removal of access and return of organizational assets to prevent unauthorized access to CUI.",
+      "assessmentObjectives": [
+        "Termination procedures exist",
+        "Access promptly removed",
+        "Equipment/badges returned",
+        "Exit interviews conducted"
+      ],
+      "whatToExamine": [
+        "Termination procedures",
+        "Account disable records",
+        "Equipment return logs",
+        "Exit interview forms"
+      ],
+      "redFlags": [
+        "Slow access removal",
+        "Equipment not returned",
+        "No termination process",
+        "Ex-employees still have access"
+      ],
+      "dependencies": {
+        "requires": ["ps_2_001"]
+      }
+    }
+  ],
+  "metadata": {
+    "version": "2.0",
+    "lastUpdated": "2024-03-15",
+    "totalControls": 2,
+    "level1Controls": 0,
+    "level2Controls": 2,
+    "estimatedTime": "5 minutes"
+  }
+}

@@ -1,0 +1,154 @@
+{
+  "domain": "PE",
+  "title": "Physical Protection",
+  "icon": "Building",
+  "description": "Protecting physical access to facilities and systems with CUI",
+  "level": 2,
+  "questions": [
+    {
+      "id": "pe_2_001",
+      "control": "PE.L1-3.10.1",
+      "question": "Do you limit physical access to areas with IT systems?",
+      "context": "Server rooms, network closets, and offices with CUI need access control.",
+      "examples": "Locked doors, key cards, restricted areas",
+      "followUp": "Where are your servers? Who has keys/access cards?",
+      "level": 1,
+      "nistSource": "PE-2",
+      "assessmentObjectives": [
+        "Physical access points identified",
+        "Physical access controlled",
+        "Access authorizations enforced"
+      ],
+      "dependencies": {
+        "enables": ["pe_2_002", "pe_2_003", "pe_2_004", "pe_2_005", "pe_2_006"]
+      }
+    },
+    {
+      "id": "pe_2_002",
+      "control": "PE.L2-3.10.2",
+      "question": "Do you maintain and review physical access logs?",
+      "context": "Physical access logs need regular review to detect unauthorized access attempts.",
+      "examples": "Access log reviews, audit reports, investigation of anomalies",
+      "followUp": "How often are access logs reviewed? Who reviews them? Any issues found?",
+      "level": 2,
+      "nistSource": "PE-6",
+      "discussion": "Regular review of physical access logs helps identify unauthorized access attempts, patterns, and security incidents.",
+      "assessmentObjectives": [
+        "Access logs are reviewed",
+        "Review frequency defined",
+        "Anomalies investigated",
+        "Reviews documented"
+      ],
+      "whatToExamine": [
+        "Access log review procedures",
+        "Review records",
+        "Investigation reports",
+        "Anomaly documentation"
+      ],
+      "redFlags": [
+        "Never review logs",
+        "No review process",
+        "Anomalies ignored",
+        "No documentation"
+      ],
+      "dependencies": {
+        "requires": ["pe_2_001", "pe_2_004"]
+      }
+    },
+    {
+      "id": "pe_2_003",
+      "control": "PE.L1-3.10.3",
+      "question": "Do you escort and monitor visitors?",
+      "context": "Visitors shouldn't wander freely, especially near sensitive areas.",
+      "examples": "Sign-in process, visitor badges, escort requirements",
+      "followUp": "How do visitors check in? Are they supervised?",
+      "level": 1,
+      "nistSource": "PE-3",
+      "assessmentObjectives": [
+        "Visitors identified and registered",
+        "Visitors escorted or monitored",
+        "Visitor badges used and collected"
+      ],
+      "dependencies": {
+        "requires": ["pe_2_001"]
+      }
+    },
+    {
+      "id": "pe_2_004",
+      "control": "PE.L1-3.10.4",
+      "question": "Do you keep logs of physical access?",
+      "context": "You need records of who entered secure areas and when.",
+      "examples": "Visitor log book, key card logs, sign-in sheets",
+      "followUp": "How long do you keep visitor logs? Are they reviewed?",
+      "level": 1,
+      "nistSource": "PE-8",
+      "assessmentObjectives": [
+        "Physical access logged",
+        "Logs include date, time, individual",
+        "Logs retained appropriately"
+      ],
+      "dependencies": {
+        "requires": ["pe_2_001"],
+        "enables": ["pe_2_002"]
+      }
+    },
+    {
+      "id": "pe_2_005",
+      "control": "PE.L1-3.10.5",
+      "question": "Do you control physical access devices (keys, cards)?",
+      "context": "Track who has keys, collect them when employees leave.",
+      "examples": "Key inventory, badge management, collection process",
+      "followUp": "Who manages keys/badges? What happens when someone leaves?",
+      "level": 1,
+      "nistSource": "PE-5",
+      "assessmentObjectives": [
+        "Inventory of access devices exists",
+        "Devices collected upon termination",
+        "Lost devices procedures exist"
+      ],
+      "dependencies": {
+        "requires": ["pe_2_001"]
+      }
+    },
+    {
+      "id": "pe_2_006",
+      "control": "PE.L2-3.10.6",
+      "question": "Do you enforce safeguarding measures at alternate work sites?",
+      "context": "Home offices and other remote work locations need security measures for CUI.",
+      "examples": "Home office requirements, locking file cabinets, clean desk policy, privacy screens",
+      "followUp": "What are the requirements for home offices? How are they verified? Any inspections?",
+      "level": 2,
+      "nistSource": "PE-17",
+      "discussion": "Alternate work sites like home offices require physical security measures equivalent to organizational facilities when processing CUI.",
+      "assessmentObjectives": [
+        "Alternate site requirements defined",
+        "Physical safeguards implemented",
+        "Compliance verified",
+        "Training provided"
+      ],
+      "whatToExamine": [
+        "Telework policy",
+        "Home office requirements",
+        "Compliance checklists",
+        "Training materials"
+      ],
+      "redFlags": [
+        "No home office requirements",
+        "CUI in unsecured locations",
+        "No verification",
+        "Family members have access"
+      ],
+      "dependencies": {
+        "requires": ["pe_2_001"]
+      }
+    }
+  ],
+  "metadata": {
+    "version": "2.0",
+    "lastUpdated": "2024-03-15",
+    "totalControls": 6,
+    "level1Controls": 4,
+    "level2Controls": 2,
+    "estimatedTime": "15 minutes"
+  }
+}

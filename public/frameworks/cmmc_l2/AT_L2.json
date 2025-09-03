@@ -1,0 +1,116 @@
+{
+  "domain": "AT",
+  "title": "Awareness and Training",
+  "icon": "GraduationCap",
+  "description": "Security awareness and training for personnel",
+  "level": 2,
+  "questions": [
+    {
+      "id": "at_2_001",
+      "control": "AT.L2-3.2.1",
+      "question": "Do you provide security awareness training to all users?",
+      "context": "Everyone who touches CUI needs to understand security risks and responsibilities.",
+      "examples": "Annual security training, onboarding training, security awareness program",
+      "followUp": "What security training do employees receive? How often? Is it documented?",
+      "level": 2,
+      "nistSource": "AT-2",
+      "discussion": "Security awareness training informs personnel about security risks associated with their activities and their responsibilities in adhering to organizational policies and procedures.",
+      "assessmentObjectives": [
+        "Security awareness program exists",
+        "All users receive training",
+        "Training addresses CUI handling"
+      ],
+      "whatToExamine": [
+        "Security awareness training materials",
+        "Training records and completion rates",
+        "Training content and curriculum",
+        "New employee onboarding materials"
+      ],
+      "redFlags": [
+        "No formal security training",
+        "Training is optional",
+        "No records of who's trained",
+        "Generic training not covering CUI"
+      ],
+      "dependencies": {
+        "enables": ["at_2_002", "at_2_003"],
+        "autoFail": ["at_2_002", "at_2_003"],
+        "skipIfNo": []
+      }
+    },
+    {
+      "id": "at_2_002",
+      "control": "AT.L2-3.2.2",
+      "question": "Do you provide role-based security training?",
+      "context": "Admins, developers, and others with special access need additional specialized training.",
+      "examples": "Admin security training, developer secure coding, incident response team training",
+      "followUp": "What specialized training do IT staff get? What about managers with CUI access?",
+      "level": 2,
+      "nistSource": "AT-3",
+      "discussion": "Role-based training provides more detailed information for personnel with specific security responsibilities or who require additional privilege to perform their duties.",
+      "assessmentObjectives": [
+        "Roles requiring specialized training are identified",
+        "Role-specific training content exists",
+        "Personnel receive appropriate role-based training"
+      ],
+      "whatToExamine": [
+        "Role-based training materials",
+        "List of roles requiring special training",
+        "Training records by role",
+        "Privileged user training content"
+      ],
+      "redFlags": [
+        "Admins get same training as everyone",
+        "No specialized training",
+        "Roles not identified",
+        "No secure coding training for developers"
+      ],
+      "dependencies": {
+        "requires": ["at_2_001"],
+        "autoFail": [],
+        "skipIfNo": []
+      }
+    },
+    {
+      "id": "at_2_003",
+      "control": "AT.L2-3.2.3",
+      "question": "Do you train users on insider threat awareness?",
+      "context": "Users need to recognize and report potential insider threat indicators.",
+      "examples": "Insider threat training module, reporting suspicious behavior, security incident reporting",
+      "followUp": "How do you train on insider threats? What are employees told to watch for?",
+      "level": 2,
+      "nistSource": "AT-2(2)",
+      "discussion": "Insider threat training helps personnel recognize behavioral indicators of insider threat and understand their responsibility to report such observations.",
+      "assessmentObjectives": [
+        "Insider threat indicators are defined",
+        "Training covers recognition and reporting",
+        "Reporting mechanisms are explained"
+      ],
+      "whatToExamine": [
+        "Insider threat training materials",
+        "Behavioral indicators documentation",
+        "Reporting procedures",
+        "Training effectiveness metrics"
+      ],
+      "redFlags": [
+        "No insider threat awareness",
+        "No way to report concerns",
+        "Training doesn't cover indicators",
+        "No anonymous reporting option"
+      ],
+      "dependencies": {
+        "requires": ["at_2_001"],
+        "autoFail": [],
+        "skipIfNo": []
+      }
+    }
+  ],
+  "metadata": {
+    "version": "2.0",
+    "lastUpdated": "2024-03-15",
+    "totalControls": 3,
+    "level1Controls": 0,
+    "level2Controls": 3,
+    "estimatedTime": "10 minutes"
+  }
+}

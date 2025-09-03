@@ -1,0 +1,144 @@
+{
+  "domain": "AC",
+  "title": "Access Control",
+  "icon": "Lock",
+  "description": "How you control who can access your systems and data",
+  "questions": [
+    {
+      "id": "ac_1_001",
+      "control": "AC.L1-3.1.1",
+      "question": "Do you limit system access to only authorized users?",
+      "context": "This means having a list of who should have access to systems with FCI, and ensuring only those people can get in.",
+      "examples": "User accounts, Active Directory, access request process",
+      "followUp": "Who manages user accounts? How do you add/remove users?",
+      "level": 1,
+      "nistSource": "AC-2",
+      "discussion": "Access control policies control access between active entities (users or processes) and passive entities (devices, files, records) in systems. This requirement focuses on account management for systems and applications.",
+      "assessmentObjectives": [
+        "System access is limited to authorized users",
+        "System access is limited to processes acting on behalf of authorized users",
+        "System access is limited to authorized devices"
+      ],
+      "whatToExamine": [
+        "Access control policy and procedures",
+        "List of authorized users",
+        "System configuration settings",
+        "Account management procedures"
+      ],
+      "redFlags": [
+        "Shared accounts like 'admin' or 'office'",
+        "No formal process for adding/removing users",
+        "Ex-employees still have access",
+        "No regular access reviews"
+      ],
+      "dependencies": {
+        "enables": ["ac_1_002"],
+        "autoFail": [],
+        "skipIfNo": []
+      }
+    },
+    {
+      "id": "ac_1_002",
+      "control": "AC.L1-3.1.2",
+      "question": "Do you limit what authorized users can do based on their job role?",
+      "context": "Not everyone needs admin access. Accounting shouldn't access IT systems, IT shouldn't access HR files.",
+      "examples": "Admin vs regular user accounts, role-based permissions",
+      "followUp": "Do you have different permission levels? Who has admin access?",
+      "level": 1,
+      "nistSource": "AC-3",
+      "discussion": "Organizations define access privileges by account, type of account, or both. This includes restrictions on transactions and functions that users can execute.",
+      "assessmentObjectives": [
+        "Logical access permissions are defined for different roles",
+        "Access enforcement mechanisms are in place",
+        "Users can only perform authorized functions"
+      ],
+      "whatToExamine": [
+        "Access enforcement policy",
+        "Role definitions and permissions",
+        "System audit logs showing access enforcement",
+        "User privilege documentation"
+      ],
+      "redFlags": [
+        "Everyone has admin rights",
+        "No role definitions",
+        "Users can access everything",
+        "No principle of least privilege"
+      ],
+      "dependencies": {
+        "requires": ["ac_1_001"],
+        "autoFail": [],
+        "skipIfNo": []
+      }
+    },
+    {
+      "id": "ac_1_020",
+      "control": "AC.L1-3.1.20",
+      "question": "Do you control connections from external systems?",
+      "context": "This includes VPNs, remote desktop, and any external access to your network.",
+      "examples": "VPN with authentication, firewall rules, remote access policy",
+      "followUp": "How do employees connect remotely? What about contractors?",
+      "level": 1,
+      "nistSource": "AC-20",
+      "discussion": "External systems are systems outside of your organization's direct supervision. This includes personally owned devices, contractor systems, and public systems.",
+      "assessmentObjectives": [
+        "External system connections are identified",
+        "Usage restrictions are established for external connections",
+        "External connections are monitored and controlled"
+      ],
+      "whatToExamine": [
+        "Remote access policy",
+        "VPN configuration and logs",
+        "Firewall rules and configurations",
+        "List of approved external connections"
+      ],
+      "redFlags": [
+        "No VPN for remote access",
+        "Uncontrolled remote desktop",
+        "No policy on external connections",
+        "Personal devices accessing CUI without controls"
+      ],
+      "dependencies": {
+        "autoFail": [],
+        "skipIfNo": []
+      }
+    },
+    {
+      "id": "ac_1_022",
+      "control": "AC.L1-3.1.22",
+      "question": "Do you control what employees can post publicly about federal contracts?",
+      "context": "FCI shouldn't be shared on social media, public websites, or in marketing materials.",
+      "examples": "Social media policy, training on information handling",
+      "followUp": "Do you have a social media policy? Who reviews public posts?",
+      "level": 1,
+      "nistSource": "AC-22",
+      "discussion": "This addresses information posted on publicly accessible systems like company websites, social media, and marketing materials. Someone must review content before posting.",
+      "assessmentObjectives": [
+        "Policy exists for public information posting",
+        "Designated individuals review content before posting",
+        "Employees are trained on what can't be shared publicly"
+      ],
+      "whatToExamine": [
+        "Social media policy",
+        "Information disclosure policy",
+        "Training materials on CUI handling",
+        "Examples of reviewed public content"
+      ],
+      "redFlags": [
+        "No social media policy",
+        "Anyone can post about contracts",
+        "No review process for public content",
+        "Contract details on company website"
+      ],
+      "dependencies": {
+        "autoFail": [],
+        "skipIfNo": []
+      }
+    }
+  ],
+  "metadata": {
+    "version": "2.0",
+    "lastUpdated": "2024-03-15",
+    "totalControls": 4,
+    "estimatedTime": "15 minutes"
+  }
+}

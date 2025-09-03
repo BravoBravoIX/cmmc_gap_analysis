@@ -1,0 +1,188 @@
+{
+  "domain": "SI",
+  "title": "System and Information Integrity",
+  "icon": "Monitor",
+  "description": "Maintaining system integrity through updates, monitoring, and protection",
+  "level": 2,
+  "questions": [
+    {
+      "id": "si_2_001",
+      "control": "SI.L1-3.14.1",
+      "question": "Do you identify and fix system flaws promptly?",
+      "context": "Installing patches and updates when they're released.",
+      "examples": "Windows Updates, Patch Tuesday, update policy",
+      "followUp": "How often are updates installed? Who manages this?",
+      "level": 1,
+      "nistSource": "SI-2",
+      "assessmentObjectives": [
+        "System flaws identified",
+        "Patches tested and installed",
+        "Update process documented"
+      ],
+      "dependencies": {
+        "enables": ["si_2_002", "si_2_003", "si_2_004", "si_2_005", "si_2_006", "si_2_007"]
+      }
+    },
+    {
+      "id": "si_2_002",
+      "control": "SI.L1-3.14.2",
+      "question": "Do you have antivirus/anti-malware protection?",
+      "context": "Basic protection against viruses and malicious software.",
+      "examples": "Windows Defender, commercial antivirus, endpoint protection",
+      "followUp": "What antivirus do you use? On all computers?",
+      "level": 1,
+      "nistSource": "SI-3",
+      "assessmentObjectives": [
+        "Anti-malware deployed on all systems",
+        "Protection mechanisms configured",
+        "Real-time protection enabled"
+      ],
+      "dependencies": {
+        "requires": ["si_2_001"],
+        "enables": ["si_2_004", "si_2_005"],
+        "autoFail": ["si_2_004", "si_2_005"],
+        "skipIfNo": ["si_2_004", "si_2_005"]
+      }
+    },
+    {
+      "id": "si_2_003",
+      "control": "SI.L2-3.14.3",
+      "question": "Do you monitor system security alerts and advisories?",
+      "context": "Staying aware of new threats and vulnerabilities affecting your systems.",
+      "examples": "Vendor bulletins, US-CERT alerts, security mailing lists, threat intelligence",
+      "followUp": "What security advisories do you monitor? Who reviews them? How do you act on them?",
+      "level": 2,
+      "nistSource": "SI-5",
+      "discussion": "Monitoring security alerts ensures awareness of new vulnerabilities and threats, enabling timely response.",
+      "assessmentObjectives": [
+        "Advisory sources identified",
+        "Regular monitoring occurs",
+        "Relevant alerts acted upon",
+        "Response process exists"
+      ],
+      "whatToExamine": [
+        "Advisory sources list",
+        "Monitoring procedures",
+        "Alert response records",
+        "Action tracking"
+      ],
+      "redFlags": [
+        "No monitoring",
+        "Ignore advisories",
+        "No subscription to alerts",
+        "No response process"
+      ],
+      "dependencies": {
+        "requires": ["si_2_001"]
+      }
+    },
+    {
+      "id": "si_2_004",
+      "control": "SI.L1-3.14.4",
+      "question": "Do you update antivirus definitions regularly?",
+      "context": "Antivirus needs current threat information to be effective.",
+      "examples": "Automatic updates, daily definition updates",
+      "followUp": "Are updates automatic? How do you verify they're current?",
+      "level": 1,
+      "nistSource": "SI-3(4)",
+      "assessmentObjectives": [
+        "Definition updates automatic",
+        "Updates occur regularly",
+        "Update status monitored"
+      ],
+      "dependencies": {
+        "requires": ["si_2_002"]
+      }
+    },
+    {
+      "id": "si_2_005",
+      "control": "SI.L1-3.14.5",
+      "question": "Do you perform periodic system scans?",
+      "context": "Regular scans catch what real-time protection might miss.",
+      "examples": "Weekly full scans, scheduled scans, scan reports",
+      "followUp": "How often do scans run? Who reviews results?",
+      "level": 1,
+      "nistSource": "SI-3(5)",
+      "assessmentObjectives": [
+        "Periodic scans scheduled",
+        "Full system scans occur",
+        "Scan results reviewed"
+      ],
+      "dependencies": {
+        "requires": ["si_2_002"]
+      }
+    },
+    {
+      "id": "si_2_006",
+      "control": "SI.L2-3.14.6",
+      "question": "Do you monitor your systems for attacks and indicators of compromise?",
+      "context": "Active monitoring detects attacks in progress and successful compromises.",
+      "examples": "IDS/IPS, SIEM, endpoint detection, anomaly detection, behavioral monitoring",
+      "followUp": "What monitoring tools do you use? Who monitors? How do you detect attacks?",
+      "level": 2,
+      "nistSource": "SI-4",
+      "discussion": "System monitoring detects attacks, unauthorized access, and anomalous activity indicating potential compromise.",
+      "assessmentObjectives": [
+        "Monitoring tools deployed",
+        "Attack indicators defined",
+        "Continuous monitoring active",
+        "Alerts investigated"
+      ],
+      "whatToExamine": [
+        "Monitoring tools",
+        "Detection configurations",
+        "Alert procedures",
+        "Investigation records"
+      ],
+      "redFlags": [
+        "No monitoring",
+        "Only antivirus",
+        "No detection capability",
+        "Alerts ignored"
+      ],
+      "dependencies": {
+        "requires": ["si_2_001", "si_2_002"]
+      }
+    },
+    {
+      "id": "si_2_007",
+      "control": "SI.L2-3.14.7",
+      "question": "Do you identify and manage unauthorized software?",
+      "context": "Unknown or unauthorized software could be malicious or create vulnerabilities.",
+      "examples": "Software inventory, unauthorized software detection, removal procedures",
+      "followUp": "How do you detect unauthorized software? What happens when found? Any inventory?",
+      "level": 2,
+      "nistSource": "SI-4",
+      "discussion": "Identifying unauthorized software prevents malware persistence and reduces attack surface from unapproved applications.",
+      "assessmentObjectives": [
+        "Software inventory maintained",
+        "Unauthorized software detected",
+        "Removal process exists",
+        "Regular scanning occurs"
+      ],
+      "whatToExamine": [
+        "Software inventory",
+        "Detection methods",
+        "Scanning tools",
+        "Removal procedures"
+      ],
+      "redFlags": [
+        "No software inventory",
+        "Can't detect unauthorized",
+        "Unknown software running",
+        "No removal process"
+      ],
+      "dependencies": {
+        "requires": ["si_2_001"]
+      }
+    }
+  ],
+  "metadata": {
+    "version": "2.0",
+    "lastUpdated": "2024-03-15",
+    "totalControls": 7,
+    "level1Controls": 4,
+    "level2Controls": 3,
+    "estimatedTime": "15 minutes"
+  }
+}

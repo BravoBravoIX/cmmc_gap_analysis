@@ -1,0 +1,114 @@
+{
+  "domain": "RA",
+  "title": "Risk Assessment",
+  "icon": "AlertTriangle",
+  "description": "Identifying and managing security risks to systems and CUI",
+  "level": 2,
+  "questions": [
+    {
+      "id": "ra_2_001",
+      "control": "RA.L2-3.11.1",
+      "question": "Do you periodically assess risks to your operations and CUI?",
+      "context": "Regular risk assessments identify threats, vulnerabilities, and potential impacts.",
+      "examples": "Annual risk assessment, threat analysis, vulnerability assessment, risk register",
+      "followUp": "When was your last risk assessment? How often do you assess? What methodology?",
+      "level": 2,
+      "nistSource": "RA-3",
+      "discussion": "Risk assessments identify threats and vulnerabilities, determine likelihood and impact, and guide security investments.",
+      "assessmentObjectives": [
+        "Risk assessment performed periodically",
+        "Methodology documented",
+        "Threats and vulnerabilities identified",
+        "Risk determinations made"
+      ],
+      "whatToExamine": [
+        "Risk assessment reports",
+        "Assessment methodology",
+        "Risk register",
+        "Assessment schedule"
+      ],
+      "redFlags": [
+        "Never assessed risks",
+        "Very outdated assessment",
+        "No methodology",
+        "Risks unknown"
+      ],
+      "dependencies": {
+        "enables": ["ra_2_002", "ra_2_003"]
+      }
+    },
+    {
+      "id": "ra_2_002",
+      "control": "RA.L2-3.11.2",
+      "question": "Do you scan for vulnerabilities regularly and when new ones are identified?",
+      "context": "Vulnerability scanning finds weaknesses in systems before attackers do.",
+      "examples": "Weekly vulnerability scans, patch scanning, configuration scanning, authenticated scans",
+      "followUp": "How often do you scan? What tools? Do you scan everything? How quickly are findings addressed?",
+      "level": 2,
+      "nistSource": "RA-5",
+      "discussion": "Vulnerability scanning identifies weaknesses in systems, applications, and configurations that could be exploited.",
+      "assessmentObjectives": [
+        "Scanning performed regularly",
+        "All systems included",
+        "New vulnerabilities trigger scans",
+        "Results analyzed and prioritized"
+      ],
+      "whatToExamine": [
+        "Scan schedules",
+        "Scan reports",
+        "Scanning tools",
+        "Remediation tracking"
+      ],
+      "redFlags": [
+        "No scanning",
+        "Infrequent scans",
+        "Systems excluded",
+        "Results ignored"
+      ],
+      "dependencies": {
+        "requires": ["ra_2_001"],
+        "enables": ["ra_2_003"]
+      }
+    },
+    {
+      "id": "ra_2_003",
+      "control": "RA.L2-3.11.3",
+      "question": "Do you remediate vulnerabilities based on risk assessments?",
+      "context": "Found vulnerabilities need to be fixed based on their risk level.",
+      "examples": "Patch management, configuration fixes, compensating controls, risk acceptance",
+      "followUp": "How do you prioritize fixes? What are your timelines? Any accepted risks?",
+      "level": 2,
+      "nistSource": "RA-5",
+      "discussion": "Remediation addresses identified vulnerabilities based on risk, with higher risks addressed more quickly.",
+      "assessmentObjectives": [
+        "Remediation process exists",
+        "Risk-based prioritization",
+        "Timelines defined",
+        "Progress tracked"
+      ],
+      "whatToExamine": [
+        "Remediation procedures",
+        "Patch management records",
+        "Risk acceptance documentation",
+        "Remediation metrics"
+      ],
+      "redFlags": [
+        "No remediation",
+        "Random patching",
+        "High risks unaddressed",
+        "No tracking"
+      ],
+      "dependencies": {
+        "requires": ["ra_2_001", "ra_2_002"]
+      }
+    }
+  ],
+  "metadata": {
+    "version": "2.0",
+    "lastUpdated": "2024-03-15",
+    "totalControls": 3,
+    "level1Controls": 0,
+    "level2Controls": 3,
+    "estimatedTime": "10 minutes"
+  }
+}

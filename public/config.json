@@ -1,0 +1,209 @@
+{
+  "application": {
+    "name": "CMMC Gap Analysis Tool",
+    "version": "1.0.0",
+    "description": "Consultant-led CMMC compliance assessment platform",
+    "company": "Your Company Name",
+    "support": "support@yourcompany.com"
+  },
+  "frameworks": [
+    {
+      "id": "cmmc_l1",
+      "name": "CMMC Level 1",
+      "path": "/frameworks/cmmc_l1/",
+      "manifest": "manifest.json",
+      "enabled": true,
+      "description": "Basic safeguarding of Federal Contract Information (FCI)",
+      "icon": "Shield",
+      "color": "blue"
+    },
+    {
+      "id": "cmmc_l2",
+      "name": "CMMC Level 2",
+      "path": "/frameworks/cmmc_l2/",
+      "manifest": "manifest_L2.json",
+      "enabled": true,
+      "description": "Protection of Controlled Unclassified Information (CUI)",
+      "icon": "ShieldCheck",
+      "color": "green"
+    },
+    {
+      "id": "cmmc_l1_to_l2",
+      "name": "Level 1 to 2 Delta",
+      "path": "/frameworks/cmmc_l2/",
+      "manifest": "manifest_L2.json",
+      "mode": "delta",
+      "enabled": true,
+      "description": "Assess only the additional 93 controls needed for Level 2",
+      "icon": "TrendingUp",
+      "color": "purple"
+    }
+  ],
+  "assessmentModes": {
+    "quick": {
+      "name": "Quick Assessment",
+      "description": "High-level yes/no questions for initial gap analysis",
+      "questionsPerControl": 1,
+      "includeFollowUp": false,
+      "requireEvidence": false,
+      "estimatedTimeMultiplier": 1
+    },
+    "detailed": {
+      "name": "Detailed Assessment",
+      "description": "In-depth assessment with evidence collection",
+      "questionsPerControl": "all",
+      "includeFollowUp": true,
+      "requireEvidence": true,
+      "estimatedTimeMultiplier": 3
+    }
+  },
+  "answerOptions": [
+    {
+      "value": "yes",
+      "label": "Yes",
+      "subtext": "We have this",
+      "icon": "CheckCircle",
+      "color": "green",
+      "score": 1.0
+    },
+    {
+      "value": "partial",
+      "label": "Partial",
+      "subtext": "Some but not all",
+      "icon": "Clock",
+      "color": "yellow",
+      "score": 0.5
+    },
+    {
+      "value": "no",
+      "label": "No",
+      "subtext": "Not in place",
+      "icon": "XCircle",
+      "color": "red",
+      "score": 0.0
+    },
+    {
+      "value": "unsure",
+      "label": "Not Sure",
+      "subtext": "Need to verify",
+      "icon": "AlertCircle",
+      "color": "gray",
+      "score": 0.0,
+      "requiresFollowUp": true
+    },
+    {
+      "value": "na",
+      "label": "N/A",
+      "subtext": "Not applicable",
+      "icon": "MinusCircle",
+      "color": "gray",
+      "score": null,
+      "excluded": true
+    }
+  ],
+  "features": {
+    "adaptiveQuestions": {
+      "enabled": true,
+      "description": "Skip related questions based on answers"
+    },
+    "evidenceUpload": {
+      "enabled": true,
+      "maxFileSize": "10MB",
+      "allowedTypes": ["pdf", "docx", "xlsx", "png", "jpg"]
+    },
+    "sessionManagement": {
+      "autoSave": true,
+      "autoSaveInterval": 60,
+      "sessionTimeout": 1800
+    },
+    "reporting": {
+      "formats": ["json", "pdf", "excel", "word"],
+      "templates": ["executive", "technical", "homework", "roadmap"]
+    }
+  },
+  "ui": {
+    "theme": "professional",
+    "primaryColor": "#1e40af",
+    "showProgress": true,
+    "showTimer": true,
+    "showControlReferences": true,
+    "allowSkip": true,
+    "allowNotes": true,
+    "confirmBeforeExit": true
+  },
+  "export": {
+    "fileNaming": {
+      "pattern": "{client}_{framework}_{date}",
+      "dateFormat": "YYYY-MM-DD"
+    },
+    "includedInExport": [
+      "responses",
+      "notes",
+      "statistics",
+      "metadata"
+    ]
+  },
+  "dependencies": {
+    "rules": {
+      "autoFail": {
+        "description": "If parent is 'no', automatically mark these as 'no'",
+        "enabled": true
+      },
+      "skipIfNo": {
+        "description": "If parent is 'no', skip these questions",
+        "enabled": true
+      },
+      "requires": {
+        "description": "These controls must be 'yes' or 'partial' first",
+        "enabled": true
+      }
+    }
+  },
+  "scoring": {
+    "algorithms": {
+      "simple": {
+        "description": "Simple percentage of compliant controls",
+        "formula": "(yes_count + (partial_count * 0.5)) / total_controls * 100"
+      },
+      "weighted": {
+        "description": "Weighted scoring based on control importance",
+        "level1Weight": 1.5,
+        "level2Weight": 1.0,
+        "criticalWeight": 2.0
+      }
+    },
+    "default": "simple"
+  },
+  "integrations": {
+    "llm": {
+      "enabled": false,
+      "provider": "openai",
+      "model": "gpt-4",
+      "features": ["report_generation", "recommendation_engine"]
+    },
+    "export": {
+      "ssp": {
+        "enabled": true,
+        "template": "NIST_SSP_Template.docx"
+      },
+      "poam": {
+        "enabled": true,
+        "template": "POAM_Template.xlsx"
+      }
+    }
+  },
+  "validation": {
+    "requireAllAnswered": false,
+    "warnOnUnsure": true,
+    "minimumCompletionPercentage": 80,
+    "requireNotesForNo": false,
+    "requireEvidenceForYes": false
+  },
+  "help": {
+    "showTooltips": true,
+    "showExamples": true,
+    "showDiscussion": false,
+    "contactSupport": "support@yourcompany.com",
+    "documentation": "https://docs.yourcompany.com/cmmc"
+  }
+}

@@ -1,0 +1,205 @@
+{
+  "homeworkSession": {
+    "id": "hw-session-uuid",
+    "assessmentId": "assessment-uuid",
+    "clientId": "client-uuid",
+    "createdDate": "2024-03-15",
+    "dueDate": "2024-03-22",
+    "status": "pending",
+    "items": [
+      {
+        "id": "hw_001",
+        "controlId": "AC.L1-3.1.22",
+        "domain": "AC",
+        "priority": "high",
+        "status": "pending",
+        "question": "Do you control what employees can post publicly about federal contracts?",
+        "originalAnswer": "unsure",
+        "tasksRequired": [
+          {
+            "task": "Locate social media policy",
+            "assignedTo": "HR Manager",
+            "status": "pending",
+            "notes": "Check employee handbook and onboarding materials"
+          },
+          {
+            "task": "Find training records for information handling",
+            "assignedTo": "Training Coordinator",
+            "status": "pending",
+            "notes": "Look for any CUI or information security training"
+          },
+          {
+            "task": "Review marketing materials mentioning contracts",
+            "assignedTo": "Marketing Manager",
+            "status": "pending",
+            "notes": "Check website, brochures, case studies"
+          }
+        ],
+        "evidenceRequested": [
+          "Social media policy document",
+          "Training completion records",
+          "Examples of reviewed public content"
+        ],
+        "followUpQuestions": [
+          "Who approves public statements about contracts?",
+          "Is there a review process for marketing materials?",
+          "Have employees been trained on CUI handling?"
+        ],
+        "clientResponse": {
+          "dateReceived": null,
+          "newAnswer": null,
+          "evidence": [],
+          "notes": "",
+          "additionalQuestions": []
+        }
+      },
+      {
+        "id": "hw_002",
+        "controlId": "IA.L2-3.5.3",
+        "domain": "IA",
+        "priority": "critical",
+        "status": "pending",
+        "question": "Do you use multi-factor authentication (MFA)?",
+        "originalAnswer": "partial",
+        "tasksRequired": [
+          {
+            "task": "Document which systems have MFA enabled",
+            "assignedTo": "IT Manager",
+            "status": "pending",
+            "notes": "Create list of all systems and their MFA status"
+          },
+          {
+            "task": "Identify systems without MFA",
+            "assignedTo": "IT Manager",
+            "status": "pending",
+            "notes": "Explain why MFA is not enabled and timeline to implement"
+          },
+          {
+            "task": "Count users with MFA enabled vs total users",
+            "assignedTo": "IT Administrator",
+            "status": "pending",
+            "notes": "Provide breakdown by user type (admin, regular, service accounts)"
+          }
+        ],
+        "evidenceRequested": [
+          "MFA configuration screenshots",
+          "User enrollment reports",
+          "MFA policy documentation"
+        ],
+        "followUpQuestions": [
+          "What MFA methods are supported?",
+          "Are there any exceptions to MFA requirement?",
+          "What's the plan for systems without MFA?"
+        ],
+        "clientResponse": {
+          "dateReceived": null,
+          "newAnswer": null,
+          "evidence": [],
+          "notes": "",
+          "additionalQuestions": []
+        }
+      }
+    ],
+    "summary": {
+      "totalItems": 2,
+      "byPriority": {
+        "critical": 1,
+        "high": 1,
+        "medium": 0,
+        "low": 0
+      },
+      "byStatus": {
+        "pending": 2,
+        "inProgress": 0,
+        "completed": 0,
+        "blocked": 0
+      },
+      "byDomain": {
+        "AC": 1,
+        "IA": 1
+      }
+    }
+  },
+  "instructions": {
+    "forClient": {
+      "overview": "Please gather the following information to complete your CMMC gap assessment. We've identified areas where additional documentation or clarification is needed.",
+      "timeline": "All items should be completed by the due date listed above. If you cannot meet this deadline, please contact your consultant.",
+      "howToRespond": [
+        "Review each item and its associated tasks",
+        "Gather requested evidence/documentation",
+        "Answer the follow-up questions",
+        "Note any challenges or questions",
+        "Submit responses via secure file transfer"
+      ],
+      "tips": [
+        "If a document doesn't exist, note that in your response",
+        "Partial evidence is better than no evidence",
+        "Be honest about current state - we're here to help",
+        "Contact us if you need clarification on any item"
+      ]
+    },
+    "evidenceGuidelines": {
+      "acceptable": [
+        "Official policies and procedures",
+        "Screenshots of configurations",
+        "Training records and certificates",
+        "System-generated reports",
+        "Audit logs (redacted if needed)"
+      ],
+      "notAcceptable": [
+        "Verbal confirmations without documentation",
+        "Draft documents not yet approved",
+        "Outdated materials (>1 year old unless specified)",
+        "Generic vendor documentation"
+      ],
+      "format": {
+        "documents": ["PDF", "DOCX", "XLSX"],
+        "images": ["PNG", "JPG", "GIF"],
+        "maxSize": "10MB per file",
+        "naming": "controlId_description_date"
+      }
+    }
+  },
+  "tracking": {
+    "communications": [
+      {
+        "date": "2024-03-15",
+        "type": "sent",
+        "method": "email",
+        "recipient": "client@company.com",
+        "subject": "CMMC Assessment - Homework Items",
+        "notes": "Initial homework assignment sent"
+      }
+    ],
+    "reminders": [
+      {
+        "scheduledDate": "2024-03-19",
+        "sent": false,
+        "type": "email"
+      },
+      {
+        "scheduledDate": "2024-03-21",
+        "sent": false,
+        "type": "call"
+      }
+    ]
+  },
+  "completion": {
+    "reviewedBy": null,
+    "reviewDate": null,
+    "approvedBy": null,
+    "approvalDate": null,
+    "finalStatus": null,
+    "impactOnScore": {
+      "before": {
+        "score": 65,
+        "unsureCount": 15
+      },
+      "after": {
+        "score": null,
+        "unsureCount": null
+      }
+    },
+    "nextSteps": []
+  }
+}

@@ -1,0 +1,506 @@
+{
+  "domain": "SC",
+  "title": "System and Communications Protection",
+  "icon": "Network",
+  "description": "Protecting system boundaries, communications, and data in transit",
+  "level": 2,
+  "questions": [
+    {
+      "id": "sc_2_001",
+      "control": "SC.L1-3.13.1",
+      "question": "Do you monitor and protect your network boundaries?",
+      "context": "Your firewall and network security - protecting the perimeter.",
+      "examples": "Firewall configured and enabled, network monitoring",
+      "followUp": "What firewall do you use? Is it actively monitored?",
+      "level": 1,
+      "nistSource": "SC-7",
+      "assessmentObjectives": [
+        "Network boundaries defined",
+        "Boundary protection devices implemented",
+        "Communications monitored at boundaries"
+      ],
+      "dependencies": {
+        "enables": ["sc_2_002", "sc_2_003", "sc_2_004", "sc_2_005", "sc_2_006", "sc_2_007"]
+      }
+    },
+    {
+      "id": "sc_2_002",
+      "control": "SC.L2-3.13.2",
+      "question": "Do you use architectural designs to protect your systems?",
+      "context": "Network segmentation, DMZs, and layered defenses protect CUI systems.",
+      "examples": "Network segmentation, VLANs, DMZ, defense in depth, zero trust",
+      "followUp": "How is your network segmented? Are CUI systems isolated? Any architectural diagrams?",
+      "level": 2,
+      "nistSource": "SC-7(5)",
+      "discussion": "Security architecture uses segmentation, layering, and defense-in-depth to protect critical assets and limit breach impact.",
+      "assessmentObjectives": [
+        "Security architecture defined",
+        "Segmentation implemented",
+        "CUI systems isolated",
+        "Defense layers exist"
+      ],
+      "whatToExamine": [
+        "Network architecture",
+        "Segmentation design",
+        "Network diagrams",
+        "Security zones"
+      ],
+      "redFlags": [
+        "Flat network",
+        "No segmentation",
+        "CUI mixed with everything",
+        "Single layer defense"
+      ],
+      "dependencies": {
+        "requires": ["sc_2_001"]
+      }
+    },
+    {
+      "id": "sc_2_003",
+      "control": "SC.L2-3.13.3",
+      "question": "Do you separate user functionality from system management?",
+      "context": "Admin functions should be separated from user activities for security.",
+      "examples": "Separate admin network, jump boxes, privileged access workstations",
+      "followUp": "How do admins access systems? Any separation from user network? Dedicated admin workstations?",
+      "level": 2,
+      "nistSource": "SC-2",
+      "discussion": "Separating user and management functionality reduces risk by isolating administrative access from general user activities.",
+      "assessmentObjectives": [
+        "User and admin functions separated",
+        "Dedicated management interfaces",
+        "Admin access restricted",
+        "Logical or physical separation"
+      ],
+      "whatToExamine": [
+        "Network architecture",
+        "Admin access methods",
+        "Management interfaces",
+        "Separation mechanisms"
+      ],
+      "redFlags": [
+        "Admins use same network",
+        "No separation",
+        "Admin from user workstations",
+        "Mixed functions"
+      ],
+      "dependencies": {
+        "requires": ["sc_2_001", "sc_2_002"]
+      }
+    },
+    {
+      "id": "sc_2_004",
+      "control": "SC.L2-3.13.4",
+      "question": "Do you prevent unauthorized information transfer between systems?",
+      "context": "Data shouldn't leak between different security levels or to unauthorized systems.",
+      "examples": "Data loss prevention, network controls, USB blocking, email filtering",
+      "followUp": "How do you prevent data leakage? Any DLP tools? Controls on data movement?",
+      "level": 2,
+      "nistSource": "SC-4",
+      "discussion": "Preventing unauthorized information transfer stops data leakage and maintains separation between different security domains.",
+      "assessmentObjectives": [
+        "Information transfer points identified",
+        "Transfer controls implemented",
+        "Unauthorized transfers blocked",
+        "Monitoring in place"
+      ],
+      "whatToExamine": [
+        "Data flow diagrams",
+        "DLP configurations",
+        "Transfer controls",
+        "Monitoring logs"
+      ],
+      "redFlags": [
+        "Unrestricted data movement",
+        "No DLP",
+        "Can email anything",
+        "USB not controlled"
+      ],
+      "dependencies": {
+        "requires": ["sc_2_001"]
+      }
+    },
+    {
+      "id": "sc_2_005",
+      "control": "SC.L1-3.13.5",
+      "question": "Do you use publicly available security guidance?",
+      "context": "Using known bad IP lists, security updates from vendors.",
+      "examples": "Windows Defender updates, firewall deny lists, threat feeds",
+      "followUp": "How do security tools get updated? Automatically?",
+      "level": 1,
+      "nistSource": "SC-7(5)",
+      "assessmentObjectives": [
+        "Security guidance sources identified",
+        "Guidance implemented in tools",
+        "Updates applied regularly"
+      ],
+      "dependencies": {
+        "requires": ["sc_2_001"]
+      }
+    },
+    {
+      "id": "sc_2_006",
+      "control": "SC.L2-3.13.6",
+      "question": "Do you deny network traffic by default and allow by exception?",
+      "context": "Firewalls should block everything except specifically allowed traffic.",
+      "examples": "Default deny rules, whitelist approach, explicit allow rules",
+      "followUp": "What's your firewall default policy? How are exceptions approved? Any review of rules?",
+      "level": 2,
+      "nistSource": "SC-7(5)",
+      "discussion": "Deny-by-default ensures only explicitly authorized communications occur, reducing attack surface and preventing unauthorized access.",
+      "assessmentObjectives": [
+        "Default deny configured",
+        "Allow rules documented",
+        "Exceptions justified",
+        "Rules reviewed regularly"
+      ],
+      "whatToExamine": [
+        "Firewall rules",
+        "Default policies",
+        "Exception documentation",
+        "Rule reviews"
+      ],
+      "redFlags": [
+        "Default allow",
+        "Any-any rules",
+        "Undocumented exceptions",
+        "Never reviewed"
+      ],
+      "dependencies": {
+        "requires": ["sc_2_001"]
+      }
+    },
+    {
+      "id": "sc_2_007",
+      "control": "SC.L2-3.13.7",
+      "question": "Do you prevent split tunneling for remote devices?",
+      "context": "Remote devices shouldn't connect to your network and the internet simultaneously.",
+      "examples": "VPN forced tunneling, no split tunneling, all traffic through VPN",
+      "followUp": "Can remote users access internet directly while on VPN? Any exceptions?",
+      "level": 2,
+      "nistSource": "SC-7(7)",
+      "discussion": "Preventing split tunneling ensures remote device traffic goes through organizational security controls, preventing bypass attacks.",
+      "assessmentObjectives": [
+        "Split tunneling prevented",
+        "All traffic through VPN",
+        "Policy enforced technically",
+        "Exceptions documented"
+      ],
+      "whatToExamine": [
+        "VPN configuration",
+        "Remote access policy",
+        "Client settings",
+        "Exception records"
+      ],
+      "redFlags": [
+        "Split tunneling allowed",
+        "Users bypass VPN",
+        "No enforcement",
+        "Many exceptions"
+      ],
+      "dependencies": {
+        "requires": ["sc_2_001"]
+      }
+    },
+    {
+      "id": "sc_2_008",
+      "control": "SC.L2-3.13.8",
+      "question": "Do you implement cryptographic mechanisms for CUI transmission?",
+      "context": "CUI must be encrypted when transmitted over networks.",
+      "examples": "TLS/SSL, VPN encryption, encrypted email, SFTP instead of FTP",
+      "followUp": "How is CUI encrypted in transit? What protocols are used? Any unencrypted transmission?",
+      "level": 2,
+      "nistSource": "SC-8",
+      "discussion": "Cryptographic protection prevents unauthorized disclosure of CUI during transmission over networks.",
+      "assessmentObjectives": [
+        "Encryption required for CUI",
+        "Appropriate algorithms used",
+        "All transmission paths covered",
+        "No unencrypted transmission"
+      ],
+      "whatToExamine": [
+        "Encryption configurations",
+        "Protocol settings",
+        "Transmission methods",
+        "Encryption standards"
+      ],
+      "redFlags": [
+        "Unencrypted transmission",
+        "Weak encryption",
+        "HTTP not HTTPS",
+        "Plain text protocols"
+      ],
+      "dependencies": {
+        "requires": ["sc_2_001"],
+        "enables": ["sc_2_009"]
+      }
+    },
+    {
+      "id": "sc_2_009",
+      "control": "SC.L2-3.13.9",
+      "question": "Do you terminate network connections at end of sessions?",
+      "context": "Connections should end when no longer needed to free resources and reduce risk.",
+      "examples": "Session timeouts, automatic disconnection, idle timeouts",
+      "followUp": "When do sessions terminate? What are timeout settings? Any persistent connections?",
+      "level": 2,
+      "nistSource": "SC-10",
+      "discussion": "Terminating idle connections reduces the risk of unauthorized access through hijacked or forgotten sessions.",
+      "assessmentObjectives": [
+        "Session termination configured",
+        "Timeout values appropriate",
+        "Automatic termination works",
+        "No unnecessary persistent connections"
+      ],
+      "whatToExamine": [
+        "Timeout configurations",
+        "Session settings",
+        "Connection logs",
+        "Termination procedures"
+      ],
+      "redFlags": [
+        "No timeouts",
+        "Sessions never end",
+        "Very long timeouts",
+        "Persistent connections"
+      ],
+      "dependencies": {
+        "requires": ["sc_2_001"]
+      }
+    },
+    {
+      "id": "sc_2_010",
+      "control": "SC.L2-3.13.10",
+      "question": "Do you establish and manage cryptographic keys?",
+      "context": "Encryption keys need proper generation, distribution, storage, and destruction.",
+      "examples": "Key management system, certificate authority, key escrow, key rotation",
+      "followUp": "How are encryption keys managed? Who has access? How often are they changed?",
+      "level": 2,
+      "nistSource": "SC-12",
+      "discussion": "Proper key management ensures cryptographic protections remain effective and keys aren't compromised.",
+      "assessmentObjectives": [
+        "Key management process exists",
+        "Keys properly generated",
+        "Secure storage implemented",
+        "Key rotation occurs"
+      ],
+      "whatToExamine": [
+        "Key management procedures",
+        "Key storage methods",
+        "Certificate management",
+        "Key rotation records"
+      ],
+      "redFlags": [
+        "No key management",
+        "Keys never change",
+        "Shared private keys",
+        "Keys in plain text"
+      ],
+      "dependencies": {
+        "requires": ["sc_2_008"],
+        "enables": ["sc_2_011"]
+      }
+    },
+    {
+      "id": "sc_2_011",
+      "control": "SC.L2-3.13.11",
+      "question": "Do you use FIPS-validated cryptography for CUI?",
+      "context": "CUI requires FIPS 140-2 validated encryption modules.",
+      "examples": "FIPS 140-2 modules, AES encryption, approved algorithms",
+      "followUp": "What encryption do you use? Is it FIPS validated? Any non-FIPS encryption?",
+      "level": 2,
+      "nistSource": "SC-13",
+      "discussion": "FIPS-validated cryptography ensures encryption meets federal standards for protecting CUI.",
+      "assessmentObjectives": [
+        "FIPS cryptography used",
+        "Validation certificates current",
+        "Applied to all CUI",
+        "No weak encryption"
+      ],
+      "whatToExamine": [
+        "Encryption inventory",
+        "FIPS certificates",
+        "Cryptographic settings",
+        "Algorithm documentation"
+      ],
+      "redFlags": [
+        "Non-FIPS encryption",
+        "Home-grown crypto",
+        "Weak algorithms",
+        "No validation"
+      ],
+      "dependencies": {
+        "requires": ["sc_2_008", "sc_2_010"]
+      }
+    },
+    {
+      "id": "sc_2_012",
+      "control": "SC.L2-3.13.12",
+      "question": "Do you prohibit remote activation of collaborative computing devices?",
+      "context": "Cameras and microphones shouldn't be activated remotely without user knowledge.",
+      "examples": "Disabled remote activation, physical disconnects, indicator lights",
+      "followUp": "Can cameras/mics be activated remotely? Any physical controls? User notifications?",
+      "level": 2,
+      "nistSource": "SC-15",
+      "discussion": "Prohibiting remote activation prevents unauthorized surveillance and eavesdropping through collaborative computing devices.",
+      "assessmentObjectives": [
+        "Remote activation prohibited",
+        "Technical controls implemented",
+        "User awareness provided",
+        "Exceptions documented"
+      ],
+      "whatToExamine": [
+        "Device configurations",
+        "Remote access controls",
+        "User notifications",
+        "Policy documentation"
+      ],
+      "redFlags": [
+        "Remote activation possible",
+        "No user notification",
+        "No physical controls",
+        "Unknown device status"
+      ],
+      "dependencies": {
+        "autoFail": [],
+        "skipIfNo": []
+      }
+    },
+    {
+      "id": "sc_2_013",
+      "control": "SC.L2-3.13.13",
+      "question": "Do you control use of mobile code?",
+      "context": "JavaScript, ActiveX, and other mobile code can be security risks.",
+      "examples": "Mobile code policies, browser restrictions, sandboxing, code signing",
+      "followUp": "What mobile code is allowed? Any restrictions? How are they enforced?",
+      "level": 2,
+      "nistSource": "SC-18",
+      "discussion": "Mobile code restrictions prevent malicious code execution through web browsers and applications.",
+      "assessmentObjectives": [
+        "Mobile code policy exists",
+        "Restrictions implemented",
+        "Authorized code defined",
+        "Enforcement mechanisms active"
+      ],
+      "whatToExamine": [
+        "Mobile code policy",
+        "Browser settings",
+        "Application controls",
+        "Whitelisting configuration"
+      ],
+      "redFlags": [
+        "Unrestricted mobile code",
+        "All ActiveX allowed",
+        "No browser controls",
+        "Unsigned code runs"
+      ],
+      "dependencies": {
+        "autoFail": [],
+        "skipIfNo": []
+      }
+    },
+    {
+      "id": "sc_2_014",
+      "control": "SC.L2-3.13.14",
+      "question": "Do you control use of Voice over IP (VoIP)?",
+      "context": "VoIP can bypass security controls and needs specific protections.",
+      "examples": "VoIP policy, encrypted VoIP, separate VLANs, monitoring",
+      "followUp": "Do you use VoIP? How is it secured? Any monitoring? Separate from data network?",
+      "level": 2,
+      "nistSource": "SC-19",
+      "discussion": "VoIP technologies require specific security controls to prevent eavesdropping and service disruption.",
+      "assessmentObjectives": [
+        "VoIP usage identified",
+        "Security controls implemented",
+        "Traffic segregated",
+        "Monitoring active"
+      ],
+      "whatToExamine": [
+        "VoIP architecture",
+        "Security configurations",
+        "Network segregation",
+        "Monitoring tools"
+      ],
+      "redFlags": [
+        "Uncontrolled VoIP",
+        "Mixed with data traffic",
+        "Unencrypted calls",
+        "No monitoring"
+      ],
+      "dependencies": {
+        "autoFail": [],
+        "skipIfNo": []
+      }
+    },
+    {
+      "id": "sc_2_015",
+      "control": "SC.L2-3.13.15",
+      "question": "Do you protect authenticity of communications sessions?",
+      "context": "Sessions should be protected from hijacking and man-in-the-middle attacks.",
+      "examples": "Session encryption, mutual authentication, integrity checking",
+      "followUp": "How are sessions protected? Any mutual authentication? Integrity checks?",
+      "level": 2,
+      "nistSource": "SC-23",
+      "discussion": "Session authenticity protection prevents session hijacking and ensures communications are with legitimate parties.",
+      "assessmentObjectives": [
+        "Session protection implemented",
+        "Authenticity mechanisms used",
+        "Integrity protected",
+        "Anti-replay measures active"
+      ],
+      "whatToExamine": [
+        "Session management",
+        "Authentication mechanisms",
+        "Encryption settings",
+        "Integrity controls"
+      ],
+      "redFlags": [
+        "Unprotected sessions",
+        "No mutual authentication",
+        "Session hijacking possible",
+        "No integrity checks"
+      ],
+      "dependencies": {
+        "requires": ["sc_2_008"]
+      }
+    },
+    {
+      "id": "sc_2_016",
+      "control": "SC.L2-3.13.16",
+      "question": "Do you protect CUI at rest?",
+      "context": "Stored CUI needs encryption or equivalent protection.",
+      "examples": "Full disk encryption, database encryption, file encryption",
+      "followUp": "How is stored CUI protected? What encryption is used? Any unencrypted storage?",
+      "level": 2,
+      "nistSource": "SC-28",
+      "discussion": "Protecting CUI at rest prevents unauthorized disclosure if storage media is lost, stolen, or accessed without authorization.",
+      "assessmentObjectives": [
+        "CUI storage locations identified",
+        "Encryption implemented",
+        "Appropriate algorithms used",
+        "All CUI covered"
+      ],
+      "whatToExamine": [
+        "Encryption configurations",
+        "Storage locations",
+        "Encryption methods",
+        "Coverage verification"
+      ],
+      "redFlags": [
+        "Unencrypted CUI",
+        "Weak encryption",
+        "Some systems excluded",
+        "No protection at rest"
+      ],
+      "dependencies": {
+        "requires": ["sc_2_010", "sc_2_011"]
+      }
+    }
+  ],
+  "metadata": {
+    "version": "2.0",
+    "lastUpdated": "2024-03-15",
+    "totalControls": 16,
+    "level1Controls": 2,
+    "level2Controls": 14,
+    "estimatedTime": "35 minutes"
+  }
+}
